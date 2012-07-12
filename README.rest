@@ -1,0 +1,63 @@
+.. vim: ft=rst sts=2 sw=2 tw=70
+.. default-role:: literal
+
+======================================================================
+                              bs-update
+======================================================================
+
+:Author: Roman Neuhauser
+:Contact: rneuhauser@suse.cz
+:Copyright: This document is in the public domain.
+
+.. This file is marked up using reStructuredText.
+   Lines beginning with ".." are reST directives.
+   "foo_" or "`foo bar`_" is a link, defined at ".. _foo" or
+   ".. _foo bar".
+   "::" introduces a literal block (usually some form of code).
+   "`foo`" is some kind of identifier.
+   Suspicious backslashes in the text ("`std::string`\s") are required
+   for reST to recognize the preceding character as syntax.
+
+
+Overview
+========
+
+`bs-update`_ automates maintenance of packages in a `Build Service`_.
+It assumes the sources are versioned in Github_.
+
+.. _bs-update: https://github.com/roman-neuhauser/bs-update
+.. _Build Service: https://en.opensuse.org/Build_Service
+.. _Github: https://github.com/
+
+Installation
+============
+
+::
+
+  git clone https://github.com/roman-neuhauser/bs-update.git
+  cd bs-update
+  make install
+
+The provided makefile requires GNU make.
+
+Usage
+=====
+
+* Commit desired changes and *tag* them, push to Github.
+* Run `bs-update` with the tag as its argument.
+* `bs-update` can be used with different BS instances,
+  see `bs-update -h`.
+
+Example
+=======
+
+::
+
+  git clone git@github.com:openSUSE/containment-rpm.git
+  cd containment-rpm
+  vi kiwi_post_run
+  git commit -a
+  git tag -a v42.69
+  git push origin master v42.69
+  bs-update -p home:rneuhauser v42.69
+

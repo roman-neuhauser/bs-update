@@ -1,0 +1,114 @@
+#!/bin/sh
+# vim: fdm=marker cms=\ #\ %s
+
+set -o errexit
+set -o nounset
+set -o posix
+
+usage() # {{{
+{
+  printf "Usage: $0 {-h|[-p <project>] <tag>}\n" >&2
+  exit $1
+} # }}}
+
+if test $# -lt 1; then
+  usage 1
+fi
+
+project=Devel:StudioOnline:containment_common_packages
+bsapiurl=https://api.suse.de/
+
+while getopts hp: optname; do
+  case $optname in
+  A) bsapiurl=$OPTARG ;;
+  h) usage 0 ;;
+  p) project=$OPTARG ;;
+  ?) usage 1 ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+package=containment-rpm
+dloadurl=https://github.com/openSUSE/$package
+pkgdir=$project/$package
+specfile=$package.spec
+tag=$1
+version=${tag#v}
+tarball=$package-$version.tar.gz
+
+osc() # {{{
+{
+  set -eu
+  command osc -A $bsapiurl "${1+$@}"
+} # }}}
+fetch() # {{{
+{
+  set -eu
+  local tag=${1?}
+  wget -qO $tarball $dloadurl/tarball/$tag
+} # }}}
+repack() # {{{
+{
+  set -eu
+  local tarball=${1?}
+  local dir=${tarball%.tar.gz}
+  mkdir $dir
+  tar -xzf $tarball --strip-components=1 -C $dir
+  tar -czf $tarball $dir
+  rm -rf $dir
+} # }}}
+extract() # {{{
+{
+  set -eu
+  local tarball=${1?}
+  local file=${tarball%.tar.gz}/${2?}
+  tar -xzf $tarball --strip-components=1 $file
+} # }}}
+update() # {{{
+{
+  set -eu
+  case $1 in
+  *.spec)  update_specfile "$@" ;;
+  *.tar.*) update_tarball "$@" ;;
+  esac
+} # }}}
+update_specfile() # {{{
+{
+  set -eu
+  local specfile=${1?} version=${2?}
+  sed -r '/^Version:/s/__VERSION__/'$version'/' $specfile.in > $specfile
+} # }}}
+update_tarball() # {{{
+{
+  set -eu
+  local tarball=${1?} rewrite=0
+  if test -f $pkgdir/$tarball; then
+    rewrite=1
+  fi
+  if test 0 -eq $rewrite && test -f $pkgdir/$package-*.tar.gz; then
+    osc rm $pkgdir/$package-*.tar.gz
+  fi
+  mv $tarball $pkgdir
+  if test 0 -eq $rewrite; then
+    osc add $pkgdir/$tarball
+  fi
+} # }}}
+exithook() # {{{
+{
+  set -eu
+  rm -rf $root
+} # }}}
+
+trap exithook EXIT
+root=$(mktemp -d)
+echo "$0: root=$root"
+cd $root
+osc co $pkgdir
+fetch $tag
+repack $tarball
+update $tarball
+cd $pkgdir
+extract $tarball $specfile.in
+update $specfile $version
+#osc build
+osc ci
