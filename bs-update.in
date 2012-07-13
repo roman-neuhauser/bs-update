@@ -7,7 +7,7 @@ set -o posix
 
 usage() # {{{
 {
-  printf "Usage: $0 {-h|[-p <project>] <tag>}\n" >&2
+  printf "Usage: $0 {-h|[-A bsapiurl] [-p <project>] <tag>}\n" >&2
   exit $1
 } # }}}
 
@@ -15,7 +15,7 @@ if test $# -lt 1; then
   usage 1
 fi
 
-bsapiurl=https://api.suse.de/
+bsapiurl=
 package=
 project=
 dloadurl=
@@ -47,7 +47,7 @@ tarball=$package-$version.tar.gz
 osc() # {{{
 {
   set -eu
-  command osc -A $bsapiurl "${1+$@}"
+  command osc ${bsapiurl+-A $bsapiurl} "${1+$@}"
 } # }}}
 fetch() # {{{
 {
