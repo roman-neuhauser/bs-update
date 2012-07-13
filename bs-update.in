@@ -7,7 +7,7 @@ set -o posix
 
 usage() # {{{
 {
-  printf "Usage: $0 {-h|[-A bsapiurl] [-p <project>] <tag>}\n" >&2
+  printf "Usage: $0 {-h|[-A bs_apiurl] [-p <bs_project>] <tag>}\n" >&2
   exit $1
 } # }}}
 
@@ -15,9 +15,9 @@ if test $# -lt 1; then
   usage 1
 fi
 
-bsapiurl=
+bs_apiurl=
 package=
-project=
+bs_project=
 dloadurl=
 
 if test -f .bs-update; then
@@ -26,19 +26,19 @@ fi
 
 while getopts hp: optname; do
   case $optname in
-  A) bsapiurl=$OPTARG ;;
+  A) bs_apiurl=$OPTARG ;;
   h) usage 0 ;;
-  p) project=$OPTARG ;;
+  p) bs_project=$OPTARG ;;
   ?) usage 1 ;;
   esac
 done
 shift $(($OPTIND - 1))
 
 test -n "$package" || usage 1
-test -n "$project" || usage 1
+test -n "$bs_project" || usage 1
 test -n "$dloadurl" || usage 1
 
-pkgdir=$project/$package
+pkgdir=$bs_project/$package
 specfile=$package.spec
 tag=$1
 version=${tag#v}
@@ -47,7 +47,7 @@ tarball=$package-$version.tar.gz
 osc() # {{{
 {
   set -eu
-  command osc ${bsapiurl+-A $bsapiurl} "${1+$@}"
+  command osc ${bs_apiurl+-A $bs_apiurl} "${1+$@}"
 } # }}}
 fetch() # {{{
 {
