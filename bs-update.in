@@ -15,8 +15,14 @@ if test $# -lt 1; then
   usage 1
 fi
 
-project=Devel:StudioOnline:containment_common_packages
 bsapiurl=https://api.suse.de/
+package=
+project=
+dloadurl=
+
+if test -f .bs-update; then
+  . $PWD/.bs-update
+fi
 
 while getopts hp: optname; do
   case $optname in
@@ -28,8 +34,10 @@ while getopts hp: optname; do
 done
 shift $(($OPTIND - 1))
 
-package=containment-rpm
-dloadurl=https://github.com/openSUSE/$package
+test -n "$package" || usage 1
+test -n "$project" || usage 1
+test -n "$dloadurl" || usage 1
+
 pkgdir=$project/$package
 specfile=$package.spec
 tag=$1
@@ -45,7 +53,7 @@ fetch() # {{{
 {
   set -eu
   local tag=${1?}
-  wget -qO $tarball $dloadurl/tarball/$tag
+  wget -qO $tarball $dloadurl/$tag
 } # }}}
 repack() # {{{
 {
