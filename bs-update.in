@@ -7,7 +7,13 @@ set -o posix
 
 usage() # {{{
 {
-  printf "Usage: $0 {-h|[-A bs_apiurl] [-p <bs_project>] <tag>}\n" >&2
+  {
+    printf "Usage: $0 {-h|[options] <tag>}\n  Options:\n"
+    printf "    %-15s  %s\n" \
+      "-h"              "Display this message" \
+      "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
+      "-p PROJECT"      "Update Build Service package of PROJECT"
+  } >&2
   exit $1
 } # }}}
 
