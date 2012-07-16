@@ -1,0 +1,30 @@
+# norootforbuild
+
+Name:           bs-update
+Version:        __VERSION__
+Release:        0
+License:        MIT
+Summary:        Automate maintenance of packages in a Build Service.
+Url:            https://github.com/roman-neuhauser/%{name}
+Group:          System/Management
+Source:         %{name}-%{version}.tar.gz
+BuildRequires:  filesystem
+BuildArch:      noarch
+
+%description
+bs-update automates maintenance of packages in a Build Service.
+It assumes the sources are versioned in Github.
+
+%prep
+%setup -q
+
+%build
+
+%install
+make install DESTDIR=%{buildroot} PREFIX=/usr
+
+%files
+%defattr(-,root,root)
+/usr/bin/bs-update
+
+%changelog
