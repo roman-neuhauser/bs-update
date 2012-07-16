@@ -1,0 +1,113 @@
+.\" This document is in the public domain.
+.\" vim: fdm=marker
+.
+.\" FRONT MATTER {{{
+.Dd Jul 16, 2012
+.Os
+.Dt BS-UPDATE 1
+.
+.Sh NAME
+.Nm bs-update
+.Nd Automate maintenance of packages in a Build Service.
+.\" FRONT MATTER }}}
+.
+.\" SYNOPSIS {{{
+.Sh SYNOPSIS
+.Nm
+.Fl h
+.Nm
+.Op Fl A Ar BSAPI
+.Op Fl p Ar PROJECT
+.Ar TAG
+.\" SYNOPSIS }}}
+.
+.\" DESCRIPTION {{{
+.Sh DESCRIPTION
+.Nm
+automates maintenance of packages in a Build Service.
+It assumes the sources are versioned in Github.
+.
+.Bl -tag -width "xx"
+.It Fl h
+Display a usage description.
+.It Fl A Ar BSAPI
+Use Build Service at
+.Ar BSAPI
+(URL or alias).
+.It Fl p Ar PROJECT
+Update Build Service package of
+.Ar PROJECT .
+.It Ar TAG
+Update the package from
+.Ar TAG .
+.El
+.Pp
+.
+.\" DESCRIPTION }}}
+.\" .Sh IMPLEMENTATION NOTES
+.\" ENVIRONMENT {{{
+.Sh ENVIRONMENT
+.Nm
+itself does not use any environment variables.
+It is, however, implemented in terms of third-party commands
+which
+.Em do
+use them.
+This means
+.Nm
+may be influenced by environment variables used by
+.Xr sh 1 ,
+.Xr osc 1 ,
+.Xr tar 1 ,
+.Xr curl 1 or Xr wget 1 ,
+possibly others.
+.\" ENVIRONMENT }}}
+.\" .Sh FILES
+.\" EXAMPLES {{{
+.Sh EXAMPLES
+.Bd -literal
+git clone git@github.com:roman-neuhauser/random-project.git
+cd bs-update
+vim *
+git commit -a
+git tag -a v42.69
+git push origin master v42.69
+bs-update -p home:roman-neuhauser v42.69
+.Ed
+.\" EXAMPLES }}}
+.\" DIAGNOSTICS {{{
+.Sh DIAGNOSTICS
+.Nm
+exits with
+.Li 0
+on success, and with
+.Li >0
+otherwise.
+.\" DIAGNOSTICS }}}
+.\" .Sh COMPATIBILITY
+.\" SEE ALSO {{{
+.Sh SEE ALSO
+.Xr git 1 ,
+the openSUSE Build Service
+.Aq https://build.opensuse.org/ ,
+and its wiki
+.Aq http://en.opensuse.org/Portal:Build_Service .
+.\" SEE ALSO }}}
+.\" .Sh STANDARDS
+.\" .Sh HISTORY
+.\" AUTHORS {{{
+.Sh AUTHORS
+.
+.Nm
+and this manual page are written by
+.Aq neuhauser@sigpipe.cz .
+.Pp
+See
+.Aq https://github.com/roman-neuhauser/bs-update/ .
+.\" AUTHORS }}}
+.\" BUGS {{{
+.Sh BUGS
+No doubt plentiful.
+Please report them at
+.Aq https://github.com/roman-neuhauser/bs-update/issues .
+.\" BUGS }}}
