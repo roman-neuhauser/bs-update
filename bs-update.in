@@ -81,8 +81,8 @@ osc() # {{{
 fetch() # {{{
 {
   set -eu
-  local tag=${1?}
-  wget -qO $tarball $dloadurl/$tag
+  local url=${1?} tarball=${2?}
+  wget -qO $tarball $url
 } # }}}
 repack() # {{{
 {
@@ -144,7 +144,7 @@ root=$(mktemp -d)
 echo "$0: root=$root"
 cd $root
 osc co $pkgdir
-fetch $tag
+fetch $dloadurl $tarball
 repack $tarball
 update $tarball
 cd $pkgdir
