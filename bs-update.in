@@ -7,14 +7,21 @@ set -o posix
 
 usage() # {{{
 {
+  local exit=${1?} fd=1
+  test $exit -ne 0 && fd=2
   {
-    printf "Usage: $0 {-h|[options] <tag>}\n  Options:\n"
-    printf "    %-15s  %s\n" \
-      "-h"              "Display this message" \
-      "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
-      "-p PROJECT"      "Update Build Service package of PROJECT"
-  } >&2
-  exit $1
+    printf "Usage: $0 {-h|[options] <tag>}\n"
+    if test $exit -ne 0; then
+      printf "Use \"$0 -h\" to see the full option listing.\n"
+    else
+      printf "  Options:\n"
+      printf "    %-16s  %s\n" \
+        "-h"              "Display this message" \
+        "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
+        "-p PROJECT"      "Update Build Service package of PROJECT"
+    fi
+  } >&$fd
+  exit $exit
 } # }}}
 
 expand() # {{{
