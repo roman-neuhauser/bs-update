@@ -11,6 +11,17 @@ usage() # {{{
   exit $1
 } # }}}
 
+expand() # {{{
+{
+  set -eu
+  local prev='' result="${1?}"
+  while test "$result" != "$prev"; do
+    prev="$result"
+    result="$(eval echo "$result")"
+  done
+  echo "$result"
+} # }}}
+
 if test $# -lt 1; then
   usage 1
 fi
@@ -34,13 +45,18 @@ while getopts A:hp: optname; do
 done
 shift $(($OPTIND - 1))
 
+tag=$1
+
+bs_apiurl="$(expand "$bs_apiurl")"
+bs_project="$(expand \"$bs_project\")"
+dloadurl="$(expand \"$dloadurl\")"
+
 test -n "$package" || usage 1
 test -n "$bs_project" || usage 1
 test -n "$dloadurl" || usage 1
 
 pkgdir=$bs_project/$package
 specfile=$package.spec
-tag=$1
 version=${tag#v}
 tarball=$package-$version.tar.gz
 
