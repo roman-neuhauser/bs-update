@@ -47,7 +47,7 @@ tarball=$package-$version.tar.gz
 osc() # {{{
 {
   set -eu
-  command osc ${bs_apiurl+-A $bs_apiurl} "${1+$@}"
+  command osc ${bs_apiurl:+-A "$bs_apiurl"} "${1+$@}"
 } # }}}
 fetch() # {{{
 {
