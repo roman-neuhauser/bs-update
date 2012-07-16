@@ -47,7 +47,7 @@ shift $(($OPTIND - 1))
 
 tag=$1
 
-bs_apiurl="$(expand "$bs_apiurl")"
+bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
 dloadurl="$(expand \"$dloadurl\")"
 
@@ -63,7 +63,7 @@ tarball=$package-$version.tar.gz
 osc() # {{{
 {
   set -eu
-  command osc ${bs_apiurl:+-A "$bs_apiurl"} "${1+$@}"
+  command osc ${bs_apiurl:+-A "$bs_apiurl"} ${1+"$@"}
 } # }}}
 fetch() # {{{
 {
