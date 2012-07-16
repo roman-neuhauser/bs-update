@@ -101,6 +101,9 @@ update_specfile() # {{{
   set -eu
   local specfile=${1?} version=${2?}
   sed -r '/^Version:/s/__VERSION__/'$version'/' $specfile.in > $specfile
+  if osc st $specfile | grep -q '^?'; then
+    osc add $specfile
+  fi
 } # }}}
 update_tarball() # {{{
 {
