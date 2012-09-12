@@ -1,0 +1,7 @@
+option -A (API URL) requires an argument
+
+without an optarg for -A:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint

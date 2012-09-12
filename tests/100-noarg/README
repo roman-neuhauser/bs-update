@@ -1,0 +1,5 @@
+`bs-update` complains about missing argument
+
+- exit code should be 1
+- stdout should be empty
+- stderr has a short complaint

@@ -1,0 +1,5 @@
+Usage: bs-update.in {-h|[options] <tag>}
+  Options:
+    -h                Display this message
+    -A BSAPI          Use Build Service at BSAPI (URL or alias)
+    -p PROJECT        Update Build Service package of PROJECT
