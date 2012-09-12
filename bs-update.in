@@ -48,7 +48,7 @@ if test -f .bs-update; then
   . $PWD/.bs-update
 fi
 
-while getopts A:hp: optname; do
+while getopts :A:hp: optname; do
   case $optname in
   A) bs_apiurl=$OPTARG ;;
   h) usage 0 ;;
