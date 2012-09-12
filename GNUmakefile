@@ -13,6 +13,7 @@ RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 all: bs-update.1.gz
 
 check:
+	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/bs-update.in
 
 %.html: %.rest
 	$(RST2HTML) $< $@
@@ -32,3 +33,6 @@ define first_in_path
   ))
 endef
 
+.PHONY: all
+.PHONY: check
+.PHONY: install
