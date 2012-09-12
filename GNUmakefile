@@ -10,10 +10,13 @@ INSTALL_DATA?=	install -m 644
 INSTALL_SCRIPT?=	install -m 755
 RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 
-all: bs-update.1.gz
+all: bs-update.1.gz bs-update
 
-check:
-	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/bs-update.in
+check: all
+	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/bs-update
+
+bs-update: bs-update.in
+	$(INSTALL_SCRIPT) $< $@
 
 %.html: %.rest
 	$(RST2HTML) $< $@
