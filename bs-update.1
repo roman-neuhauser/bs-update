@@ -31,29 +31,29 @@ It assumes the sources are versioned in Github.
 .Bl -tag -width "xx"
 .It Fl h
 Display a usage description.
+.
 .It Fl A Ar BSAPI
+.Pq Va $bs_apiurl
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
+.
 .It Fl P Ar PROJECT
+.Pq Va $bs_project
 Update Build Service package of
 .Ar PROJECT .
 .
 .It Fl t Ar URL
-.
+.Pq Va $dloadurl
 Download the source tarball from
 .Ar URL .
-The argument is subjected to shell expansion, possible
-variables are
-.Li $bs_project ,
-.Li $package ,
-.Li $tarball .
 .
 .It Ar TAG
 Update the package from
 .Ar TAG .
 .El
 .Pp
+Option arguments are subjected to shell expansion.
 .
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
@@ -74,7 +74,29 @@ may be influenced by environment variables used by
 .Xr curl 1 or Xr wget 1 ,
 possibly others.
 .\" ENVIRONMENT }}}
-.\" .Sh FILES
+.\" FILES {{{
+.Sh FILES
+.Bl -tag -width "xx"
+.It Pa .bs-update
+If this file exists it is sourced by
+.Nm
+before processing command line arguments.
+The following table lists command line options and their
+respective
+.Pa .bs-update
+variables:
+.
+.Pp
+. Bl -tag -compact
+. It Fl A
+.Va bs_apiurl
+. It Fl P
+.Va bs_project
+. It Fl t
+.Va dloadurl
+. El
+.El
+.\" FILES }}}
 .\" EXAMPLES {{{
 .Sh EXAMPLES
 .Bd -literal
