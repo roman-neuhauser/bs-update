@@ -25,7 +25,8 @@ usage() # {{{
       printf "    %-16s  %s\n" \
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
-        "-P PROJECT"      "Update Build Service package of PROJECT"
+        "-P PROJECT"      "Update Build Service package of PROJECT" \
+        "-t URL"          "Fetch the tarball from URL"
     fi
   } >&$fd
   if test $exit -eq 0; then
