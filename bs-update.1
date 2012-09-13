@@ -18,6 +18,7 @@
 .Nm
 .Op Fl A Ar BSAPI
 .Op Fl p Ar PROJECT
+.Op Fl t Ar TARBALLURL
 .Ar TAG
 .\" SYNOPSIS }}}
 .
@@ -40,6 +41,17 @@ Update Build Service package of
 .It Ar TAG
 Update the package from
 .Ar TAG .
+.
+.It Fl t Ar TARBALLURL
+.
+Download the source tarball from
+.Ar TARBALLURL .
+The argument is subjected to shell expansion, possible
+variables are
+.Li $bs_project ,
+.Li $package ,
+.Li $tarball .
+.
 .El
 .Pp
 .

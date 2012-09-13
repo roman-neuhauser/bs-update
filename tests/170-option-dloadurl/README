@@ -1,0 +1,7 @@
+option -d (tarball download url) requires an argument
+
+without an optarg for -d:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint
