@@ -10,9 +10,9 @@ usage() # {{{
   local self=$(basename "$0") exit=${1?} fd=1
   test $exit -ne 0 && fd=2
   {
-    printf "Usage: $self {-h|[options] <tag>}\n"
+    printf "%s: Usage: %s {-h|[options] <tag>}\n" "$self" "$self"
     if test $exit -ne 0; then
-      printf "Use \"$self -h\" to see the full option listing.\n"
+      printf "%s: Use \"%s -h\" to see the full option listing.\n" "$self" "$self"
     else
       printf "  Options:\n"
       printf "    %-16s  %s\n" \
