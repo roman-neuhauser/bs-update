@@ -35,10 +35,6 @@ expand() # {{{
   echo "$result"
 } # }}}
 
-if test $# -lt 1; then
-  usage 1
-fi
-
 bs_apiurl=
 package=
 bs_project=
@@ -58,6 +54,10 @@ while getopts :A:hp:t: optname; do
   esac
 done
 shift $(($OPTIND - 1))
+
+if test $# -lt 1; then
+  usage 1
+fi
 
 tag=$1
 
