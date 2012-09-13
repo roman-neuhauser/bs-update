@@ -1,6 +1,6 @@
-option -p (BS project) requires an argument
+option -P (BS project) requires an argument
 
-without an optarg for -p:
+without an optarg for -P:
 
 - exit code should be 1
 - stdout should be empty

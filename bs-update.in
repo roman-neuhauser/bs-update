@@ -25,7 +25,7 @@ usage() # {{{
       printf "    %-16s  %s\n" \
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
-        "-p PROJECT"      "Update Build Service package of PROJECT"
+        "-P PROJECT"      "Update Build Service package of PROJECT"
     fi
   } >&$fd
   if test $exit -eq 0; then
@@ -55,11 +55,11 @@ if test -f .bs-update; then
   . $PWD/.bs-update
 fi
 
-while getopts :A:hp:t: optname; do
+while getopts :A:P:ht: optname; do
   case $optname in
   A) bs_apiurl=$OPTARG ;;
+  P) bs_project=$OPTARG ;;
   h) usage 0 ;;
-  p) bs_project=$OPTARG ;;
   t) dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
