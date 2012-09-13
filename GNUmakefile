@@ -10,7 +10,12 @@ INSTALL_DATA?=	install -m 644
 INSTALL_SCRIPT?=	install -m 755
 RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 
-all: bs-update.1.gz bs-update
+artifacts =	bs-update.1.gz bs-update
+
+all: $(artifacts)
+
+clean:
+	$(RM) $(artifacts)
 
 check: all
 	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/bs-update
@@ -38,4 +43,5 @@ endef
 
 .PHONY: all
 .PHONY: check
+.PHONY: clean
 .PHONY: install
