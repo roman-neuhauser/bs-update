@@ -23,7 +23,6 @@ Overview
 ========
 
 `bs-update`_ automates maintenance of packages in a `Build Service`_.
-It assumes the sources are versioned in Github_.
 
 .. _bs-update: https://github.com/roman-neuhauser/bs-update
 .. _Build Service: https://en.opensuse.org/Build_Service
