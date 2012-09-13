@@ -1,2 +1,3 @@
+bs-update: option -t requires an argument
 bs-update: Usage: bs-update {-h|[options] <tag>}
 bs-update: Use "bs-update -h" to see the full option listing.

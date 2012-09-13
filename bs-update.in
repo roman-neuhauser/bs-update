@@ -10,6 +10,13 @@ usage() # {{{
   local self=$(basename "$0") exit=${1?} fd=1
   test $exit -ne 0 && fd=2
   {
+    if test $exit -eq 1; then
+      printf "%s: missing <tag> argument\n" "$self"
+    elif test $exit -eq 2; then
+      printf "%s: option -%c requires an argument\n" "$self" "$2"
+    elif test $exit -eq 3; then
+      printf "%s: unknown option -%c\n" "$self" "$2"
+    fi
     printf "%s: Usage: %s {-h|[options] <tag>}\n" "$self" "$self"
     if test $exit -ne 0; then
       printf "%s: Use \"%s -h\" to see the full option listing.\n" "$self" "$self"
@@ -21,7 +28,11 @@ usage() # {{{
         "-p PROJECT"      "Update Build Service package of PROJECT"
     fi
   } >&$fd
-  exit $exit
+  if test $exit -eq 0; then
+    exit 0
+  else
+    exit 1
+  fi
 } # }}}
 
 expand() # {{{
@@ -50,7 +61,8 @@ while getopts :A:hp:t: optname; do
   h) usage 0 ;;
   p) bs_project=$OPTARG ;;
   t) dloadurl=$OPTARG ;;
-  ?) usage 1 ;;
+  :) usage 2 $OPTARG ;; # option-argument missing
+  ?) usage 3 $OPTARG ;; # unknown option
   esac
 done
 shift $(($OPTIND - 1))
