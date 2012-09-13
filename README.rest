@@ -35,7 +35,7 @@ Installation
 
   git clone https://github.com/roman-neuhauser/bs-update.git
   cd bs-update
-  make install
+  make check install
 
 The provided makefile requires GNU make.
 
