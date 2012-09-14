@@ -22,11 +22,34 @@
 Overview
 ========
 
-`bs-update`_ automates maintenance of packages in a `Build Service`_.
+`bs-update`_ makes it easier to keep packages in a `Build Service`_
+up-to-date with respect to their upstream sources.
+
+Given a Build Service API URL, project and package names, a tarball
+URL, and a version number, `bs-update`_ will
+
+* fetch the tarball from the URL,
+* check out the package from the Build Service,
+* update the tarball source with the downloaded tarball,
+* update the spec file source with a template from that tarball,
+* commit the changes.
+
+`bs-update` is young software and currently makes a few assumptions:
+
+* your package uses a single tarball
+* said tarball contains a `$package.spec.in` file where `$package`
+  is the name of the Build Service package
 
 .. _bs-update: https://github.com/roman-neuhauser/bs-update
 .. _Build Service: https://en.opensuse.org/Build_Service
-.. _Github: https://github.com/
+
+Prerequisities
+==============
+
+* POSIX-compatible shell environment
+* osc(1) (http://en.opensuse.org/openSUSE:OSC)
+* tar(1)
+* wget(1) (http://www.gnu.org/software/wget/)
 
 Installation
 ============
@@ -38,14 +61,6 @@ Installation
   make check install
 
 The provided makefile requires GNU make.
-
-Usage
-=====
-
-* Commit desired changes and *tag* them, push to Github.
-* Run `bs-update` with the tag as its argument.
-* `bs-update` can be used with different BS instances,
-  see `bs-update -h`.
 
 Example
 =======
