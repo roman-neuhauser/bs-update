@@ -56,11 +56,12 @@ if test -f .bs-update; then
   . $PWD/.bs-update
 fi
 
-while getopts :A:P:ht: optname; do
+while getopts :A:P:hp:t: optname; do
   case $optname in
   A) bs_apiurl=$OPTARG ;;
   P) bs_project=$OPTARG ;;
   h) usage 0 ;;
+  p) package=$OPTARG ;;
   t) dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
