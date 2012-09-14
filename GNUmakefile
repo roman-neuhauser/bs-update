@@ -21,6 +21,8 @@ check:
 	$(GZIPCMD) < $< > $@
 
 install: bs-update.1.gz
+	@mkdir -p $(DESTDIR)$(BINDIR)
+	@mkdir -p $(DESTDIR)$(MAN1DIR)
 	@$(INSTALL_SCRIPT) bs-update.in $(DESTDIR)$(BINDIR)/bs-update
 	@$(INSTALL_DATA) bs-update.1.gz $(DESTDIR)$(MAN1DIR)/bs-update.1.gz
 
