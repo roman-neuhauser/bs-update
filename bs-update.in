@@ -16,6 +16,8 @@ usage() # {{{
       printf "%s: option -%c requires an argument\n" "$self" "$2"
     elif test $exit -eq 3; then
       printf "%s: unknown option -%c\n" "$self" "$2"
+    elif test $exit -eq 4; then
+      printf "%s: no %s specified\n" "$self" "$2"
     fi
     printf "%s: Usage: %s {-h|[options] <tag>}\n" "$self" "$self"
     if test $exit -ne 0; then
@@ -79,9 +81,9 @@ bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
 dloadurl="$(expand \"$dloadurl\")"
 
-test -n "$package" || usage 1
-test -n "$bs_project" || usage 1
-test -n "$dloadurl" || usage 1
+test -n "$package" || usage 4 package
+test -n "$bs_project" || usage 4 project
+test -n "$dloadurl" || usage 4 tarball
 
 pkgdir=$bs_project/$package
 specfile=$package.spec
