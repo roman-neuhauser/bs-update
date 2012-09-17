@@ -54,15 +54,18 @@ package=
 bs_project=
 dloadurl=
 
+dry_run=0
+
 if test -f .bs-update; then
   . $PWD/.bs-update
 fi
 
-while getopts :A:P:hp:t: optname; do
+while getopts :A:P:hnp:t: optname; do
   case $optname in
   A) bs_apiurl=$OPTARG ;;
   P) bs_project=$OPTARG ;;
   h) usage 0 ;;
+  n) dry_run=1 ;;
   p) package=$OPTARG ;;
   t) dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
@@ -77,6 +80,9 @@ fi
 
 tag=$1
 
+version=${tag#v}
+tarball=$package-$version.tar.gz
+
 bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
 dloadurl="$(expand \"$dloadurl\")"
@@ -87,8 +93,20 @@ test -n "$dloadurl" || usage 4 tarball
 
 pkgdir=$bs_project/$package
 specfile=$package.spec
-version=${tag#v}
-tarball=$package-$version.tar.gz
+
+if test 0 -ne $dry_run; then
+  printf '%16s = "%s"\n' \
+    bs_apiurl "$bs_apiurl" \
+    bs_project "$bs_project" \
+    package "$package" \
+    dloadurl "$dloadurl" \
+    tag "$tag" \
+    version "$version" \
+    pkgdir "$pkgdir" \
+    tarball "$tarball" \
+    specfile "$specfile"
+  exit $?
+fi
 
 osc() # {{{
 {

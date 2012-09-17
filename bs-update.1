@@ -18,6 +18,7 @@
 .Nm
 .Op Fl A Ar BSAPI
 .Op Fl P Ar PROJECT
+.Op Fl n
 .Op Fl p Ar PACKAGE
 .Op Fl t Ar URL
 .Ar TAG
@@ -42,6 +43,11 @@ Use Build Service at
 .Pq Va $bs_project
 Update Build Service package of
 .Ar PROJECT .
+.
+.It Fl n
+Report values derived from
+.Pa .bs-update
+(if any) and command line arguments.
 .
 .It Fl p Ar PACKAGE
 .Pq Va $package
