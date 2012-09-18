@@ -12,6 +12,10 @@ RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 
 artifacts =	bs-update.1.gz bs-update
 
+wc:
+	git submodule init
+	git submodule update
+
 all: $(artifacts)
 
 clean:
@@ -41,7 +45,10 @@ define first_in_path
   ))
 endef
 
+.DEFAULT_GOAL := all
+
 .PHONY: all
 .PHONY: check
 .PHONY: clean
 .PHONY: install
+.PHONY: wc
