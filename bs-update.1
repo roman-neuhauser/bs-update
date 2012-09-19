@@ -8,7 +8,7 @@
 .
 .Sh NAME
 .Nm bs-update
-.Nd Automate maintenance of packages in a Build Service.
+.Nd Update packages in a Build Service from upstream sources.
 .\" FRONT MATTER }}}
 .
 .\" SYNOPSIS {{{
@@ -27,7 +27,8 @@
 .\" DESCRIPTION {{{
 .Sh DESCRIPTION
 .Nm
-automates maintenance of packages in a Build Service.
+makes it easier to keep packages in a Build Service
+up-to-date with respect to their upstream sources.
 .
 .Bl -tag -width "xx"
 .It Fl h
@@ -65,6 +66,28 @@ Update the package from
 .El
 .Pp
 Option arguments are subjected to shell expansion.
+.
+.Pp
+.
+Given a Build Service API URL, project and package names, a tarball
+URL, and a version number,
+.Nm
+will
+.
+.Pp
+.
+.Bl -enum -compact
+.It
+fetch the tarball from the URL,
+.It
+check out the package from the Build Service,
+.It
+update the tarball source with the downloaded tarball,
+.It
+update the spec file source with a template from that tarball,
+.It
+commit the changes.
+.El
 .
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
