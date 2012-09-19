@@ -1,0 +1,5 @@
+whatever=example
+bs_apiurl='https://$whatever.com/'
+bs_project='my:projects:$package'
+package=bazmek
+dloadurl='https://$whatever.org/${bs_project##*:}/$tag'
