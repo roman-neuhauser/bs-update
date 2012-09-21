@@ -10,6 +10,7 @@ Group:          Development/Tools
 Source:         %{name}-%{version}.tar.gz
 BuildRequires:  filesystem
 BuildArch:      noarch
+BuildRoot:      %_tmppath/%name-%version-build
 
 %description
 bs-update automates maintenance of packages in a Build Service.
