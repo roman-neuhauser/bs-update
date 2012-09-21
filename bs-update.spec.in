@@ -27,5 +27,6 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
 %files
 %defattr(-,root,root)
 /usr/bin/bs-update
+/usr/share/man/man1/bs-update.1.gz
 
 %changelog
