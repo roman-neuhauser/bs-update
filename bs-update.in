@@ -7,7 +7,7 @@ set -o posix
 
 usage() # {{{
 {
-  local self=$(basename "$0") exit=${1?} fd=1
+  local self="$SELF" exit=${1?} fd=1
   test $exit -ne 0 && fd=2
   {
     if test $exit -eq 1; then
@@ -48,6 +48,8 @@ expand() # {{{
   done
   echo "$result"
 } # }}}
+
+SELF=$(basename "$0")
 
 bs_apiurl=
 package=
@@ -176,7 +178,7 @@ exithook() # {{{
 
 trap exithook EXIT
 root=$(mktemp -d)
-echo "$0: root=$root"
+echo "$SELF: root=$root"
 cd $root
 osc co $pkgdir
 fetch $dloadurl $tarball
