@@ -1,0 +1,39 @@
+exec 3>tape.actual
+
+fake()
+{
+  [ $# -eq 0 ] && return
+  local i=0
+  for a in "$@"; do
+    if [ $i -eq 0 ]; then sp=''; else sp=' '; fi
+    (( i += 1 ))
+    case "$a" in
+    ("" | *\ *) printf -- '%s"%s"' "$sp" "$a" ;;
+    (*)         printf -- '%s%s'   "$sp" "$a" ;;
+    esac
+  done
+  printf '\n'
+} >&3
+
+cd()      { fake cd      ${1+"$@"}; }
+cp()      { fake cp      ${1+"$@"}; }
+command() { fake command ${1+"$@"}; }
+mkdir()   { fake mkdir   ${1+"$@"}; }
+mktemp()  { fake mktemp  ${1+"$@"}; echo '/tmp/fake-tmp-dir'; }
+mv()      { fake mv      ${1+"$@"}; }
+rm()      { fake rm      ${1+"$@"}; }
+sed()     { fake sed     ${1+"$@"}; }
+tar()     { fake tar     ${1+"$@"}; }
+tee()     { fake tee     ${1+"$@"}; }
+test()
+{
+  fake test ${1+"$@"}
+  if [ "x$*" = "x-f ${pkgdir-}/${tarball-}" ]; then
+    return 1
+  fi
+  if [ "x$*" = "x-f ${pkgdir-}/${package-}-*.tar.gz" ]; then
+    return 0
+  fi
+  eval '[ "$@" ]'
+}
+wget()    { fake wget    ${1+"$@"}; }
