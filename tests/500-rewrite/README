@@ -1,0 +1,8 @@
+verify bs-update's actions: clobber tarball
+
+this test asserts bs-update's behavior in the case where
+the user wants to replace an existing same-version tarball.
+
+this is done by replacing all commands used in the CUT with
+cooked functions, these write their invocations to a "tape"
+which is then compared with a canonical "tape".
