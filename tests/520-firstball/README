@@ -1,0 +1,9 @@
+verify bs-update's actions: first tarball in package
+
+this test asserts bs-update's behavior in the case where
+the user wants to commit a tarball to a package that
+previously had none.
+
+this is done by replacing all commands used in the CUT with
+cooked functions, these write their invocations to a "tape"
+which is then compared with a canonical "tape".

@@ -1,0 +1,9 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+test()
+{
+  fake test ${1+"$@"}
+  eval '[ "$@" ]'
+}
