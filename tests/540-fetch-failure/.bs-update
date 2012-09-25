@@ -1,0 +1,9 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+wget()
+{
+  fake wget ${1+"$@"}
+  return 1
+}
