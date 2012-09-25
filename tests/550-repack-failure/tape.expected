@@ -1,0 +1,21 @@
+test 1 -lt 1
+test "https://bs.example.com/" != ""
+test https://bs.example.com/ != "https://bs.example.com/"
+test https://bs.example.com/ != https://bs.example.com/
+test "fu:bar" != ""
+test fu:bar != "fu:bar"
+test fu:bar != fu:bar
+test "https://dist.example.com/$tag" != ""
+test https://dist.example.com/v12.34 != "https://dist.example.com/$tag"
+test https://dist.example.com/v12.34 != https://dist.example.com/v12.34
+test -n superpac
+test -n fu:bar
+test -n https://dist.example.com/v12.34
+test 0 -ne 0
+mktemp -d
+cd /tmp/fake-tmp-dir
+command osc -A https://bs.example.com/ co fu:bar/superpac
+wget -qO superpac-12.34.tar.gz https://dist.example.com/v12.34
+mkdir superpac-12.34
+tar -xzf superpac-12.34.tar.gz --strip-components=1 -C superpac-12.34
+rm -rf /tmp/fake-tmp-dir
