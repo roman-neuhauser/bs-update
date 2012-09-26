@@ -40,7 +40,6 @@ usage() # {{{
 
 expand() # {{{
 {
-  set -eu
   local prev='' result="${1?}"
   while test "$result" != "$prev"; do
     prev="$result"
@@ -112,18 +111,15 @@ fi
 
 osc() # {{{
 {
-  set -eu
   command osc ${bs_apiurl:+-A "$bs_apiurl"} ${1+"$@"}
 } # }}}
 fetch() # {{{
 {
-  set -eu
   local url=${1?} tarball=${2?}
   wget -qO $tarball $url
 } # }}}
 repack() # {{{
 {
-  set -eu
   local tarball=${1?}
   local dir=${tarball%.tar.gz}
   mkdir $dir
@@ -133,14 +129,12 @@ repack() # {{{
 } # }}}
 extract() # {{{
 {
-  set -eu
   local tarball=${1?}
   local file=${tarball%.tar.gz}/${2?}
   tar -xzf $tarball --strip-components=1 $file
 } # }}}
 update() # {{{
 {
-  set -eu
   case $1 in
   *.spec)  update_specfile "$@" ;;
   *.tar.*) update_tarball "$@" ;;
@@ -148,7 +142,6 @@ update() # {{{
 } # }}}
 update_specfile() # {{{
 {
-  set -eu
   local specfile=${1?} version=${2?}
   cp $specfile.in $specfile
   sed -ri '/^Version:/s/__VERSION__/'$version'/' $specfile
@@ -158,7 +151,6 @@ update_specfile() # {{{
 } # }}}
 update_tarball() # {{{
 {
-  set -eu
   local tarball=${1?} rewrite=0
   if test -f $pkgdir/$tarball; then
     rewrite=1
@@ -173,7 +165,6 @@ update_tarball() # {{{
 } # }}}
 exithook() # {{{
 {
-  set -eu
   rm -rf $root
 } # }}}
 
