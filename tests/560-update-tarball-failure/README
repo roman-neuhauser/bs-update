@@ -1,0 +1,17 @@
+verify bs-update's actions: update_tarball fails
+
+this test asserts bs-update's behavior in the case where
+osc fails while updating the tarball for whatever reason:
+bs-update should stop there.
+
+this specific test has the "osc rm old-tarball" command fail;
+i want to see that update_tarball returns right there, without
+going on with the remaining code.
+
+actual osc failing would lead to some verbiage on stderr,
+this test doesn't care about that, just makes sure bs-update
+does not go on after this step failing.
+
+this is done by replacing all commands used in the CUT with
+cooked functions, these write their invocations to a "tape"
+which is then compared with a canonical "tape".

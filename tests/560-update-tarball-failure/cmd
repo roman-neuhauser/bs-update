@@ -1,0 +1,1 @@
+${1?} -A https://bs.example.com/ -P fu:bar -p superpac -t 'https://dist.example.com/$tag' v12.34

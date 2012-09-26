@@ -1,0 +1,20 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+command()
+{
+  fake command ${1+"$@"}
+  if [ "x-${4-}" = "x-rm" ]; then
+    return 1
+  fi
+  return 0
+}
+test()
+{
+  fake test ${1+"$@"}
+  if [ "x$1 $2" = "x-f ${pkgdir-}/${package-}-*.tar.gz" ]; then
+    return 0
+  fi
+  eval '[ "$@" ]'
+}
