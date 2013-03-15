@@ -29,6 +29,7 @@ usage() # {{{
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
         "-P PROJECT"      "Update Build Service package of PROJECT" \
         "-t URL"          "Fetch the tarball from URL"
+        "-p PACKAGE"      "Name of the package to update in the Build Service"
     fi
   } >&$fd
   if test $exit -eq 0; then
