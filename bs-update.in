@@ -181,4 +181,4 @@ cd $pkgdir
 extract $tarball $specfile.in
 update $specfile $version
 #osc build
-osc ci
+osc ci -m "Update to version $version"
