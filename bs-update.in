@@ -28,8 +28,8 @@ usage() # {{{
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
         "-P PROJECT"      "Update Build Service package of PROJECT" \
+        "-p PACKAGE"      "Update Build Service package named PACKAGE" \
         "-t URL"          "Fetch the tarball from URL"
-        "-p PACKAGE"      "Name of the package to update in the Build Service"
     fi
   } >&$fd
   if test $exit -eq 0; then
@@ -181,4 +181,4 @@ cd $pkgdir
 extract $tarball $specfile.in
 update $specfile $version
 #osc build
-osc ci
+osc ci -m "Update to version $version"
