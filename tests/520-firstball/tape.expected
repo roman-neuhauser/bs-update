@@ -31,5 +31,5 @@ tar -xzf superpac-12.34.tar.gz --strip-components=1 superpac-12.34/superpac.spec
 cp superpac.spec.in superpac.spec
 sed -ri /^Version:/s/__VERSION__/12.34/ superpac.spec
 command osc -A https://bs.example.com/ st superpac.spec
-command osc -A https://bs.example.com/ ci
+command osc -A https://bs.example.com/ ci -m "Update to version 12.34"
 rm -rf /tmp/fake-tmp-dir

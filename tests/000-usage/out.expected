@@ -3,4 +3,5 @@ bs-update: Usage: bs-update {-h|[options] <tag>}
     -h                Display this message
     -A BSAPI          Use Build Service at BSAPI (URL or alias)
     -P PROJECT        Update Build Service package of PROJECT
+    -p PACKAGE        Update Build Service package named PACKAGE
     -t URL            Fetch the tarball from URL
