@@ -79,3 +79,19 @@ Example
   git push origin master v42.69
   bs-update -P home:roman-neuhauser v42.69
 
+
+Hooks
+=====
+
+Some times you may require to run a script before repackaging the tarball.
+For example, if you have a ruby on rails application, you may want to
+run "bundle package" in order to bundle the needed gems into your vendor
+directory.
+
+In order to do that, bs-update will check if there is a script called
+"pre-package" inside the tarball. If so, it will run the script before
+recreating the tarball.
+
+Thus, in the ruby on rails case, you will place a script into your tarball
+called pre-package with the "bundle package" command in it.
+

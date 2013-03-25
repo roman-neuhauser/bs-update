@@ -1,0 +1,20 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+test()
+{
+  fake test ${1+"$@"}
+  if [ "x$*" = "x-x ${dir-}/pre-package" ]; then
+    return 0
+  fi
+  eval '[ "$@" ]'
+}
+pushd()
+{
+  fake pushd ${1+"$@"}
+}
+popd()
+{
+  fake popd ${1+"$@"}
+}
