@@ -19,9 +19,10 @@ command() { fake command ${1+"$@"}; }
 mkdir()   { fake mkdir   ${1+"$@"}; }
 mktemp()  { fake mktemp  ${1+"$@"}; echo '/tmp/fake-tmp-dir'; }
 mv()      { fake mv      ${1+"$@"}; }
+popd()    { fake popd    ${1+"$@"}; }
+pushd()   { fake pushd   ${1+"$@"}; }
 rm()      { fake rm      ${1+"$@"}; }
 sed()     { fake sed     ${1+"$@"}; }
 tar()     { fake tar     ${1+"$@"}; }
 test()    { fake test    ${1+"$@"}; eval '[ "$@" ]'; }
 wget()    { fake wget    ${1+"$@"}; }
-
