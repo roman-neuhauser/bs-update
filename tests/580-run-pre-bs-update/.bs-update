@@ -10,11 +10,3 @@ test()
   fi
   eval '[ "$@" ]'
 }
-pushd()
-{
-  fake pushd ${1+"$@"}
-}
-popd()
-{
-  fake popd ${1+"$@"}
-}
