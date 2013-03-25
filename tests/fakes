@@ -25,4 +25,4 @@ tar()     { fake tar     ${1+"$@"}; }
 test()    { fake test    ${1+"$@"}; eval '[ "$@" ]'; }
 wget()    { fake wget    ${1+"$@"}; }
 pushd()   { fake pushd   ${1+"$@"}; }
-popd()    { fake popd   ${1+"$@"}; }
+popd()    { fake popd    ${1+"$@"}; }

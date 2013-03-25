@@ -125,7 +125,7 @@ repack() # {{{
   local dir=${tarball%.tar.gz}
   mkdir $dir
   tar -xzf $tarball --strip-components=1 -C $dir
-  if test -x $dir/pre-package ;then
+  if test -x $dir/pre-package; then
     pushd $dir
     ./pre-package
     popd
