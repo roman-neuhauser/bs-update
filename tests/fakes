@@ -23,5 +23,6 @@ rm()      { fake rm      ${1+"$@"}; }
 sed()     { fake sed     ${1+"$@"}; }
 tar()     { fake tar     ${1+"$@"}; }
 test()    { fake test    ${1+"$@"}; eval '[ "$@" ]'; }
+type()    { fake type    ${1+"$@"}; return 1; }
 wget()    { fake wget    ${1+"$@"}; }
 

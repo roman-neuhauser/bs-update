@@ -58,6 +58,10 @@ dloadurl=
 
 dry_run=0
 
+if test -f .bs-update-hooks; then
+  . $PWD/.bs-update-hooks
+fi
+
 if test -f .bs-update; then
   . $PWD/.bs-update
 fi
@@ -125,9 +129,19 @@ repack() # {{{
   local dir=${tarball%.tar.gz}
   mkdir $dir
   tar -xzf $tarball --strip-components=1 -C $dir
+  run_tarball_hook $dir
   tar -czf $tarball $dir
   rm -rf $dir
 } # }}}
+run_tarball_hook() # {{{
+(
+  local dir=${1?}
+  if ! type bs_tarball_hook 1>/dev/null 2>&1; then
+    return 0
+  fi
+  cd $dir
+  bs_tarball_hook $dir
+) # }}}
 extract() # {{{
 {
   local tarball=${1?}

@@ -51,6 +51,70 @@ Prerequisities
 * tar(1)
 * wget(1) (http://www.gnu.org/software/wget/)
 
+Usage
+=====
+
+::
+
+  bs-update -h
+  bs-update [-A BSAPI] [-P PROJECT] [-n] [-p PACKAGE] [-t URL] TAG
+
+Options:
+
+-h
+    Display a usage description.
+-A BSAPI
+    Use Build Service at `BSAPI` (URL or alias).
+-P PROJECT
+    Update Build Service package of `PROJECT`.
+-n  Report values derived from `.bs-update` (if any) and command
+    line arguments.
+-p PACKAGE
+    Update Build Service `PACKAGE`.
+-t URL
+    Download the source tarball from `URL`.
+
+Operands:
+
+TAG
+    Update the package from `TAG`.
+
+Configuration
+=============
+
+`bs-update` recognizes two optional configuration files,
+`.bs-update-hooks` and `.bs-update`.
+They are sourced in that order, before processing command
+line arguments.
+
+.. Note::
+  `bs-update` makes zero effort to protect itself against
+  these two configuration files.
+  Do not pollute the global scope with functions or variables
+  that are not members of the described interface.
+
+These two files are expected to provide `bs-update` with any
+of the following:
+
+Shell functions
+***************
+
+`bs_tarball_hook`
+  The tarball may need finalization before it is checked into
+  the Build Service, eg. `autoconf`, `bundler` or `npm`.
+  If this function exists it is executed at the root of the
+  extracted tarball before it is packed again.
+
+Variables
+*********
+
+`bs_apiurl`
+  Used unless `-A` is given.
+`bs_project`
+  Used unless `-P` is given.
+`dloadurl`
+  Used unless `-t` is given.
+
 Installation
 ============
 

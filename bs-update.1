@@ -35,28 +35,24 @@ up-to-date with respect to their upstream sources.
 Display a usage description.
 .
 .It Fl A Ar BSAPI
-.Pq Va $bs_apiurl
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
 .
 .It Fl P Ar PROJECT
-.Pq Va $bs_project
 Update Build Service package of
 .Ar PROJECT .
 .
 .It Fl n
 Report values derived from
-.Pa .bs-update
+configuration files
 (if any) and command line arguments.
 .
 .It Fl p Ar PACKAGE
-.Pq Va $package
 Update Build Service
 .Ar PACKAGE .
 .
 .It Fl t Ar URL
-.Pq Va $dloadurl
 Download the source tarball from
 .Ar URL .
 .
@@ -110,26 +106,39 @@ possibly others.
 .\" ENVIRONMENT }}}
 .\" FILES {{{
 .Sh FILES
-.Bl -tag -width "xx"
-.It Pa .bs-update
-If this file exists it is sourced by
 .Nm
-before processing command line arguments.
-The following table lists command line options and their
-respective
-.Pa .bs-update
-variables:
-.
+recognizes two optional configuration files,
+.Pa .bs-update-hooks
+and
+.Pa .bs-update .
+They are sourced from the current directory before command line
+arguments are processed, in the order they are named above.
+These two files are expected to provide
+.Nm
+with any of the following:
+.Ss Shell functions
+.Pp
+. Bl -ohang
+. It Fn bs_tarball_hook
+If this function exists it is executed at the root of the extracted
+tarball before it is packed again.
+. El
+.Ss Variables
 .Pp
 . Bl -tag -compact
-. It Fl A
-.Va bs_apiurl
-. It Fl P
-.Va bs_project
-. It Fl t
-.Va dloadurl
+. It Va bs_apiurl
+Used unless
+.Fl A
+is given.
+. It Va bs_project
+Used unless
+.Fl P
+is given.
+. It Va dloadurl
+Used unless
+.Fl t
+is given.
 . El
-.El
 .\" FILES }}}
 .\" EXAMPLES {{{
 .Sh EXAMPLES

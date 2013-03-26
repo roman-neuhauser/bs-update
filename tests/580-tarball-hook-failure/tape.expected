@@ -19,16 +19,6 @@ wget -qO superpac-12.34.tar.gz https://dist.example.com/v12.34
 mkdir superpac-12.34
 tar -xzf superpac-12.34.tar.gz --strip-components=1 -C superpac-12.34
 type bs_tarball_hook
-tar -czf superpac-12.34.tar.gz superpac-12.34
-rm -rf superpac-12.34
-test -f fu:bar/superpac/superpac-12.34.tar.gz
-test 0 -eq 1
-mv superpac-12.34.tar.gz fu:bar/superpac
-test 0 -eq 1
-cd fu:bar/superpac
-tar -xzf superpac-12.34.tar.gz --strip-components=1 superpac-12.34/superpac.spec.in
-cp superpac.spec.in superpac.spec
-sed -ri /^Version:/s/__VERSION__/12.34/ superpac.spec
-command osc -A https://bs.example.com/ st superpac.spec
-command osc -A https://bs.example.com/ ci -m "Update to version 12.34"
+cd superpac-12.34
+bs_tarball_hook superpac-12.34
 rm -rf /tmp/fake-tmp-dir
