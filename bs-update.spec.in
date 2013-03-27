@@ -22,8 +22,8 @@ BuildArch:      noarch
 BuildRoot:      %_tmppath/%name-%version-build
 
 %description
-bs-update automates maintenance of packages in a Build Service.
-It assumes the sources are versioned in Github.
+bs-update makes it easier to keep packages in a Build Service
+up-to-date with respect to their upstream sources.
 
 %prep
 %setup -q
