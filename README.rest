@@ -112,6 +112,8 @@ Variables
   Used unless `-A` is given.
 `bs_dloadurl`
   Used unless `-t` is given.
+`bs_package`
+  Used unless `-p` is given.
 `bs_project`
   Used unless `-P` is given.
 
