@@ -84,9 +84,9 @@ if test $# -lt 1; then
   usage 1
 fi
 
-tag=$1
+bs_tag=$1
 
-version=${tag#v}
+version=${bs_tag#v}
 tarball=$bs_package-$version.tar.gz
 
 bs_apiurl="$(expand \"$bs_apiurl\")"
@@ -106,7 +106,7 @@ if test 0 -ne $dry_run; then
     bs_project "$bs_project" \
     bs_package "$bs_package" \
     bs_dloadurl "$bs_dloadurl" \
-    tag "$tag" \
+    bs_tag "$bs_tag" \
     version "$version" \
     pkgdir "$pkgdir" \
     tarball "$tarball" \

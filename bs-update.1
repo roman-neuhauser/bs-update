@@ -151,7 +151,7 @@ git clone git@github.com:roman-neuhauser/rnt.git
 cd rnt
 printf "%s='%s'\\n" \\
   bs_package rnt \\
-  bs_dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$tag' \\
+  bs_dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$bs_tag' \\
   > .bs-update
 vim GNUmakefile
 git commit -a

@@ -5,8 +5,8 @@ test https://bs.example.com/ != https://bs.example.com/
 test "fu:bar" != ""
 test fu:bar != "fu:bar"
 test fu:bar != fu:bar
-test "https://dist.example.com/$tag" != ""
-test https://dist.example.com/v12.34 != "https://dist.example.com/$tag"
+test "https://dist.example.com/$bs_tag" != ""
+test https://dist.example.com/v12.34 != "https://dist.example.com/$bs_tag"
 test https://dist.example.com/v12.34 != https://dist.example.com/v12.34
 test -n superpac
 test -n fu:bar
