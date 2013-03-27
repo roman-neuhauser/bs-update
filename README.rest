@@ -110,10 +110,10 @@ Variables
 
 `bs_apiurl`
   Used unless `-A` is given.
-`bs_project`
-  Used unless `-P` is given.
 `bs_dloadurl`
   Used unless `-t` is given.
+`bs_project`
+  Used unless `-P` is given.
 
 Installation
 ============
