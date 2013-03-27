@@ -1,7 +1,7 @@
        bs_apiurl = "https://example.com/"
       bs_project = "my:projects:bazmek"
       bs_package = "bazmek"
-        dloadurl = "https://example.org/bazmek/v69.42"
+     bs_dloadurl = "https://example.org/bazmek/v69.42"
              tag = "v69.42"
          version = "69.42"
           pkgdir = "my:projects:bazmek/bazmek"

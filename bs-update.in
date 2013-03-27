@@ -54,7 +54,7 @@ SELF=$(basename "$0")
 bs_apiurl=
 bs_package=
 bs_project=
-dloadurl=
+bs_dloadurl=
 
 dry_run=0
 
@@ -73,7 +73,7 @@ while getopts :A:P:hnp:t: optname; do
   h) usage 0 ;;
   n) dry_run=1 ;;
   p) bs_package=$OPTARG ;;
-  t) dloadurl=$OPTARG ;;
+  t) bs_dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
   esac
@@ -91,11 +91,11 @@ tarball=$bs_package-$version.tar.gz
 
 bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
-dloadurl="$(expand \"$dloadurl\")"
+bs_dloadurl="$(expand \"$bs_dloadurl\")"
 
 test -n "$bs_package" || usage 4 package
 test -n "$bs_project" || usage 4 project
-test -n "$dloadurl" || usage 4 tarball
+test -n "$bs_dloadurl" || usage 4 tarball
 
 pkgdir=$bs_project/$bs_package
 specfile=$bs_package.spec
@@ -105,7 +105,7 @@ if test 0 -ne $dry_run; then
     bs_apiurl "$bs_apiurl" \
     bs_project "$bs_project" \
     bs_package "$bs_package" \
-    dloadurl "$dloadurl" \
+    bs_dloadurl "$bs_dloadurl" \
     tag "$tag" \
     version "$version" \
     pkgdir "$pkgdir" \
@@ -188,7 +188,7 @@ root=$(mktemp -d)
 echo "$SELF: root=$root"
 cd $root
 osc co $pkgdir
-fetch $dloadurl $tarball
+fetch $bs_dloadurl $tarball
 repack $tarball
 update $tarball
 cd $pkgdir

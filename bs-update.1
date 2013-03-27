@@ -134,7 +134,7 @@ is given.
 Used unless
 .Fl P
 is given.
-. It Va dloadurl
+. It Va bs_dloadurl
 Used unless
 .Fl t
 is given.
@@ -147,7 +147,7 @@ git clone git@github.com:roman-neuhauser/rnt.git
 cd rnt
 printf "%s='%s'\\n" \\
   bs_package rnt \\
-  dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$tag' \\
+  bs_dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$tag' \\
   > .bs-update
 vim GNUmakefile
 git commit -a

@@ -1,7 +1,7 @@
        bs_apiurl = "https://mybs/"
       bs_project = "a:b"
       bs_package = "c"
-        dloadurl = "P=a:b,p=c,tag=v42.69,tarball=c-42.69.tar.gz,version=42.69"
+     bs_dloadurl = "P=a:b,p=c,tag=v42.69,tarball=c-42.69.tar.gz,version=42.69"
              tag = "v42.69"
          version = "42.69"
           pkgdir = "a:b/c"
