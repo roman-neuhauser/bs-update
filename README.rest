@@ -135,7 +135,7 @@ Example
   cd rnt
   printf "%s='%s'\n" \
     package rnt \
-    dloadurl 'https://github.com/roman-neuhauser/$package/tarball/$tag' \
+    dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$tag' \
     > .bs-update
   vim GNUmakefile
   git commit -a

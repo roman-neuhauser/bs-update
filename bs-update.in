@@ -52,7 +52,7 @@ expand() # {{{
 SELF=$(basename "$0")
 
 bs_apiurl=
-package=
+bs_package=
 bs_project=
 dloadurl=
 
@@ -72,7 +72,7 @@ while getopts :A:P:hnp:t: optname; do
   P) bs_project=$OPTARG ;;
   h) usage 0 ;;
   n) dry_run=1 ;;
-  p) package=$OPTARG ;;
+  p) bs_package=$OPTARG ;;
   t) dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
@@ -87,24 +87,24 @@ fi
 tag=$1
 
 version=${tag#v}
-tarball=$package-$version.tar.gz
+tarball=$bs_package-$version.tar.gz
 
 bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
 dloadurl="$(expand \"$dloadurl\")"
 
-test -n "$package" || usage 4 package
+test -n "$bs_package" || usage 4 package
 test -n "$bs_project" || usage 4 project
 test -n "$dloadurl" || usage 4 tarball
 
-pkgdir=$bs_project/$package
-specfile=$package.spec
+pkgdir=$bs_project/$bs_package
+specfile=$bs_package.spec
 
 if test 0 -ne $dry_run; then
   printf '%16s = "%s"\n' \
     bs_apiurl "$bs_apiurl" \
     bs_project "$bs_project" \
-    package "$package" \
+    bs_package "$bs_package" \
     dloadurl "$dloadurl" \
     tag "$tag" \
     version "$version" \
@@ -170,8 +170,8 @@ update_tarball() # {{{
   if test -f $pkgdir/$tarball; then
     rewrite=1
   fi
-  if test 0 -eq $rewrite && test -f $pkgdir/$package-*.tar.gz; then
-    osc rm $pkgdir/$package-*.tar.gz
+  if test 0 -eq $rewrite && test -f $pkgdir/$bs_package-*.tar.gz; then
+    osc rm $pkgdir/$bs_package-*.tar.gz
   fi
   mv $tarball $pkgdir
   if test 0 -eq $rewrite; then

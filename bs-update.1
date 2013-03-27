@@ -146,8 +146,8 @@ is given.
 git clone git@github.com:roman-neuhauser/rnt.git
 cd rnt
 printf "%s='%s'\\n" \\
-  package rnt \\
-  dloadurl 'https://github.com/roman-neuhauser/$package/tarball/$tag' \\
+  bs_package rnt \\
+  dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$tag' \\
   > .bs-update
 vim GNUmakefile
 git commit -a
