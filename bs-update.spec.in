@@ -7,6 +7,12 @@ License:        MIT
 Summary:        Automate maintenance of packages in a Build Service.
 Url:            https://github.com/roman-neuhauser/%{name}
 Group:          Development/Tools
+Requires:       coreutils
+Requires:       gzip
+Requires:       osc
+Requires:       sed
+Requires:       tar
+Requires:       wget
 Source:         %{name}-%{version}.tar.gz
 BuildRequires:  filesystem
 BuildArch:      noarch
