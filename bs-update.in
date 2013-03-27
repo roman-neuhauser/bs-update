@@ -86,8 +86,8 @@ fi
 
 bs_tag=$1
 
-version=${bs_tag#v}
-tarball=$bs_package-$version.tar.gz
+bs_version=${bs_tag#v}
+tarball=$bs_package-$bs_version.tar.gz
 
 bs_apiurl="$(expand \"$bs_apiurl\")"
 bs_project="$(expand \"$bs_project\")"
@@ -107,7 +107,7 @@ if test 0 -ne $dry_run; then
     bs_package "$bs_package" \
     bs_dloadurl "$bs_dloadurl" \
     bs_tag "$bs_tag" \
-    version "$version" \
+    bs_version "$bs_version" \
     pkgdir "$pkgdir" \
     tarball "$tarball" \
     specfile "$specfile"
@@ -193,6 +193,6 @@ repack $tarball
 update $tarball
 cd $pkgdir
 extract $tarball $specfile.in
-update $specfile $version
+update $specfile $bs_version
 #osc build
-osc ci -m "Update to version $version"
+osc ci -m "Update to version $bs_version"

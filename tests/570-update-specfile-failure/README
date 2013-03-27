@@ -1,7 +1,7 @@
 verify bs-update's actions: update_specfile fails
 
 this test asserts bs-update's behavior in the case where
-sed fails substing $version into the specfile for whatever
+sed fails substing $bs_version into the specfile for whatever
 reason: bs-update should stop there.
 
 actual sed failing would lead to some verbiage on stderr,

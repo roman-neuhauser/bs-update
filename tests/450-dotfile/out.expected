@@ -3,7 +3,7 @@
       bs_package = "bazmek"
      bs_dloadurl = "https://example.org/bazmek/v69.42"
           bs_tag = "v69.42"
-         version = "69.42"
+      bs_version = "69.42"
           pkgdir = "my:projects:bazmek/bazmek"
          tarball = "bazmek-69.42.tar.gz"
         specfile = "bazmek.spec"
