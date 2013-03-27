@@ -8,7 +8,7 @@ test()
   if [ "x$*" = "x-f ${pkgdir-}/${tarball-}" ]; then
     return 1
   fi
-  if [ "x$*" = "x-f ${pkgdir-}/${bs_package-}-*.tar.gz" ]; then
+  if [ "x$*" = "x-f ${pkgdir-}/${bsu_bs_package-}-*.tar.gz" ]; then
     return 0
   fi
   eval '[ "$@" ]'

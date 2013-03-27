@@ -1,5 +1,5 @@
 whatever=example
-bs_apiurl='https://$whatever.com/'
-bs_project='my:projects:$bs_package'
-bs_package=bazmek
-bs_dloadurl='https://$whatever.org/${bs_project##*:}/$bs_tag'
+bsu_bs_apiurl='https://$whatever.com/'
+bsu_bs_project='my:projects:$bsu_bs_package'
+bsu_bs_package=bazmek
+bsu_dloadurl='https://$whatever.org/${bsu_bs_project##*:}/$bsu_tag'

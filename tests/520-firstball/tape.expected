@@ -5,8 +5,8 @@ test https://bs.example.com/ != https://bs.example.com/
 test "fu:bar" != ""
 test fu:bar != "fu:bar"
 test fu:bar != fu:bar
-test "https://dist.example.com/$bs_tag" != ""
-test https://dist.example.com/v12.34 != "https://dist.example.com/$bs_tag"
+test "https://dist.example.com/$bsu_tag" != ""
+test https://dist.example.com/v12.34 != "https://dist.example.com/$bsu_tag"
 test https://dist.example.com/v12.34 != https://dist.example.com/v12.34
 test -n superpac
 test -n fu:bar
@@ -18,7 +18,7 @@ command osc -A https://bs.example.com/ co fu:bar/superpac
 wget -qO superpac-12.34.tar.gz https://dist.example.com/v12.34
 mkdir superpac-12.34
 tar -xzf superpac-12.34.tar.gz --strip-components=1 -C superpac-12.34
-type bs_tarball_hook
+type bsu_tarball_hook
 tar -czf superpac-12.34.tar.gz superpac-12.34
 rm -rf superpac-12.34
 test -f fu:bar/superpac/superpac-12.34.tar.gz

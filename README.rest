@@ -99,7 +99,7 @@ of the following:
 Shell functions
 ***************
 
-`bs_tarball_hook`
+`bsu_tarball_hook`
   The tarball may need finalization before it is checked into
   the Build Service, eg. `autoconf`, `bundler` or `npm`.
   If this function exists it is executed at the root of the
@@ -108,14 +108,14 @@ Shell functions
 Variables
 *********
 
-`bs_apiurl`
+`bsu_bs_apiurl`
   Used unless `-A` is given.
-`bs_dloadurl`
-  Used unless `-t` is given.
-`bs_package`
+`bsu_bs_package`
   Used unless `-p` is given.
-`bs_project`
+`bsu_bs_project`
   Used unless `-P` is given.
+`bsu_dloadurl`
+  Used unless `-t` is given.
 
 Installation
 ============
@@ -136,8 +136,8 @@ Example
   git clone git@github.com:roman-neuhauser/rnt.git
   cd rnt
   printf "%s='%s'\n" \
-    package rnt \
-    dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$bs_tag' \
+    bsu_bs_package rnt \
+    bsu_dloadurl 'https://github.com/roman-neuhauser/rnt/tarball/$bsu_tag' \
     > .bs-update
   vim GNUmakefile
   git commit -a

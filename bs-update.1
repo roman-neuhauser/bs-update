@@ -119,28 +119,28 @@ with any of the following:
 .Ss Shell functions
 .Pp
 . Bl -ohang
-. It Fn bs_tarball_hook
+. It Fn bsu_tarball_hook
 If this function exists it is executed at the root of the extracted
 tarball before it is packed again.
 . El
 .Ss Variables
 .Pp
 . Bl -tag -compact
-. It Va bs_apiurl
+. It Va bsu_bs_apiurl
 Used unless
 .Fl A
 is given.
-. It Va bs_dloadurl
-Used unless
-.Fl t
-is given.
-. It Va bs_package
+. It Va bsu_bs_package
 Used unless
 .Fl p
 is given.
-. It Va bs_project
+. It Va bsu_bs_project
 Used unless
 .Fl P
+is given.
+. It Va bsu_dloadurl
+Used unless
+.Fl t
 is given.
 . El
 .\" FILES }}}
@@ -150,8 +150,8 @@ is given.
 git clone git@github.com:roman-neuhauser/rnt.git
 cd rnt
 printf "%s='%s'\\n" \\
-  bs_package rnt \\
-  bs_dloadurl 'https://github.com/roman-neuhauser/$bs_package/tarball/$bs_tag' \\
+  bsu_package rnt \\
+  bsu_dloadurl 'https://github.com/roman-neuhauser/$bsu_package/tarball/$bsu_tag' \\
   > .bs-update
 vim GNUmakefile
 git commit -a

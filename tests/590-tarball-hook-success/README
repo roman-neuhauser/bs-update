@@ -1,7 +1,7 @@
 verify bs-update's actions: run pre-package script
 
 this test asserts bs-update's behavior in the case where
-bs_tarball_hook exists and is successful.
+bsu_tarball_hook exists and is successful.
 
 this is done by replacing all commands used in the CUT with
 cooked functions, these write their invocations to a "tape"

@@ -2,11 +2,11 @@ exec 3>tape.actual
 
 . "$PWD/../fakes"
 
-bs_tarball_hook()
+bsu_tarball_hook()
 {
-  fake bs_tarball_hook "$@"
-  echo "stdout from bs_tarball_hook" >&1
-  echo "stderr from bs_tarball_hook" >&2
+  fake bsu_tarball_hook "$@"
+  echo "stdout from bsu_tarball_hook" >&1
+  echo "stderr from bsu_tarball_hook" >&2
   return 0
 }
 type()    { fake type    ${1+"$@"}; builtin type ${1+"$@"}; }

@@ -51,12 +51,12 @@ expand() # {{{
 
 SELF=$(basename "$0")
 
-bs_apiurl=
-bs_package=
-bs_project=
-bs_dloadurl=
+bsu_bs_apiurl=
+bsu_bs_package=
+bsu_bs_project=
+bsu_dloadurl=
 
-bs_dry_run=0
+bsu_dry_run=0
 
 if test -f .bs-update-hooks; then
   . $PWD/.bs-update-hooks
@@ -68,12 +68,12 @@ fi
 
 while getopts :A:P:hnp:t: optname; do
   case $optname in
-  A) bs_apiurl=$OPTARG ;;
-  P) bs_project=$OPTARG ;;
+  A) bsu_bs_apiurl=$OPTARG ;;
+  P) bsu_bs_project=$OPTARG ;;
   h) usage 0 ;;
-  n) bs_dry_run=1 ;;
-  p) bs_package=$OPTARG ;;
-  t) bs_dloadurl=$OPTARG ;;
+  n) bsu_dry_run=1 ;;
+  p) bsu_bs_package=$OPTARG ;;
+  t) bsu_dloadurl=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
   esac
@@ -84,30 +84,30 @@ if test $# -lt 1; then
   usage 1
 fi
 
-bs_tag=$1
+bsu_tag=$1
 
-bs_version=${bs_tag#v}
-tarball=$bs_package-$bs_version.tar.gz
+bsu_version=${bsu_tag#v}
+tarball=$bsu_bs_package-$bsu_version.tar.gz
 
-bs_apiurl="$(expand \"$bs_apiurl\")"
-bs_project="$(expand \"$bs_project\")"
-bs_dloadurl="$(expand \"$bs_dloadurl\")"
+bsu_bs_apiurl="$(expand \"$bsu_bs_apiurl\")"
+bsu_bs_project="$(expand \"$bsu_bs_project\")"
+bsu_dloadurl="$(expand \"$bsu_dloadurl\")"
 
-test -n "$bs_package" || usage 4 package
-test -n "$bs_project" || usage 4 project
-test -n "$bs_dloadurl" || usage 4 tarball
+test -n "$bsu_bs_package" || usage 4 package
+test -n "$bsu_bs_project" || usage 4 project
+test -n "$bsu_dloadurl" || usage 4 tarball
 
-pkgdir=$bs_project/$bs_package
-specfile=$bs_package.spec
+pkgdir=$bsu_bs_project/$bsu_bs_package
+specfile=$bsu_bs_package.spec
 
-if test 0 -ne $bs_dry_run; then
+if test 0 -ne $bsu_dry_run; then
   printf '%16s = "%s"\n' \
-    bs_apiurl "$bs_apiurl" \
-    bs_project "$bs_project" \
-    bs_package "$bs_package" \
-    bs_dloadurl "$bs_dloadurl" \
-    bs_tag "$bs_tag" \
-    bs_version "$bs_version" \
+    bsu_bs_apiurl "$bsu_bs_apiurl" \
+    bsu_bs_project "$bsu_bs_project" \
+    bsu_bs_package "$bsu_bs_package" \
+    bsu_dloadurl "$bsu_dloadurl" \
+    bsu_tag "$bsu_tag" \
+    bsu_version "$bsu_version" \
     pkgdir "$pkgdir" \
     tarball "$tarball" \
     specfile "$specfile"
@@ -116,7 +116,8 @@ fi
 
 osc() # {{{
 {
-  command osc ${bs_apiurl:+-A "$bs_apiurl"} ${1+"$@"}
+  local bsapi=${bsu_bs_apiurl}
+  command osc ${bsapi:+-A "$bsapi"} ${1+"$@"}
 } # }}}
 fetch() # {{{
 {
@@ -136,11 +137,11 @@ repack() # {{{
 run_tarball_hook() # {{{
 (
   local dir=${1?}
-  if ! type bs_tarball_hook 1>/dev/null 2>&1; then
+  if ! type bsu_tarball_hook 1>/dev/null 2>&1; then
     return 0
   fi
   cd $dir
-  bs_tarball_hook $dir
+  bsu_tarball_hook $dir
 ) # }}}
 extract() # {{{
 {
@@ -170,8 +171,8 @@ update_tarball() # {{{
   if test -f $pkgdir/$tarball; then
     rewrite=1
   fi
-  if test 0 -eq $rewrite && test -f $pkgdir/$bs_package-*.tar.gz; then
-    osc rm $pkgdir/$bs_package-*.tar.gz
+  if test 0 -eq $rewrite && test -f $pkgdir/$bsu_bs_package-*.tar.gz; then
+    osc rm $pkgdir/$bsu_bs_package-*.tar.gz
   fi
   mv $tarball $pkgdir
   if test 0 -eq $rewrite; then
@@ -188,11 +189,11 @@ root=$(mktemp -d)
 echo "$SELF: root=$root"
 cd $root
 osc co $pkgdir
-fetch $bs_dloadurl $tarball
+fetch $bsu_dloadurl $tarball
 repack $tarball
 update $tarball
 cd $pkgdir
 extract $tarball $specfile.in
-update $specfile $bs_version
+update $specfile $bsu_version
 #osc build
-osc ci -m "Update to version $bs_version"
+osc ci -m "Update to version $bsu_version"

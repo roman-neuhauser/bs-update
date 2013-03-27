@@ -13,7 +13,7 @@ command()
 test()
 {
   fake test ${1+"$@"}
-  if [ "x$1 $2" = "x-f ${pkgdir-}/${bs_package-}-*.tar.gz" ]; then
+  if [ "x$1 $2" = "x-f ${pkgdir-}/${bsu_bs_package-}-*.tar.gz" ]; then
     return 0
   fi
   eval '[ "$@" ]'
