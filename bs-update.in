@@ -87,7 +87,7 @@ fi
 bsu_tag=$1
 
 bsu_version=${bsu_tag#v}
-tarball=$bsu_bs_package-$bsu_version.tar.gz
+bsu_tarball=$bsu_bs_package-$bsu_version.tar.gz
 
 bsu_bs_apiurl="$(expand \"$bsu_bs_apiurl\")"
 bsu_bs_project="$(expand \"$bsu_bs_project\")"
@@ -109,7 +109,7 @@ if test 0 -ne $bsu_dry_run; then
     bsu_tag "$bsu_tag" \
     bsu_version "$bsu_version" \
     pkgdir "$pkgdir" \
-    tarball "$tarball" \
+    bsu_tarball "$bsu_tarball" \
     specfile "$specfile"
   exit $?
 fi
@@ -189,11 +189,11 @@ root=$(mktemp -d)
 echo "$SELF: root=$root"
 cd $root
 osc co $pkgdir
-fetch $bsu_dloadurl $tarball
-repack $tarball
-update $tarball
+fetch $bsu_dloadurl $bsu_tarball
+repack $bsu_tarball
+update $bsu_tarball
 cd $pkgdir
-extract $tarball $specfile.in
+extract $bsu_tarball $specfile.in
 update $specfile $bsu_version
 #osc build
 osc ci -m "Update to version $bsu_version"

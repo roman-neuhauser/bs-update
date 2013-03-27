@@ -5,5 +5,5 @@
          bsu_tag = "v69.42"
      bsu_version = "69.42"
           pkgdir = "my:projects:bazmek/bazmek"
-         tarball = "bazmek-69.42.tar.gz"
+     bsu_tarball = "bazmek-69.42.tar.gz"
         specfile = "bazmek.spec"
