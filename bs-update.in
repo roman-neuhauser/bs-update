@@ -5,6 +5,21 @@ set -o errexit
 set -o nounset
 set -o posix
 
+bsu_bs_apiurl=
+bsu_bs_package=
+bsu_bs_project=
+bsu_dloadurl=
+
+bsu_dry_run=0
+
+if test -f .bs-update-hooks; then
+  . $PWD/.bs-update-hooks
+fi
+
+if test -f .bs-update; then
+  . $PWD/.bs-update
+fi
+
 usage() # {{{
 {
   local self="$SELF" exit=${1?} fd=1
@@ -39,32 +54,7 @@ usage() # {{{
   fi
 } # }}}
 
-expand() # {{{
-{
-  local prev='' result="${1?}"
-  while test "$result" != "$prev"; do
-    prev="$result"
-    result="$(eval echo "$result")"
-  done
-  echo "$result"
-} # }}}
-
 SELF=$(basename "$0")
-
-bsu_bs_apiurl=
-bsu_bs_package=
-bsu_bs_project=
-bsu_dloadurl=
-
-bsu_dry_run=0
-
-if test -f .bs-update-hooks; then
-  . $PWD/.bs-update-hooks
-fi
-
-if test -f .bs-update; then
-  . $PWD/.bs-update
-fi
 
 while getopts :A:P:hnp:t: optname; do
   case $optname in
@@ -84,14 +74,24 @@ if test $# -lt 1; then
   usage 1
 fi
 
+deref() # {{{
+{
+  local prev='' result="${1?}"
+  while test "$result" != "$prev"; do
+    prev="$result"
+    result="$(eval echo "$result")"
+  done
+  echo "$result"
+} # }}}
+
 bsu_tag=$1
 
 bsu_version=${bsu_tag#v}
 bsu_tarball=$bsu_bs_package-$bsu_version.tar.gz
 
-bsu_bs_apiurl="$(expand \"$bsu_bs_apiurl\")"
-bsu_bs_project="$(expand \"$bsu_bs_project\")"
-bsu_dloadurl="$(expand \"$bsu_dloadurl\")"
+bsu_bs_apiurl="$(deref \"$bsu_bs_apiurl\")"
+bsu_bs_project="$(deref \"$bsu_bs_project\")"
+bsu_dloadurl="$(deref \"$bsu_dloadurl\")"
 
 test -n "$bsu_bs_package" || usage 4 package
 test -n "$bsu_bs_project" || usage 4 project
