@@ -1,5 +1,6 @@
 fake()
 {
+  [ "${BSU_QUIET_FAKE:-'0'}" = '1' ] && return
   [ $# -eq 0 ] && return
   local i=0
   for a in "$@"; do
