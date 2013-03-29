@@ -23,16 +23,17 @@ fi
 usage() # {{{
 {
   local self="$SELF" exit=${1?} fd=1
+  shift
   test $exit -ne 0 && fd=2
   {
     if test $exit -eq 1; then
       printf "%s: missing <tag> argument\n" "$self"
     elif test $exit -eq 2; then
-      printf "%s: option -%c requires an argument\n" "$self" "$2"
+      printf "%s: option -%c requires an argument\n" "$self" "$1"
     elif test $exit -eq 3; then
-      printf "%s: unknown option -%c\n" "$self" "$2"
+      printf "%s: unknown option -%c\n" "$self" "$1"
     elif test $exit -eq 4; then
-      printf "%s: no %s specified\n" "$self" "$2"
+      printf "%s: no %s specified\n" "$self" "$*"
     fi
     printf "%s: Usage: %s {-h|[options] <tag>}\n" "$self" "$self"
     if test $exit -ne 0; then
