@@ -57,7 +57,7 @@ Usage
 ::
 
   bs-update -h
-  bs-update [-A BSAPI] [-P PROJECT] [-n] [-p PACKAGE] [-t URL] TAG
+  bs-update [-A BSAPI] [-P PROJECT] [-d URL] [-n] [-p PACKAGE] [-t TARBALL] TAG
 
 Options:
 
@@ -67,12 +67,14 @@ Options:
     Use Build Service at `BSAPI` (URL or alias).
 -P PROJECT
     Update Build Service package of `PROJECT`.
+-d URL
+    Download the source tarball from `URL`.
 -n  Report values derived from `.bs-update` (if any) and command
     line arguments.
 -p PACKAGE
     Update Build Service `PACKAGE`.
--t URL
-    Download the source tarball from `URL`.
+-t TARBALL
+    Use `TARBALL` for the name of the downloaded file.
 
 Operands:
 

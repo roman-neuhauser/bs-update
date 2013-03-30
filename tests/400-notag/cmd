@@ -1,1 +1,1 @@
-${1?} -A http://localhost/ -P a:b:c -t http://localhost/whatever
+${1?} -A http://localhost/ -P a:b:c -d http://localhost/whatever

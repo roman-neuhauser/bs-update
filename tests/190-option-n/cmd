@@ -2,6 +2,6 @@ ${1?} \
   -P a:b \
   -p c \
   -A https://mybs/ \
-  -t 'P=$bsu_bs_project,p=$bsu_bs_package,tag=$bsu_tag,tarball=$bsu_tarball,version=$bsu_version' \
+  -d 'P=$bsu_bs_project,p=$bsu_bs_package,tag=$bsu_tag,tarball=$bsu_tarball,version=$bsu_version' \
   -n \
   v42.69

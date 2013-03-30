@@ -1,0 +1,7 @@
+option -t (tarball filename) requires an argument
+
+without an optarg for -t:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint

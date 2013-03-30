@@ -18,9 +18,10 @@
 .Nm
 .Op Fl A Ar BSAPI
 .Op Fl P Ar PROJECT
+.Op Fl d Ar URL
 .Op Fl n
 .Op Fl p Ar PACKAGE
-.Op Fl t Ar URL
+.Op Fl t Ar TARBALL
 .Ar TAG
 .\" SYNOPSIS }}}
 .
@@ -43,6 +44,10 @@ Use Build Service at
 Update Build Service package of
 .Ar PROJECT .
 .
+.It Fl d Ar URL
+Download the source tarball from
+.Ar URL .
+.
 .It Fl n
 Report values derived from
 configuration files
@@ -52,9 +57,10 @@ configuration files
 Update Build Service
 .Ar PACKAGE .
 .
-.It Fl t Ar URL
-Download the source tarball from
-.Ar URL .
+.It Fl t Ar TARBALL
+Use
+.Ar TARBALL
+for the name of the downloaded file.
 .
 .It Ar TAG
 Update the package from

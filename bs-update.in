@@ -44,8 +44,9 @@ usage() # {{{
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
         "-P PROJECT"      "Update Build Service package of PROJECT" \
+        "-d URL"          "Download the source tarball from URL" \
         "-p PACKAGE"      "Update Build Service package named PACKAGE" \
-        "-t URL"          "Fetch the tarball from URL"
+        "-t TARBALL"      "Use TARBALL for the name of the downloaded file"
     fi
   } >&$fd
   if test $exit -eq 0; then
@@ -57,14 +58,15 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:P:hnp:t: optname; do
+while getopts :A:P:d:hnp:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
   P) bsu_bs_project=$OPTARG ;;
+  d) bsu_dloadurl=$OPTARG ;;
   h) usage 0 ;;
   n) bsu_dry_run=1 ;;
   p) bsu_bs_package=$OPTARG ;;
-  t) bsu_dloadurl=$OPTARG ;;
+  t) bsu_tarball=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
   esac
@@ -88,15 +90,16 @@ deref() # {{{
 bsu_tag=$1
 
 bsu_version=${bsu_tag#v}
-bsu_tarball=$bsu_bs_package-$bsu_version.tar.gz
 
 bsu_bs_apiurl="$(deref \"$bsu_bs_apiurl\")"
 bsu_bs_project="$(deref \"$bsu_bs_project\")"
+: ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
 bsu_dloadurl="$(deref \"$bsu_dloadurl\")"
 
 test -n "$bsu_bs_package" || usage 4 package
 test -n "$bsu_bs_project" || usage 4 project
-test -n "$bsu_dloadurl" || usage 4 tarball
+test -n "$bsu_dloadurl" || usage 4 download url
+test -n "$bsu_tarball" || usage 4 tarball
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 specfile=$bsu_bs_package.spec
