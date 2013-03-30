@@ -1,0 +1,7 @@
+bs-update demands a BS package name
+
+with no package name:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint

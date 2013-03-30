@@ -1,0 +1,7 @@
+bs-update demands a BS project name
+
+with no project name:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint
