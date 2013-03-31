@@ -58,12 +58,13 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:P:d:hnp:t: optname; do
+while getopts :A:P:d:hm:np:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
   P) bsu_bs_project=$OPTARG ;;
   d) bsu_dloadurl=$OPTARG ;;
   h) usage 0 ;;
+  m) bsu_commitmsg="$OPTARG" ;;
   n) bsu_dry_run=1 ;;
   p) bsu_bs_package=$OPTARG ;;
   t) bsu_tarball=$OPTARG ;;
@@ -95,6 +96,8 @@ bsu_bs_apiurl="$(deref \"$bsu_bs_apiurl\")"
 bsu_bs_project="$(deref \"$bsu_bs_project\")"
 : ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
 bsu_dloadurl="$(deref \"$bsu_dloadurl\")"
+: ${bsu_commitmsg:="Update to version $bsu_version"}
+bsu_commitmsg="$(deref "$bsu_commitmsg")"
 
 test -n "$bsu_bs_package" || usage 4 package
 test -n "$bsu_bs_project" || usage 4 project
@@ -112,6 +115,7 @@ if test 0 -ne $bsu_dry_run; then
     bsu_dloadurl "$bsu_dloadurl" \
     bsu_tag "$bsu_tag" \
     bsu_version "$bsu_version" \
+    bsu_commitmsg "$bsu_commitmsg" \
     pkgdir "$pkgdir" \
     bsu_tarball "$bsu_tarball" \
     specfile "$specfile"
@@ -200,4 +204,4 @@ cd $pkgdir
 extract $bsu_tarball $specfile.in
 update $specfile $bsu_version
 #osc build
-osc ci -m "Update to version $bsu_version"
+osc ci -m "$bsu_commitmsg"

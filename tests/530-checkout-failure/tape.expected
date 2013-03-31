@@ -8,6 +8,8 @@ test fu:bar != fu:bar
 test "https://dist.example.com/$bsu_tag" != ""
 test https://dist.example.com/v12.34 != "https://dist.example.com/$bsu_tag"
 test https://dist.example.com/v12.34 != https://dist.example.com/v12.34
+test "Update to version 12.34" != ""
+test "Update to version 12.34" != "Update to version 12.34"
 test -n superpac
 test -n fu:bar
 test -n https://dist.example.com/v12.34

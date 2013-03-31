@@ -3,5 +3,6 @@ ${1?} \
   -p c \
   -A https://mybs/ \
   -d 'P=$bsu_bs_project,p=$bsu_bs_package,tag=$bsu_tag,tarball=$bsu_tarball,version=$bsu_version' \
+  -m 'eloquent wax' \
   -n \
   v42.69
