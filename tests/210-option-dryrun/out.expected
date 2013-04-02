@@ -1,7 +1,7 @@
    bsu_bs_apiurl = "https://mybs/"
   bsu_bs_project = "a:b"
   bsu_bs_package = "c"
-    bsu_dloadurl = "P=a:b,p=c,tag=v42.69,tarball=c-42.69.tar.gz,version=42.69"
+    bsu_dloadurl = "ftp://upstream/"
          bsu_tag = "v42.69"
      bsu_version = "42.69"
    bsu_commitmsg = "eloquent wax"

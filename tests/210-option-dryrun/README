@@ -2,10 +2,7 @@ option -n causes bs-update to report values and exit
 
 - stdout should report the final values gleaned from
   .bs-update (if any) and command line arguments;
-  this test uses no .bs-update, focusing on command
-  line handling
+  this test does not use .bs-update for configuration,
+  focusing on command line handling
 - stderr should be empty
 - exit code should be 0
-
-the -d option-argument in this test is written to keep
-an eye on variable substitution
