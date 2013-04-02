@@ -10,7 +10,7 @@ bsu_bs_package=
 bsu_bs_project=
 bsu_dloadurl=
 
-bsu_dry_run=0
+bsu_dryrun=0
 
 if test -f .bs-update-hooks; then
   . $PWD/.bs-update-hooks
@@ -65,7 +65,7 @@ while getopts :A:P:d:hm:np:t: optname; do
   d) bsu_dloadurl=$OPTARG ;;
   h) usage 0 ;;
   m) bsu_commitmsg="$OPTARG" ;;
-  n) bsu_dry_run=1 ;;
+  n) bsu_dryrun=1 ;;
   p) bsu_bs_package=$OPTARG ;;
   t) bsu_tarball=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
@@ -107,7 +107,7 @@ test -n "$bsu_tarball" || usage 4 tarball
 pkgdir=$bsu_bs_project/$bsu_bs_package
 specfile=$bsu_bs_package.spec
 
-if test 0 -ne $bsu_dry_run; then
+if test 0 -ne $bsu_dryrun; then
   printf '%16s = "%s"\n' \
     bsu_bs_apiurl "$bsu_bs_apiurl" \
     bsu_bs_project "$bsu_bs_project" \
