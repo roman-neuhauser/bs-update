@@ -116,7 +116,6 @@ if test 0 -ne $bsu_dryrun; then
     bsu_tag "$bsu_tag" \
     bsu_version "$bsu_version" \
     bsu_commitmsg "$bsu_commitmsg" \
-    pkgdir "$pkgdir" \
     bsu_tarball "$bsu_tarball" \
     specfile "$specfile"
   exit $?
