@@ -4,3 +4,9 @@ bsu_bs_project='my:projects:$bsu_bs_package'
 bsu_bs_package=bazmek
 bsu_dloadurl='https://$whatever.org/${bsu_bs_project##*:}/$bsu_tag'
 bsu_commitmsg='$bsu_version released.'
+
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+BSU_QUIET_FAKE=1
