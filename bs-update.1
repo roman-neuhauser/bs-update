@@ -21,6 +21,7 @@
 .Op Fl d Ar URL
 .Op Fl n
 .Op Fl p Ar PACKAGE
+.Op Fl s Ar SPECFILE
 .Op Fl t Ar TARBALL
 .Ar TAG
 .\" SYNOPSIS }}}
@@ -56,6 +57,12 @@ configuration files
 .It Fl p Ar PACKAGE
 Update Build Service
 .Ar PACKAGE .
+.
+.It Fl s Ar SPECFILE
+Use
+.Ar SPECFILE Ns No .in
+from
+.Ar TARBALL .
 .
 .It Fl t Ar TARBALL
 Use

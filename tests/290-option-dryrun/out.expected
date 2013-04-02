@@ -6,4 +6,4 @@
      bsu_version = "42.69"
    bsu_commitmsg = "eloquent wax"
      bsu_tarball = "c-42.69.tar.gz"
-        specfile = "c.spec"
+    bsu_specfile = "c.spec"

@@ -57,7 +57,7 @@ Usage
 ::
 
   bs-update -h
-  bs-update [-A BSAPI] [-P PROJECT] [-d URL] [-n] [-p PACKAGE] [-t TARBALL] TAG
+  bs-update [-A BSAPI] [-P PROJECT] [-d URL] [-n] [-p PACKAGE] [-s SPECFILE] [-t TARBALL] TAG
 
 Options:
 
@@ -73,6 +73,8 @@ Options:
     line arguments.
 -p PACKAGE
     Update Build Service `PACKAGE`.
+-s SPECFILE
+    Use `SPECFILE` from `TARBALL`.
 -t TARBALL
     Use `TARBALL` for the name of the downloaded file.
 
@@ -118,6 +120,8 @@ Variables
   Used unless `-P` is given.
 `bsu_dloadurl`
   Used unless `-t` is given.
+`bsu_specfile`
+  Used unless `-s` is given.
 
 Installation
 ============

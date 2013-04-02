@@ -1,0 +1,7 @@
+option -s (specfile) requires an argument
+
+without an optarg for -s:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint

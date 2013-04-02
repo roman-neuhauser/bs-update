@@ -5,4 +5,5 @@ bs-update: Usage: bs-update {-h|[options] <tag>}
     -P PROJECT        Update Build Service package of PROJECT
     -d URL            Download the source tarball from URL
     -p PACKAGE        Update Build Service package named PACKAGE
+    -s SPECFILE       Use SPECFILE.in from TARBALL
     -t TARBALL        Use TARBALL for the name of the downloaded file

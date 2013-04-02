@@ -12,6 +12,8 @@ test -n superpac
 test -n fu:bar
 test -n https://dist.example.com/v12.34
 test -n superpac-12.34.tar.gz
+test superpac.spec != ""
+test superpac.spec != superpac.spec
 test 0 -ne 0
 mktemp -d
 cd /tmp/fake-tmp-dir

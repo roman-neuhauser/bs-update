@@ -46,6 +46,7 @@ usage() # {{{
         "-P PROJECT"      "Update Build Service package of PROJECT" \
         "-d URL"          "Download the source tarball from URL" \
         "-p PACKAGE"      "Update Build Service package named PACKAGE" \
+        "-s SPECFILE"     "Use SPECFILE.in from TARBALL" \
         "-t TARBALL"      "Use TARBALL for the name of the downloaded file"
     fi
   } >&$fd
@@ -58,7 +59,7 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:P:d:hm:np:t: optname; do
+while getopts :A:P:d:hm:np:s:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
   P) bsu_bs_project=$OPTARG ;;
@@ -67,6 +68,7 @@ while getopts :A:P:d:hm:np:t: optname; do
   m) bsu_commitmsg="$OPTARG" ;;
   n) bsu_dryrun=1 ;;
   p) bsu_bs_package=$OPTARG ;;
+  s) bsu_specfile="$OPTARG" ;;
   t) bsu_tarball=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
@@ -105,7 +107,8 @@ test -n "$bsu_dloadurl" || usage 4 download url
 test -n "$bsu_tarball" || usage 4 tarball
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
-specfile=$bsu_bs_package.spec
+: ${bsu_specfile:=$bsu_bs_package.spec}
+bsu_specfile="$(deref "$bsu_specfile")"
 
 if test 0 -ne $bsu_dryrun; then
   printf '%16s = "%s"\n' \
@@ -117,7 +120,7 @@ if test 0 -ne $bsu_dryrun; then
     bsu_version "$bsu_version" \
     bsu_commitmsg "$bsu_commitmsg" \
     bsu_tarball "$bsu_tarball" \
-    specfile "$specfile"
+    bsu_specfile "$bsu_specfile"
   exit $?
 fi
 
@@ -200,7 +203,7 @@ fetch $bsu_dloadurl $bsu_tarball
 repack $bsu_tarball
 update $bsu_tarball
 cd $pkgdir
-extract $bsu_tarball $specfile.in
-update $specfile $bsu_version
+extract $bsu_tarball $bsu_specfile.in
+update $bsu_specfile $bsu_version
 #osc build
 osc ci -m "$bsu_commitmsg"
