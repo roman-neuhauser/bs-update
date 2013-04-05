@@ -7,6 +7,8 @@ test -n fu:bar
 test superpac != ""
 test superpac != superpac
 test -n superpac
+test superpac-12.34.tar.gz != ""
+test superpac-12.34.tar.gz != superpac-12.34.tar.gz
 test -n superpac-12.34.tar.gz
 test https://dist.example.com/$bsu_tag != ""
 test https://dist.example.com/v12.34 != https://dist.example.com/$bsu_tag

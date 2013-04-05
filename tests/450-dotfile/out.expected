@@ -5,5 +5,5 @@
          bsu_tag = "v69.42"
      bsu_version = "69.42"
    bsu_commitmsg = "69.42 released."
-     bsu_tarball = "bazmek-69.42.tar.gz"
+     bsu_tarball = "bazmek-69.42.tgz"
     bsu_specfile = "bazmek-69.42.spec"

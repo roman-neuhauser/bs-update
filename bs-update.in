@@ -103,6 +103,7 @@ bsu_bs_package="$(deref "$bsu_bs_package")"
 test -n "$bsu_bs_package" || usage 4 package
 
 : ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
+bsu_tarball="$(deref "$bsu_tarball")"
 test -n "$bsu_tarball" || usage 4 tarball
 
 bsu_dloadurl="$(deref "$bsu_dloadurl")"

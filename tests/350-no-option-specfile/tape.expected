@@ -6,6 +6,8 @@ test -n x
 test y != ""
 test y != y
 test -n y
+test y-42.69.tar.gz != ""
+test y-42.69.tar.gz != y-42.69.tar.gz
 test -n y-42.69.tar.gz
 test url != ""
 test url != url
