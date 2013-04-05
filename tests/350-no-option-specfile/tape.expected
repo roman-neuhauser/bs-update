@@ -2,14 +2,14 @@ test 1 -lt 1
 test "" != ""
 test x != ""
 test x != x
+test -n x
+test -n y
+test -n y-42.69.tar.gz
 test url != ""
 test url != url
+test -n url
 test "Update to version 42.69" != ""
 test "Update to version 42.69" != "Update to version 42.69"
-test -n y
-test -n x
-test -n url
-test -n y-42.69.tar.gz
 test y.spec != ""
 test y.spec != y.spec
 test 0 -ne 0

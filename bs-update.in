@@ -95,16 +95,20 @@ bsu_tag=$1
 bsu_version=${bsu_tag#v}
 
 bsu_bs_apiurl="$(deref "$bsu_bs_apiurl")"
+
 bsu_bs_project="$(deref "$bsu_bs_project")"
-: ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
-bsu_dloadurl="$(deref "$bsu_dloadurl")"
-: ${bsu_commitmsg:="Update to version $bsu_version"}
-bsu_commitmsg="$(deref "$bsu_commitmsg")"
+test -n "$bsu_bs_project" || usage 4 project
 
 test -n "$bsu_bs_package" || usage 4 package
-test -n "$bsu_bs_project" || usage 4 project
-test -n "$bsu_dloadurl" || usage 4 download url
+
+: ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
 test -n "$bsu_tarball" || usage 4 tarball
+
+bsu_dloadurl="$(deref "$bsu_dloadurl")"
+test -n "$bsu_dloadurl" || usage 4 download url
+
+: ${bsu_commitmsg:="Update to version $bsu_version"}
+bsu_commitmsg="$(deref "$bsu_commitmsg")"
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 : ${bsu_specfile:=$bsu_bs_package.spec}
