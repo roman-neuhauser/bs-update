@@ -69,8 +69,10 @@ Options:
     Update Build Service package of `PROJECT`.
 -d URL
     Download the source tarball from `URL`.
--n  Report values derived from `.bs-update` (if any) and command
-    line arguments.
+-m COMMITMSG
+    Use `COMMITMSG` for the commit in Build Service.
+-n  Report values derived from configuration files
+    and command line arguments, then exit.
 -p PACKAGE
     Update Build Service `PACKAGE`.
 -s SPECFILE

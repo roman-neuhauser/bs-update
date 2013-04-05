@@ -19,6 +19,7 @@
 .Op Fl A Ar BSAPI
 .Op Fl P Ar PROJECT
 .Op Fl d Ar URL
+.Op Fl m Ar COMMITMSG
 .Op Fl n
 .Op Fl p Ar PACKAGE
 .Op Fl s Ar SPECFILE
@@ -31,50 +32,6 @@
 .Nm
 makes it easier to keep packages in a Build Service
 up-to-date with respect to their upstream sources.
-.
-.Bl -tag -width "xx"
-.It Fl h
-Display a usage description.
-.
-.It Fl A Ar BSAPI
-Use Build Service at
-.Ar BSAPI
-(URL or alias).
-.
-.It Fl P Ar PROJECT
-Update Build Service package of
-.Ar PROJECT .
-.
-.It Fl d Ar URL
-Download the source tarball from
-.Ar URL .
-.
-.It Fl n
-Report values derived from
-configuration files
-(if any) and command line arguments.
-.
-.It Fl p Ar PACKAGE
-Update Build Service
-.Ar PACKAGE .
-.
-.It Fl s Ar SPECFILE
-Use
-.Ar SPECFILE Ns No .in
-from
-.Ar TARBALL .
-.
-.It Fl t Ar TARBALL
-Use
-.Ar TARBALL
-for the name of the downloaded file.
-.
-.It Ar TAG
-Update the package from
-.Ar TAG .
-.El
-.Pp
-Option arguments are subjected to shell expansion.
 .
 .Pp
 .
@@ -97,6 +54,75 @@ update the spec file source with a template from that tarball,
 .It
 commit the changes.
 .El
+.
+.Bl -tag -width "xx"
+.It Fl h
+Display a usage description.
+.
+.It Fl A Ar BSAPI
+Use Build Service at
+.Ar BSAPI
+(URL or alias).
+.
+.It Fl P Ar PROJECT
+Update Build Service package of
+.Ar PROJECT .
+.
+.It Fl d Ar URL
+Download the source tarball from
+.Ar URL .
+.
+.It Fl m Ar COMMITMSG
+Use
+.Ar COMMITMSG
+for the commit in Build Service.
+Defaults to
+.Dl Dq Update to version Va $bsu_version .
+.
+.It Fl n
+Report values derived from
+configuration files and command line arguments, then exit.
+.
+.It Fl p Ar PACKAGE
+Update Build Service
+.Ar PACKAGE .
+.
+.It Fl s Ar SPECFILE
+Use
+.Ar SPECFILE Ns Li .in
+from
+.Ar TARBALL ,
+commit
+.Ar SPECFILE
+into the Build Service.
+All occurrences of
+.Li __VERSION__
+in
+.Ar SPECFILE
+are replaced with the value of
+.Va $bsu_version .
+Defaults to
+.Ar PACKAGE Ns Li .spec .
+.
+.It Fl t Ar TARBALL
+Use
+.Ar TARBALL
+for the name of the downloaded file.
+Defaults to
+.Ar PACKAGE Ns Li - Ns Va $bsu_version Ns Li .tar.gz .
+.
+.It Ar TAG
+Update the package from
+.Ar TAG .
+.Va $bsu_version
+is derived from
+.Ar TAG
+by stripping the initial
+.Li "v"
+if any.
+.El
+.Pp
+Option arguments are subjected to shell expansion.
 .
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
@@ -138,10 +164,14 @@ tarball before it is packed again.
 . El
 .Ss Variables
 .Pp
-. Bl -tag -compact
+. Bl -tag -width "x"
 . It Va bsu_bs_apiurl
 Used unless
 .Fl A
+is given.
+. It Va bsu_bs_commitmsg
+Used unless
+.Fl m
 is given.
 . It Va bsu_bs_package
 Used unless
@@ -153,8 +183,22 @@ Used unless
 is given.
 . It Va bsu_dloadurl
 Used unless
+.Fl d
+is given.
+. It Va bsu_specfile
+Used unless
+.Fl s
+is given.
+. It Va bsu_tarball
+Used unless
 .Fl t
 is given.
+. It Va bsu_version
+Defaults to
+.Ar TAG
+without a leading
+.Li "v"
+if any.
 . El
 .\" FILES }}}
 .\" EXAMPLES {{{
