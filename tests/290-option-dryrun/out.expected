@@ -4,6 +4,6 @@
     bsu_dloadurl = "ftp://upstream/"
          bsu_tag = "v42.69"
      bsu_version = "42.69"
-   bsu_commitmsg = "eloquent wax"
+bsu_bs_commitmsg = "eloquent wax"
      bsu_tarball = "c-42.69.tar.gz"
     bsu_specfile = "c.spec"

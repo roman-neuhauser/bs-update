@@ -65,7 +65,7 @@ while getopts :A:P:d:hm:np:s:t: optname; do
   P) bsu_bs_project=$OPTARG ;;
   d) bsu_dloadurl=$OPTARG ;;
   h) usage 0 ;;
-  m) bsu_commitmsg="$OPTARG" ;;
+  m) bsu_bs_commitmsg="$OPTARG" ;;
   n) bsu_dryrun=1 ;;
   p) bsu_bs_package=$OPTARG ;;
   s) bsu_specfile="$OPTARG" ;;
@@ -110,12 +110,13 @@ test -n "$bsu_tarball" || usage 4 tarball
 bsu_dloadurl="$(deref "$bsu_dloadurl")"
 test -n "$bsu_dloadurl" || usage 4 download url
 
-: ${bsu_commitmsg:="Update to version $bsu_version"}
-bsu_commitmsg="$(deref "$bsu_commitmsg")"
+: ${bsu_bs_commitmsg:="Update to version $bsu_version"}
+bsu_bs_commitmsg="$(deref "$bsu_bs_commitmsg")"
 
-pkgdir=$bsu_bs_project/$bsu_bs_package
 : ${bsu_specfile:=$bsu_bs_package.spec}
 bsu_specfile="$(deref "$bsu_specfile")"
+
+pkgdir=$bsu_bs_project/$bsu_bs_package
 
 if test 0 -ne $bsu_dryrun; then
   printf '%16s = "%s"\n' \
@@ -125,7 +126,7 @@ if test 0 -ne $bsu_dryrun; then
     bsu_dloadurl "$bsu_dloadurl" \
     bsu_tag "$bsu_tag" \
     bsu_version "$bsu_version" \
-    bsu_commitmsg "$bsu_commitmsg" \
+    bsu_bs_commitmsg "$bsu_bs_commitmsg" \
     bsu_tarball "$bsu_tarball" \
     bsu_specfile "$bsu_specfile"
   exit $?
@@ -213,4 +214,4 @@ cd $pkgdir
 extract $bsu_tarball $bsu_specfile.in
 update $bsu_specfile $bsu_version
 #osc build
-osc ci -m "$bsu_commitmsg"
+osc ci -m "$bsu_bs_commitmsg"

@@ -4,6 +4,6 @@
     bsu_dloadurl = "https://example.org/bazmek/v69.42"
          bsu_tag = "v69.42"
      bsu_version = "69.42.0"
-   bsu_commitmsg = "69.42.0 released."
+bsu_bs_commitmsg = "69.42.0 released."
      bsu_tarball = "bazmek-69.42.0.tgz"
     bsu_specfile = "bazmek-69.42.0.spec"

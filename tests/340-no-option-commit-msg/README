@@ -1,2 +1,2 @@
-$bsu_commitmsg defaults to "Update to version $bsu_version"
+$bsu_bs_commitmsg defaults to "Update to version $bsu_version"
 
