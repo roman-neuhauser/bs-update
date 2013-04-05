@@ -8,6 +8,7 @@ bsu_dloadurl='https://$whatever.org/${bsu_bs_project##*:}/$bsu_tag'
 bsu_commitmsg='$bsu_version released.'
 bsu_specfile='$bsu_bs_package-$bsu_version.spec'
 bsu_tarball='$foo$bar-$bsu_version.tgz'
+bsu_version='${bsu_tag#v}.0'
 
 exec 3>tape.actual
 

@@ -1,4 +1,6 @@
 test 1 -lt 1
+test 42.69 != ""
+test 42.69 != 42.69
 test "" != ""
 test x != ""
 test x != x

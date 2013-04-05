@@ -92,7 +92,8 @@ deref() # {{{
 
 bsu_tag=$1
 
-bsu_version=${bsu_tag#v}
+: ${bsu_version:="${bsu_tag#v}"}
+bsu_version="$(deref "$bsu_version")"
 
 bsu_bs_apiurl="$(deref "$bsu_bs_apiurl")"
 

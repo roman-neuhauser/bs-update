@@ -1,4 +1,6 @@
 test 1 -lt 1
+test 12.34 != ""
+test 12.34 != 12.34
 test https://bs.example.com/ != ""
 test https://bs.example.com/ != https://bs.example.com/
 test fu:bar != ""
