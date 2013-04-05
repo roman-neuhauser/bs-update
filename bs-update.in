@@ -99,6 +99,7 @@ bsu_bs_apiurl="$(deref "$bsu_bs_apiurl")"
 bsu_bs_project="$(deref "$bsu_bs_project")"
 test -n "$bsu_bs_project" || usage 4 project
 
+bsu_bs_package="$(deref "$bsu_bs_package")"
 test -n "$bsu_bs_package" || usage 4 package
 
 : ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}

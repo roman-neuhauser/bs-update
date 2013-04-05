@@ -3,6 +3,8 @@ test "" != ""
 test x != ""
 test x != x
 test -n x
+test y != ""
+test y != y
 test -n y
 test -n y-42.69.tar.gz
 test url != ""

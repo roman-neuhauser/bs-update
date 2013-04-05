@@ -4,6 +4,8 @@ test https://bs.example.com/ != https://bs.example.com/
 test fu:bar != ""
 test fu:bar != fu:bar
 test -n fu:bar
+test superpac != ""
+test superpac != superpac
 test -n superpac
 test -n superpac-12.34.tar.gz
 test https://dist.example.com/$bsu_tag != ""
