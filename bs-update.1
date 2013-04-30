@@ -63,14 +63,20 @@ Display a usage description.
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
+Defaults to
+.Va $bsu_bs_apiurl .
 .
 .It Fl P Ar PROJECT
 Update Build Service package of
 .Ar PROJECT .
+Defaults to
+.Va $bsu_bs_project .
 .
 .It Fl d Ar URL
 Download the source tarball from
 .Ar URL .
+Defaults to
+.Va $bsu_dloadurl .
 .
 .It Fl m Ar COMMITMSG
 Use
@@ -86,6 +92,8 @@ configuration files and command line arguments, then exit.
 .It Fl p Ar PACKAGE
 Update Build Service
 .Ar PACKAGE .
+Defaults to
+.Va $bsu_bs_package .
 .
 .It Fl s Ar SPECFILE
 Use
