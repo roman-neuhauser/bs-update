@@ -91,7 +91,7 @@ Update Build Service
 Use
 .Ar SPECFILE Ns Li .in
 from
-.Ar TARBALL ,
+.Va $bsu_tarball ,
 commit
 .Ar SPECFILE
 into the Build Service.
@@ -102,14 +102,14 @@ in
 are replaced with the value of
 .Va $bsu_version .
 Defaults to
-.Ar PACKAGE Ns Li .spec .
+.Va $bsu_bs_package Ns Li .spec .
 .
 .It Fl t Ar TARBALL
 Use
 .Ar TARBALL
 for the name of the downloaded file.
 Defaults to
-.Ar PACKAGE Ns Li - Ns Va $bsu_version Ns Li .tar.gz .
+.Va $bsu_bs_package Ns Li - Ns Va $bsu_version Ns Li .tar.gz .
 .
 .It Ar TAG
 Update the package from
