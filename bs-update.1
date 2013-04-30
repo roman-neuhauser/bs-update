@@ -207,8 +207,8 @@ if any.
 git clone git@github.com:roman-neuhauser/rnt.git
 cd rnt
 printf "%s='%s'\\n" \\
-  bsu_package rnt \\
-  bsu_dloadurl 'https://github.com/roman-neuhauser/$bsu_package/tarball/$bsu_tag' \\
+  bsu_bs_package rnt \\
+  bsu_dloadurl 'https://github.com/roman-neuhauser/$bsu_bs_package/tarball/$bsu_tag' \\
   > .bs-update
 vim GNUmakefile
 git commit -a
