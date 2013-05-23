@@ -93,9 +93,27 @@ deref() # {{{
   echo "$result"
 } # }}}
 
+abort() # {{{
+{
+  for a in "$@"; do
+    printf "%s: %s\n" "$SELF" "$a"
+  done
+  exit 1
+} >&2 # }}}
+
 bsu_tag=$1
 
-: ${bsu_version:="${bsu_tag#v}"}
+if type bsu_version_hook 1>/dev/null 2>&1; then
+  if test -z "${bsu_version-}"; then
+    bsu_version="$(bsu_version_hook "$bsu_tag")" || {
+      abort "bsu_version_hook failed" \
+            "returned value: '$bsu_version'"
+    }
+  fi
+else
+  : ${bsu_version:="${bsu_tag#v}"}
+fi
+
 bsu_version="$(deref "$bsu_version")"
 
 bsu_bs_apiurl="$(deref "$bsu_bs_apiurl")"

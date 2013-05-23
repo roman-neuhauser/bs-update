@@ -1,0 +1,14 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+type()
+{
+  fake type ${1+"$@"}
+  builtin type ${1+"$@"}
+}
+
+bsu_version_hook()
+{
+  echo "${1#*-}"
+}

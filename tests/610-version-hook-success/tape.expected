@@ -1,0 +1,24 @@
+test 1 -lt 1
+type bsu_version_hook
+test -z ""
+test 12.34 != ""
+test 12.34 != 12.34
+test obs != ""
+test obs != obs
+test prj != ""
+test prj != prj
+test -n prj
+test pkg != ""
+test pkg != pkg
+test -n pkg
+test pkg-12.34.tar.gz != ""
+test pkg-12.34.tar.gz != pkg-12.34.tar.gz
+test -n pkg-12.34.tar.gz
+test https://get.it/ != ""
+test https://get.it/ != https://get.it/
+test -n https://get.it/
+test "Update to version 12.34" != ""
+test "Update to version 12.34" != "Update to version 12.34"
+test pkg.spec != ""
+test pkg.spec != pkg.spec
+test 0 -ne 1

@@ -1,0 +1,3 @@
+stderr from bsu_version_hook
+bs-update: bsu_version_hook failed
+bs-update: returned value: 'FUBAR-12.34'

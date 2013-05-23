@@ -1,0 +1,16 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+type()
+{
+  fake type ${1+"$@"}
+  [ ".$1" = .bsu_version_hook ]
+}
+
+bsu_version_hook()
+{
+  echo "$1" | tr '[a-z]' '[A-Z]'
+  echo stderr from bsu_version_hook >&2
+  return 1
+}

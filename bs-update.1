@@ -122,6 +122,8 @@ Defaults to
 .It Ar TAG
 Update the package from
 .Ar TAG .
+In the absence of
+.Fn bsu_version_hook ,
 .Va $bsu_version
 is derived from
 .Ar TAG
@@ -169,6 +171,14 @@ with any of the following:
 . It Fn bsu_tarball_hook
 If this function exists it is executed at the root of the extracted
 tarball before it is packed again.
+.
+. It Fn bsu_version_hook
+If this function exists it is executed with
+.Ar $1
+set to the value of the
+.Ar TAG
+argument, and its output is used as the value of
+.Va $bsu_version .
 . El
 .Ss Variables
 .Pp

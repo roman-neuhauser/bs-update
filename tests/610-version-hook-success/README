@@ -1,0 +1,3 @@
+bsu_version_hook output defines $bsu_version
+
+verified with -n ($bsu_dry_run)
