@@ -1,4 +1,5 @@
 ${1?} \
+  -C \
   -P a:b \
   -p c \
   -A https://mybs/ \

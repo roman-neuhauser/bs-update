@@ -41,8 +41,6 @@ tar -xzf pkg-12.34.tar.gz --strip-components=1 pkg-12.34/pkg.spec.in
 cp pkg.spec.in pkg.spec
 sed -ri /^Version:/s/__VERSION__/12.34/ pkg.spec
 command osc -A obs st pkg.spec
-test 1 -eq 1
-command osc -A obs build
-test 1 -eq 1
-command osc -A obs ci -m "Update to version 12.34"
+test 1 -eq 0
+test 0 -eq 1
 rm -rf /tmp/fake-tmp-dir

@@ -4,6 +4,7 @@
     bsu_dloadurl = "https://get.it/"
          bsu_tag = "fubar-12.34"
      bsu_version = "12.34"
+   bsu_bs_commit = "1"
 bsu_bs_commitmsg = "Update to version 12.34"
      bsu_tarball = "pkg-12.34.tar.gz"
     bsu_specfile = "pkg.spec"

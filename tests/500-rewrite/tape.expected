@@ -41,5 +41,6 @@ cp superpac.spec.in superpac.spec
 sed -ri /^Version:/s/__VERSION__/12.34/ superpac.spec
 command osc -A https://bs.example.com/ st superpac.spec
 test 1 -eq 0
+test 1 -eq 1
 command osc -A https://bs.example.com/ ci -m "Update to version 12.34"
 rm -rf /tmp/fake-tmp-dir

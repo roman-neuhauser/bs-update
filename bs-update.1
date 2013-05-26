@@ -17,6 +17,7 @@
 .Fl h
 .Nm
 .Op Fl A Ar BSAPI
+.Op Fl C
 .Op Fl P Ar PROJECT
 .Op Fl b
 .Op Fl d Ar URL
@@ -66,6 +67,16 @@ Use Build Service at
 (URL or alias).
 Defaults to
 .Va $bsu_bs_apiurl .
+.
+.It Fl C
+Skip the
+.Nm osc
+.Cm commit
+step.
+Sets
+.Va $bsu_bs_commit
+to
+.Li 0 .
 .
 .It Fl P Ar PROJECT
 Update Build Service package of

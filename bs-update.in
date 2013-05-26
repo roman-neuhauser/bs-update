@@ -10,6 +10,7 @@ bsu_bs_package=
 bsu_bs_project=
 bsu_dloadurl=
 
+bsu_bs_commit=1
 bsu_dryrun=0
 bsu_test_build=0
 
@@ -64,9 +65,10 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:P:bd:hm:np:s:t: optname; do
+while getopts :A:CP:bd:hm:np:s:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
+  C) bsu_bs_commit=0 ;;
   P) bsu_bs_project=$OPTARG ;;
   b) bsu_test_build=1 ;;
   d) bsu_dloadurl=$OPTARG ;;
@@ -150,6 +152,7 @@ if test 0 -ne $bsu_dryrun; then
     bsu_dloadurl "$bsu_dloadurl" \
     bsu_tag "$bsu_tag" \
     bsu_version "$bsu_version" \
+    bsu_bs_commit "$bsu_bs_commit" \
     bsu_bs_commitmsg "$bsu_bs_commitmsg" \
     bsu_tarball "$bsu_tarball" \
     bsu_specfile "$bsu_specfile" \
@@ -168,7 +171,9 @@ bsu_checkout() # {{{
 } # }}}
 bsu_commit() # {{{
 {
-  osc ci "$@"
+  if test $bsu_bs_commit -eq 1; then
+    osc ci "$@"
+  fi
 } # }}}
 fetch() # {{{
 {
