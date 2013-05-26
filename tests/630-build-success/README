@@ -1,0 +1,8 @@
+verify bs-update's actions: osc build succeeds
+
+if -b or bsu_test_build=1, bs-update runs 'osc build' just before
+'osc ci'.  if this 'osc build' succeeds, bs-update continues.
+
+- exit code should be 0
+- stdout should be empty
+- stderr should be empty

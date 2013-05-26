@@ -1,0 +1,8 @@
+verify bs-update's actions: osc build failure aborts
+
+if -b or bsu_test_build=1, bs-update runs 'osc build' just before
+'osc ci'.  if this 'osc build' fails, bs-update aborts.
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have the stderr from osc build

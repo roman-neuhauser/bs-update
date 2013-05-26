@@ -11,6 +11,7 @@ bsu_bs_project=
 bsu_dloadurl=
 
 bsu_dryrun=0
+bsu_test_build=0
 
 if test -f .bs-update-hooks; then
   . $PWD/.bs-update-hooks
@@ -44,6 +45,7 @@ usage() # {{{
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
         "-P PROJECT"      "Update Build Service package of PROJECT" \
+        "-b"              "Build the package locally before committing" \
         "-d URL"          "Download the source tarball from URL" \
         "-m COMMITMSG"    "Use COMMITMSG for the commit in Build Service" \
         "-n"              "Report values derived from configuration files" \
@@ -62,10 +64,11 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:P:d:hm:np:s:t: optname; do
+while getopts :A:P:bd:hm:np:s:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
   P) bsu_bs_project=$OPTARG ;;
+  b) bsu_test_build=1 ;;
   d) bsu_dloadurl=$OPTARG ;;
   h) usage 0 ;;
   m) bsu_bs_commitmsg="$OPTARG" ;;
@@ -149,7 +152,8 @@ if test 0 -ne $bsu_dryrun; then
     bsu_version "$bsu_version" \
     bsu_bs_commitmsg "$bsu_bs_commitmsg" \
     bsu_tarball "$bsu_tarball" \
-    bsu_specfile "$bsu_specfile"
+    bsu_specfile "$bsu_specfile" \
+    bsu_test_build "$bsu_test_build"
   exit $?
 fi
 
@@ -226,6 +230,12 @@ update_tarball() # {{{
     osc add $pkgdir/$tarball
   fi
 } # }}}
+bsu_test_build() # {{{
+{
+  if test 1 -eq "$bsu_test_build"; then
+    osc build
+  fi
+} # }}}
 exithook() # {{{
 {
   rm -rf $root
@@ -242,5 +252,5 @@ update $bsu_tarball
 cd $pkgdir
 extract $bsu_tarball $bsu_specfile.in
 update $bsu_specfile $bsu_version
-#osc build
+bsu_test_build
 bsu_commit -m "$bsu_bs_commitmsg"

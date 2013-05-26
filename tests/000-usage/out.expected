@@ -3,6 +3,7 @@ bs-update: Usage: bs-update {-h|[options] <tag>}
     -h                Display this message
     -A BSAPI          Use Build Service at BSAPI (URL or alias)
     -P PROJECT        Update Build Service package of PROJECT
+    -b                Build the package locally before committing
     -d URL            Download the source tarball from URL
     -m COMMITMSG      Use COMMITMSG for the commit in Build Service
     -n                Report values derived from configuration files

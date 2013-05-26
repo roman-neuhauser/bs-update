@@ -18,6 +18,7 @@
 .Nm
 .Op Fl A Ar BSAPI
 .Op Fl P Ar PROJECT
+.Op Fl b
 .Op Fl d Ar URL
 .Op Fl m Ar COMMITMSG
 .Op Fl n
@@ -71,6 +72,19 @@ Update Build Service package of
 .Ar PROJECT .
 Defaults to
 .Va $bsu_bs_project .
+.
+.It Fl b
+Run
+.Nm osc
+.Ar build
+before
+.Nm osc
+.Ar commit .
+If the build fails,
+.Nm
+aborts.
+Sets
+.Va $bsu_test_build .
 .
 .It Fl d Ar URL
 Download the source tarball from

@@ -57,7 +57,7 @@ Usage
 ::
 
   bs-update -h
-  bs-update [-A BSAPI] [-P PROJECT] [-d URL] [-n] [-p PACKAGE] [-s SPECFILE] [-t TARBALL] TAG
+  bs-update [-A BSAPI] [-P PROJECT] [-b] [-d URL] [-n] [-p PACKAGE] [-s SPECFILE] [-t TARBALL] TAG
 
 Options:
 
@@ -67,6 +67,9 @@ Options:
     Use Build Service at `BSAPI` (URL or alias).
 -P PROJECT
     Update Build Service package of `PROJECT`.
+-b
+    Run `osc build` before `osc commit`.
+    If the build fails, `bs-update` aborts.
 -d URL
     Download the source tarball from `URL`.
 -m COMMITMSG

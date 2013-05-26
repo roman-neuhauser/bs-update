@@ -1,0 +1,9 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+command()
+{
+  fake command ${1+"$@"}
+  [ "$1 $4" != "osc build" ] # "$2 $3" = "-A $bsu_bs_apiurl"
+}

@@ -1,0 +1,47 @@
+test 1 -lt 1
+type bsu_version_hook
+test 12.34 != ""
+test 12.34 != 12.34
+test obs != ""
+test obs != obs
+test prj != ""
+test prj != prj
+test -n prj
+test pkg != ""
+test pkg != pkg
+test -n pkg
+test pkg-12.34.tar.gz != ""
+test pkg-12.34.tar.gz != pkg-12.34.tar.gz
+test -n pkg-12.34.tar.gz
+test https://get.it/ != ""
+test https://get.it/ != https://get.it/
+test -n https://get.it/
+test "Update to version 12.34" != ""
+test "Update to version 12.34" != "Update to version 12.34"
+test pkg.spec != ""
+test pkg.spec != pkg.spec
+test 0 -ne 0
+mktemp -d
+cd /tmp/fake-tmp-dir
+command osc -A obs co prj/pkg
+wget -qO pkg-12.34.tar.gz https://get.it/
+mkdir pkg-12.34
+tar -xzf pkg-12.34.tar.gz --strip-components=1 -C pkg-12.34
+type bsu_tarball_hook
+tar -czf pkg-12.34.tar.gz pkg-12.34
+rm -rf pkg-12.34
+test -f prj/pkg/pkg-12.34.tar.gz
+test 0 -eq 0
+test -f prj/pkg/pkg-*.tar.gz
+mv pkg-12.34.tar.gz prj/pkg
+test 0 -eq 0
+command osc -A obs add prj/pkg/pkg-12.34.tar.gz
+cd prj/pkg
+tar -xzf pkg-12.34.tar.gz --strip-components=1 pkg-12.34/pkg.spec.in
+cp pkg.spec.in pkg.spec
+sed -ri /^Version:/s/__VERSION__/12.34/ pkg.spec
+command osc -A obs st pkg.spec
+test 1 -eq 1
+command osc -A obs build
+command osc -A obs ci -m "Update to version 12.34"
+rm -rf /tmp/fake-tmp-dir

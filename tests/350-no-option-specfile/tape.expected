@@ -40,5 +40,6 @@ tar -xzf y-42.69.tar.gz --strip-components=1 y-42.69/y.spec.in
 cp y.spec.in y.spec
 sed -ri /^Version:/s/__VERSION__/42.69/ y.spec
 command osc st y.spec
+test 1 -eq 0
 command osc ci -m "Update to version 42.69"
 rm -rf /tmp/fake-tmp-dir
