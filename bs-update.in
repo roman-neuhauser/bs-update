@@ -158,6 +158,14 @@ osc() # {{{
   local bsapi=${bsu_bs_apiurl}
   command osc ${bsapi:+-A "$bsapi"} ${1+"$@"}
 } # }}}
+bsu_checkout() # {{{
+{
+  osc co "$@"
+} # }}}
+bsu_commit() # {{{
+{
+  osc ci "$@"
+} # }}}
 fetch() # {{{
 {
   local url=${1?} tarball=${2?}
@@ -227,7 +235,7 @@ trap exithook EXIT
 root=$(mktemp -d)
 echo "$SELF: root=$root"
 cd $root
-osc co $pkgdir
+bsu_checkout $pkgdir
 fetch $bsu_dloadurl $bsu_tarball
 repack $bsu_tarball
 update $bsu_tarball
@@ -235,4 +243,4 @@ cd $pkgdir
 extract $bsu_tarball $bsu_specfile.in
 update $bsu_specfile $bsu_version
 #osc build
-osc ci -m "$bsu_bs_commitmsg"
+bsu_commit -m "$bsu_bs_commitmsg"
