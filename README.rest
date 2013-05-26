@@ -82,7 +82,7 @@ Options:
 
 Operands:
 
-TAG
+`TAG`
     Update the package from `TAG`.
 
 Configuration
@@ -110,20 +110,30 @@ Shell functions
   the Build Service, eg. `autoconf`, `bundler` or `npm`.
   If this function exists it is executed at the root of the
   extracted tarball before it is packed again.
+`bsu_version_hook`
+  If this function exists it is executed with `$1` set to the value
+  of the `TAG` argument, and its output is used as the value of
+  `$bsu_version`.
 
 Variables
 *********
 
 `bsu_bs_apiurl`
   Used unless `-A` is given.
+`bsu_bs_commitmsg`
+  Used unless `-m` is given.
 `bsu_bs_package`
   Used unless `-p` is given.
 `bsu_bs_project`
   Used unless `-P` is given.
 `bsu_dloadurl`
-  Used unless `-t` is given.
+  Used unless `-d` is given.
 `bsu_specfile`
   Used unless `-s` is given.
+`bsu_tarball`
+  Used unless `-t` is given.
+`bsu_version`
+  Defaults to `TAG` without a leading `v` if any.
 
 Installation
 ============
