@@ -14,6 +14,8 @@ bsu_bs_commit=1
 bsu_dryrun=0
 bsu_test_build=0
 
+bsu_orig_pwd="$PWD"
+
 if test -f .bs-update-hooks; then
   . $PWD/.bs-update-hooks
 fi
@@ -178,7 +180,19 @@ bsu_commit() # {{{
 fetch() # {{{
 {
   local url=${1?} tarball=${2?}
-  wget -qO $tarball $url
+  case "$url" in
+  http://*|https://*|ftp://*|ftps://*)
+    wget -qO "$tarball" "$url"
+    ;;
+  .)
+    git archive \
+      --format tar.gz \
+      --prefix "${tarball%.tar.gz}/" \
+      --output "$tarball" \
+      --remote "file://$bsu_orig_pwd" \
+      "$bsu_tag"
+    ;;
+  esac
 } # }}}
 repack() # {{{
 {

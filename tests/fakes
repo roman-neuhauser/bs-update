@@ -17,6 +17,7 @@ fake()
 cd()      { fake cd      ${1+"$@"}; }
 cp()      { fake cp      ${1+"$@"}; }
 command() { fake command ${1+"$@"}; }
+git()     { fake git     ${1+"$@"}; }
 mkdir()   { fake mkdir   ${1+"$@"}; }
 mktemp()  { fake mktemp  ${1+"$@"}; echo '/tmp/fake-tmp-dir'; }
 mv()      { fake mv      ${1+"$@"}; }

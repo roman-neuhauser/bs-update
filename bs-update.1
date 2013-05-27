@@ -98,8 +98,21 @@ Sets
 .Va $bsu_test_build .
 .
 .It Fl d Ar URL
-Download the source tarball from
+Retrieve the source tarball from
 .Ar URL .
+If
+.Ar URL
+is
+.Dq \&. ,
+.Nm
+uses
+.Xr git-archive 1
+in
+.Va $PWD .
+Otherwise,
+.Nm
+uses
+.Xr wget 1 .
 Defaults to
 .Va $bsu_dloadurl .
 .

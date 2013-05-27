@@ -12,9 +12,9 @@ test -n y
 test y-42.69.tar.gz != ""
 test y-42.69.tar.gz != y-42.69.tar.gz
 test -n y-42.69.tar.gz
-test url != ""
-test url != url
-test -n url
+test http://foo/url != ""
+test http://foo/url != http://foo/url
+test -n http://foo/url
 test "Update to version 42.69" != ""
 test "Update to version 42.69" != "Update to version 42.69"
 test y.spec != ""
@@ -23,7 +23,7 @@ test 0 -ne 0
 mktemp -d
 cd /tmp/fake-tmp-dir
 command osc co x/y
-wget -qO y-42.69.tar.gz url
+wget -qO y-42.69.tar.gz http://foo/url
 mkdir y-42.69
 tar -xzf y-42.69.tar.gz --strip-components=1 -C y-42.69
 type bsu_tarball_hook
