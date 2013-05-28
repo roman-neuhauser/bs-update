@@ -39,7 +39,7 @@ usage() # {{{
     elif test $exit -eq 4; then
       printf "%s: no %s specified\n" "$self" "$*"
     fi
-    printf "%s: Usage: %s {-h|[options] <tag>}\n" "$self" "$self"
+    printf "%s: Usage: %s {-h|[options] <tag> [<version>]}\n" "$self" "$self"
     if test $exit -ne 0; then
       printf "%s: Use \"%s -h\" to see the full option listing.\n" "$self" "$self"
     else
