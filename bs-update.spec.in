@@ -4,7 +4,7 @@ Name:           bs-update
 Version:        __VERSION__
 Release:        0
 License:        MIT
-Summary:        Automate maintenance of packages in a Build Service.
+Summary:        Automate maintenance of packages in a Build Service
 Url:            https://github.com/roman-neuhauser/%{name}
 Group:          Development/Tools
 Requires:       coreutils
