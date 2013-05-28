@@ -110,7 +110,9 @@ abort() # {{{
 
 bsu_tag=$1
 
-if type bsu_version_hook 1>/dev/null 2>&1; then
+if test $# -gt 1; then
+  bsu_version="$2"
+elif type bsu_version_hook 1>/dev/null 2>&1; then
   if test -z "${bsu_version-}"; then
     bsu_version="$(bsu_version_hook "$bsu_tag")" || {
       abort "bsu_version_hook failed" \
