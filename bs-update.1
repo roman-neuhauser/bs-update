@@ -225,6 +225,10 @@ argument, and its output is used as the value of
 Used unless
 .Fl A
 is given.
+. It Va bsu_bs_commit
+Used unless
+.Fl C
+is given.
 . It Va bsu_bs_commitmsg
 Used unless
 .Fl m
@@ -241,6 +245,10 @@ is given.
 Used unless
 .Fl d
 is given.
+. It Va bsu_dryrun
+Used unless
+.Fl n
+is given.
 . It Va bsu_specfile
 Used unless
 .Fl s
@@ -249,12 +257,10 @@ is given.
 Used unless
 .Fl t
 is given.
-. It Va bsu_version
-Defaults to
-.Ar TAG
-without a leading
-.Li "v"
-if any.
+. It Va bsu_test_build
+Used unless
+.Fl b
+is given.
 . El
 .\" FILES }}}
 .\" EXAMPLES {{{
