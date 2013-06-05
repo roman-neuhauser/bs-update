@@ -69,44 +69,44 @@ Options:
 -h
     Display a usage description.
 -A BSAPI
-    Use Build Service at `BSAPI` (URL or alias).
+    Use Build Service at *BSAPI* (URL or alias).
 -C
     Skip the `osc commit` step.
 -P PROJECT
-    Update Build Service package of `PROJECT`.
+    Update Build Service package of *PROJECT*.
 -b
     Run `osc build` before `osc commit`.
     If the build fails, `bs-update` aborts.
 -d URL
-    Download the source tarball from `URL`.
-    If `URL` is `.`, `bs-update` uses `git-archive(1)`_ in `$PWD`.
+    Download the source tarball from *URL*.
+    If *URL* is `.`, `bs-update` uses `git-archive(1)`_ in `$PWD`.
     Otherwise, `bs-update` uses `wget(1)`_.
 -m COMMITMSG
-    Use `COMMITMSG` for the commit in Build Service.
-    Defaults to "*Update to version `VERSION`*".
+    Use *COMMITMSG* for the commit in Build Service.
+    Defaults to "Update to version *VERSION*".
 -n  Report values derived from configuration files
     and command line arguments, then exit.
 -p PACKAGE
-    Update Build Service `PACKAGE`.
+    Update Build Service *PACKAGE*.
 -s SPECFILE
-    Use `SPECFILE`.in from `TARBALL`, commit `SPECFILE` into
+    Use *SPECFILE*.in from *TARBALL*, commit *SPECFILE* into
     the Build Service.
-    All occurrences of `__VERSION__` in `SPECFILE` are replaced
-    with `VERSION`.
+    All occurrences of `__VERSION__` in *SPECFILE* are replaced
+    with *VERSION*.
 -t TARBALL
-    Use `TARBALL` for the name of the downloaded file.
+    Use *TARBALL* for the name of the downloaded file.
 
 .. _git-archive(1): http://git-scm.com/docs/git-archive
 
 Operands:
 
-`TAG`
-    Update the package from `TAG`.
-`VERSION`
+*TAG*
+    Update the package from *TAG*.
+*VERSION*
     Update the package to `VERSION`.
-    If `VERSION` is not given, it is derived using
+    If *VERSION* is not given, it is derived using
     `bsu_version_hook()`, and if that does not exist,
-    from `TAG` by stripping the initial `v` if any.
+    from *TAG* by stripping the initial `v` if any.
 
 Configuration
 =============
