@@ -209,6 +209,13 @@ with any of the following:
 .Pp
 . Bl -ohang
 . It Fn bsu_tarball_hook
+The tarball may need finalization before it is checked into
+the Build Service, eg.
+.Nm autoconf ,
+.Nm git
+submodules
+or
+.Nm npm .
 If this function exists it is executed at the root of the extracted
 tarball before it is packed again.
 .
