@@ -27,6 +27,7 @@
 .Op Fl s Ar SPECFILE
 .Op Fl t Ar TARBALL
 .Ar TAG
+.Op Ar VERSION
 .\" SYNOPSIS }}}
 .
 .\" DESCRIPTION {{{
@@ -57,6 +58,8 @@ update the spec file source with a template from that tarball,
 commit the changes.
 .El
 .
+.Ss Options
+.
 .Bl -tag -width "xx"
 .It Fl h
 Display a usage description.
@@ -65,24 +68,16 @@ Display a usage description.
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
-Defaults to
-.Va $bsu_bs_apiurl .
 .
 .It Fl C
 Skip the
 .Nm osc
 .Cm commit
 step.
-Sets
-.Va $bsu_bs_commit
-to
-.Li 0 .
 .
 .It Fl P Ar PROJECT
 Update Build Service package of
 .Ar PROJECT .
-Defaults to
-.Va $bsu_bs_project .
 .
 .It Fl b
 Run
@@ -94,8 +89,6 @@ before
 If the build fails,
 .Nm
 aborts.
-Sets
-.Va $bsu_test_build .
 .
 .It Fl d Ar URL
 Retrieve the source tarball from
@@ -113,15 +106,13 @@ Otherwise,
 .Nm
 uses
 .Xr wget 1 .
-Defaults to
-.Va $bsu_dloadurl .
 .
 .It Fl m Ar COMMITMSG
 Use
 .Ar COMMITMSG
 for the commit in Build Service.
 Defaults to
-.Dl Dq Update to version Va $bsu_version .
+.Dq Update to version Ar VERSION .
 .
 .It Fl n
 Report values derived from
@@ -130,14 +121,12 @@ configuration files and command line arguments, then exit.
 .It Fl p Ar PACKAGE
 Update Build Service
 .Ar PACKAGE .
-Defaults to
-.Va $bsu_bs_package .
 .
 .It Fl s Ar SPECFILE
 Use
 .Ar SPECFILE Ns Li .in
 from
-.Va $bsu_tarball ,
+.Ar TARBALL ,
 commit
 .Ar SPECFILE
 into the Build Service.
@@ -145,33 +134,46 @@ All occurrences of
 .Li __VERSION__
 in
 .Ar SPECFILE
-are replaced with the value of
-.Va $bsu_version .
-Defaults to
-.Va $bsu_bs_package Ns Li .spec .
+are replaced with
+.Ar VERSION .
 .
 .It Fl t Ar TARBALL
 Use
 .Ar TARBALL
 for the name of the downloaded file.
-Defaults to
-.Va $bsu_bs_package Ns Li - Ns Va $bsu_version Ns Li .tar.gz .
 .
 .It Ar TAG
 Update the package from
 .Ar TAG .
-In the absence of
+.
+.It Ar VERSION
+Update the package to
+.Ar VERSION .
+.
+If
+.Ar VERSION
+is not given, it is derived using
 .Fn bsu_version_hook ,
-.Va $bsu_version
-is derived from
+and if that does not exist,
+from
 .Ar TAG
 by stripping the initial
 .Li "v"
 if any.
 .El
-.Pp
-Option arguments are subjected to shell expansion.
 .
+.Ss Operation
+.
+.Nm
+reads configuration files, then it parses command line arguments.
+Each configuration variable has a corresponding command line option.
+Command line options and arguments take precedence over configuration
+files.
+.Pp
+Values from both the configuration and the command line are subject
+to shell expansion.
+.
+.Pp
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
 .\" ENVIRONMENT {{{
@@ -198,8 +200,8 @@ recognizes two optional configuration files,
 .Pa .bs-update-hooks
 and
 .Pa .bs-update .
-They are sourced from the current directory before command line
-arguments are processed, in the order they are named above.
+They are sourced, in order, from the current directory before
+command line arguments are processed.
 These two files are expected to provide
 .Nm
 with any of the following:
@@ -211,56 +213,27 @@ If this function exists it is executed at the root of the extracted
 tarball before it is packed again.
 .
 . It Fn bsu_version_hook
-If this function exists it is executed with
+If the
+.Ar VERSION
+argument is not given and this function exists it is executed with
 .Ar $1
 set to the value of the
 .Ar TAG
-argument, and its output is used as the value of
-.Va $bsu_version .
+argument, and its output is used as the final version string.
 . El
 .Ss Variables
 .Pp
 . Bl -tag -width "x"
-. It Va bsu_bs_apiurl
-Used unless
-.Fl A
-is given.
-. It Va bsu_bs_commit
-Used unless
-.Fl C
-is given.
-. It Va bsu_bs_commitmsg
-Used unless
-.Fl m
-is given.
-. It Va bsu_bs_package
-Used unless
-.Fl p
-is given.
-. It Va bsu_bs_project
-Used unless
-.Fl P
-is given.
-. It Va bsu_dloadurl
-Used unless
-.Fl d
-is given.
-. It Va bsu_dryrun
-Used unless
-.Fl n
-is given.
-. It Va bsu_specfile
-Used unless
-.Fl s
-is given.
-. It Va bsu_tarball
-Used unless
-.Fl t
-is given.
-. It Va bsu_test_build
-Used unless
-.Fl b
-is given.
+. It Va bsu_bs_apiurl       Pq Fl A
+. It Va bsu_bs_commit       Pq Fl C
+. It Va bsu_bs_commitmsg    Pq Fl m
+. It Va bsu_bs_package      Pq Fl p
+. It Va bsu_bs_project      Pq Fl P
+. It Va bsu_dloadurl        Pq Fl d
+. It Va bsu_dryrun          Pq Fl n
+. It Va bsu_specfile        Pq Fl s
+. It Va bsu_tarball         Pq Fl t
+. It Va bsu_test_build      Pq Fl b
 . El
 .\" FILES }}}
 .\" EXAMPLES {{{
