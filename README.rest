@@ -71,7 +71,7 @@ Options:
 -A BSAPI
     Use Build Service at `BSAPI` (URL or alias).
 -C
-    Skipt the `osc commit` step.
+    Skip the `osc commit` step.
 -P PROJECT
     Update Build Service package of `PROJECT`.
 -b
