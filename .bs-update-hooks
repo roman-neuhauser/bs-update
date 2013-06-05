@@ -1,0 +1,4 @@
+bsu_tarball_hook()
+{
+  make wc
+}

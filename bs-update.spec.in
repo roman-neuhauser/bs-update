@@ -21,6 +21,8 @@ BuildRequires:  make
 BuildArch:      noarch
 BuildRoot:      %_tmppath/%name-%version-build
 
+%define bsu_make  make PREFIX=%{_prefix}
+
 %description
 bs-update makes it easier to keep packages in a Build Service
 up-to-date with respect to their upstream sources.
@@ -29,10 +31,10 @@ up-to-date with respect to their upstream sources.
 %setup -q
 
 %build
-make all PREFIX=%{_prefix}
+%bsu_make check
 
 %install
-make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
+%bsu_make install DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root)
