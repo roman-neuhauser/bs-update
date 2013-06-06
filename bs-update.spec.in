@@ -31,7 +31,7 @@ up-to-date with respect to their upstream sources.
 %build
 
 %install
-make install DESTDIR=%{buildroot} PREFIX=/usr
+make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 
 %files
 %defattr(-,root,root)
