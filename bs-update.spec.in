@@ -29,6 +29,7 @@ up-to-date with respect to their upstream sources.
 %setup -q
 
 %build
+make all PREFIX=%{_prefix}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
