@@ -245,22 +245,94 @@ argument, and its output is used as the final version string.
 .\" FILES }}}
 .\" EXAMPLES {{{
 .Sh EXAMPLES
-.Bd -literal
-git clone git@github.com:roman-neuhauser/rnt.git
-cd rnt
-printf "%s='%s'\\n" \\
-  u roman-neuhauser \\
-  p rnt \\
-  bsu_bs_apiurl https://api.opensuse.org \\
-  bsu_bs_package '$p' \\
-  bsu_bs_project 'home:$u' \\
-  bsu_dloadurl 'https://github.com/$u/$p/tarball/$bsu_tag' \\
-  > .bs-update
-vim GNUmakefile
-git commit GNUmakefile
+.
+.Ss Interactive Use by Upstream Maintainer
+.
+This is a real-world example showing common
+.Pa .bs-update
+setup and the use of
+.Nm
+to test changes in the package and finally produce
+a new package version.
+It assumes the user maintains both the upstream software
+and its package in the Build Service.
+.Pp
+We need a working copy to hack on:
+.
+.Bd -literal -offset 2n
+git clone git@github.com:roman-neuhauser/bs-update.git
+cd bs-update
+.Ed
+.
+.Pp
+Since we're going to use
+.Nm
+repeatedly, it makes sense to employ a configuration file,
+.Pa .bs-update .
+Everything can still be overridden using options on the command line:
+.
+.Bd -literal -offset 2n
+cat > .bs-update
+u=roman-neuhauser
+p=bs-update
+bsu_bs_apiurl=https://api.opensuse.org
+bsu_bs_package='$p'
+bsu_bs_project='home:$u'
+bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+^D
+.Ed
+.
+.Pp
+Commit some changes:
+.
+.Bd -literal -offset 2n
+vim bs-update.in
+make check
+git commit bs-update.in
+.Ed
+.
+.Pp
+Build the package locally, using the currently checked out revision.
+Does not commit into the Build Service:
+.
+.Bd -literal -offset 2n
+bs-update -Cbd . HEAD 999
+.Ed
+.
+.Pp
+If it was ok we can tag it and publish the tag:
+.
+.Bd -literal -offset 2n
 git tag -a v42.69
 git push origin master v42.69
+.Ed
+.
+.Pp
+Commit the new release into the Build Service:
+.
+.Pp
+.Bd -literal -offset 2n
 bs-update v42.69
+.Ed
+.
+.Ss Snapshot-generating Cronjob
+.
+This example demonstrates using
+.Nm
+with no
+.Pa .bs-update
+file.
+A new version of the package is created, based on a tarball
+of the upstream master branch.
+.
+.Bd -literal -offset 2n
+ts=$(date +%Y%m%d%H%M%S)
+bs-update \\
+  -P home:roman-neuhauser \\
+  -p bs-update-snapshot \\
+  -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
+  -t bs-update-$ts.tar.gz \\
+  master $ts
 .Ed
 .\" EXAMPLES }}}
 .\" DIAGNOSTICS {{{

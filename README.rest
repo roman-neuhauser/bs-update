@@ -164,24 +164,70 @@ Installation
 
 The provided makefile requires GNU make.
 
-Example
-=======
+Examples
+========
+
+Interactive Use by Upstream Maintainer
+**************************************
+
+This is a real-world example showing common `.bs-update` setup and the
+use of `bs-update` to test changes in the package and finally produce
+a new package version.
+It assumes the user maintains both the upstream software and its
+package in the Build Service.
+
+We need a working copy to hack on:  ::
+
+  git clone git@github.com:roman-neuhauser/bs-update.git
+  cd bs-update
+
+Since we're going to use `bs-update` repeatedly, it makes sense
+to employ a configuration file, `.bs-update`.
+Everything can still be overriden using options on the command line:
 
 ::
 
-  git clone git@github.com:roman-neuhauser/rnt.git
-  cd rnt
-  printf "%s='%s'\n" \
-    u roman-neuhauser \
-    p rnt \
-    bsu_bs_apiurl https://api.opensuse.org \
-    bsu_bs_package '$p' \
-    bsu_bs_project 'home:$u' \
-    bsu_dloadurl 'https://github.com/$u/$p/tarball/$bsu_tag' \
-    > .bs-update
-  vim GNUmakefile
-  git commit GNUmakefile
+  cat > .bs-update
+  u=roman-neuhauser
+  p=bs-update
+  bsu_bs_apiurl=https://api.opensuse.org
+  bsu_bs_package='$p'
+  bsu_bs_project='home:$u'
+  bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+  ^D
+
+Commit some changes:  ::
+
+  vim bs-update.in
+  make check
+  git commit bs-update.in
+
+Build the package locally, using the currently checked out revision.
+Does not commit into the Build Service:  ::
+
+  bs-update -Cbd . HEAD 999
+
+If it was ok we can tag it and publish the tag:  ::
+
   git tag -a v42.69
   git push origin master v42.69
+
+Commit the new release into the Build Service:  ::
+
   bs-update v42.69
+
+Snapshot-generating Cronjob
+***************************
+
+This exmaple demonstrates using `bs-update` with no `.bs-update`
+file.  A new version of the package is created, based on a tarball
+of the upstream master branch.  ::
+
+  ts=$(date +%Y%m%d%H%M%S)
+  bs-update \
+    -P home:roman-neuhauser \
+    -p bs-update-snapshot \
+    -d https://github.com/roman-neuhauser/bs-update/tarball/master \
+    -t bs-update-$ts.tar.gz \
+    master $ts
 
