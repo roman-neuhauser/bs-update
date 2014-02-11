@@ -1,0 +1,4 @@
+bs-update -d uses hg archive when ./.hg/ exists
+
+this directory can be removed when/if that implementation
+detail changes.

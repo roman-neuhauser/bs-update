@@ -2,5 +2,5 @@ mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A https://bs.example.com/ co fu:bar/snafu
 test -d /path/to/checkout/.git
-git archive --format tar.gz --prefix snafu-12.34/ --output snafu-12.34.tar.gz --remote file:///path/to/checkout v12.34
+hg archive --repository /path/to/checkout --prefix snafu-12.34/ --rev v12.34 snafu-12.34.tar.gz
 rm -rf /tmp/fake-tmp-dir

@@ -100,8 +100,11 @@ is
 .Nm
 uses
 .Xr git-archive 1
+or
+.Xr hg-archive 1
 in
-.Va $PWD .
+.Va $PWD
+as appropriate.
 Otherwise,
 .Nm
 uses
@@ -187,10 +190,12 @@ use them.
 This means
 .Nm
 may be influenced by environment variables used by
-.Xr sh 1 ,
+.Xr git 1 ,
+.Xr hg 1 ,
 .Xr osc 1 ,
+.Xr sh 1 ,
 .Xr tar 1 ,
-.Xr curl 1 or Xr wget 1 ,
+.Xr wget 1 ,
 possibly others.
 .\" ENVIRONMENT }}}
 .\" FILES {{{

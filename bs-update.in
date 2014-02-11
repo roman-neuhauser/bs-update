@@ -191,12 +191,20 @@ fetch() # {{{
     wget -qO "$tarball" "$url"
     ;;
   .)
-    git archive \
-      --format tar.gz \
-      --prefix "${tarball%.tar.gz}/" \
-      --output "$tarball" \
-      --remote "file://$bsu_orig_pwd" \
-      "$bsu_tag"
+    if test -d $bsu_orig_pwd/.git; then
+      git archive \
+        --format tar.gz \
+        --prefix "${tarball%.tar.gz}/" \
+        --output "$tarball" \
+        --remote "file://$bsu_orig_pwd" \
+        "$bsu_tag"
+    else
+      hg archive \
+        --repository "$bsu_orig_pwd" \
+        --prefix "${tarball%.tar.gz}/" \
+        --rev "$bsu_tag" \
+        "$tarball"
+    fi
     ;;
   esac
 } # }}}
