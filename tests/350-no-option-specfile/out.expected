@@ -1,1 +1,11 @@
-bs-update: root=/tmp/fake-tmp-dir
+   bsu_bs_apiurl = ""
+  bsu_bs_project = "x"
+  bsu_bs_package = "y"
+    bsu_dloadurl = "http://foo/url"
+         bsu_tag = "v42.69"
+     bsu_version = "42.69"
+   bsu_bs_commit = "1"
+bsu_bs_commitmsg = "Update to version 42.69"
+     bsu_tarball = "y-42.69.tar.gz"
+    bsu_specfile = "y.spec"
+  bsu_test_build = "0"

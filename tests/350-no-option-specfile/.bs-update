@@ -1,3 +1,5 @@
 exec 3>tape.actual
 
 . "$PWD/../fakes"
+
+BSU_QUIET_FAKE=1
