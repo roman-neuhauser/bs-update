@@ -1,28 +1,4 @@
-test 1 -lt 1
-test 1 -gt 1
 type bsu_version_hook
-test 12.34 != ""
-test 12.34 != 12.34
-test https://bs.example.com/ != ""
-test https://bs.example.com/ != https://bs.example.com/
-test fu:bar != ""
-test fu:bar != fu:bar
-test -n fu:bar
-test superpac != ""
-test superpac != superpac
-test -n superpac
-test superpac-12.34.tar.gz != ""
-test superpac-12.34.tar.gz != superpac-12.34.tar.gz
-test -n superpac-12.34.tar.gz
-test https://dist.example.com/$bsu_tag != ""
-test https://dist.example.com/v12.34 != https://dist.example.com/$bsu_tag
-test https://dist.example.com/v12.34 != https://dist.example.com/v12.34
-test -n https://dist.example.com/v12.34
-test "Update to version 12.34" != ""
-test "Update to version 12.34" != "Update to version 12.34"
-test superpac.spec != ""
-test superpac.spec != superpac.spec
-test 0 -ne 0
 mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A https://bs.example.com/ co fu:bar/superpac

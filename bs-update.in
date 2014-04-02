@@ -16,6 +16,8 @@ bsu_test_build=0
 
 bsu_orig_pwd="$PWD"
 
+bsu_configuration_processing=1
+
 if test -f .bs-update-hooks; then
   . $PWD/.bs-update-hooks
 fi
@@ -163,6 +165,8 @@ if test 0 -ne $bsu_dryrun; then
     bsu_test_build "$bsu_test_build"
   exit $?
 fi
+
+bsu_configuration_processing=0
 
 osc() # {{{
 {
