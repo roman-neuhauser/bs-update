@@ -1,4 +1,3 @@
-type bsu_version_hook
 mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A obs co prj/pkg

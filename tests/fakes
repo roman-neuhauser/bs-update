@@ -1,6 +1,7 @@
 fake()
 {
   [ "${BSU_QUIET_FAKE:-'0'}" = '1' ] && return
+  [ 1 -eq $bsu_configuration_processing ] && return
   [ $# -eq 0 ] && return
   local i=0
   for a in "$@"; do
@@ -24,11 +25,7 @@ mv()      { fake mv      ${1+"$@"}; }
 rm()      { fake rm      ${1+"$@"}; }
 sed()     { fake sed     ${1+"$@"}; }
 tar()     { fake tar     ${1+"$@"}; }
-test()
-{
-  [ 0 -eq $bsu_configuration_processing ] && fake test ${1+"$@"}
-  eval '[ "$@" ]'
-}
+test()    { fake test    ${1+"$@"}; eval '[ "$@" ]'; }
 type()    { fake type    ${1+"$@"}; return 1; }
 wget()    { fake wget    ${1+"$@"}; }
 

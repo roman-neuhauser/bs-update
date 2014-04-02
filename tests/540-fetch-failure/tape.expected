@@ -1,4 +1,3 @@
-type bsu_version_hook
 mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A https://bs.example.com/ co fu:bar/superpac
