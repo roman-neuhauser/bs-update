@@ -1,0 +1,9 @@
+verify bs-update's actions: tarball creation fails
+
+`bs-update -d .` uses `git archive` to create the tarball.
+
+this test has two purposes: verify that the constructed
+command line meets expectations, and make sure bs-update
+does not go on after failure in this step.  actual git
+failing would lead to some verbiage on stderr, this test
+doesn't care about that.

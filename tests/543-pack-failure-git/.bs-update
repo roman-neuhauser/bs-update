@@ -1,0 +1,24 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+test()
+{
+  if [ "$1" = -d ] && [ "$2" != "${2%.git}" ]; then
+    echo test -d /path/to/checkout/.git >&3
+    return 0
+  fi
+  fake test ${1+"$@"}
+  eval '[ "$@" ]'
+}
+
+git()
+{
+  if [ ".$1" = .archive ]; then
+    set "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" \
+      "file:///path/to/checkout" \
+      "${10}"
+  fi
+  fake git ${1+"$@"}
+  return 1
+}
