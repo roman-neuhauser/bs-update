@@ -276,7 +276,6 @@ exithook() # {{{
 
 trap exithook EXIT
 root=$(mktemp -d)
-echo "$SELF: root=$root"
 cd $root
 bsu_checkout $pkgdir
 fetch $bsu_dloadurl $bsu_tarball

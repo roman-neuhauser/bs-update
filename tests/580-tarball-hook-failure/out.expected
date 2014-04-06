@@ -1,2 +1,1 @@
-bs-update: root=/tmp/fake-tmp-dir
 stdout from bsu_tarball_hook
