@@ -1,13 +1,5 @@
-.. vim: ft=rst sts=2 sw=2 tw=70
-.. default-role:: literal
-
-======================================================================
-                              bs-update
-======================================================================
-
-:Author: Roman Neuhauser
-:Contact: rneuhauser@suse.cz
-:Copyright: This document is in the public domain.
+.. vim: ft=rst sts=2 sw=2 tw=75
+.. default-role:: strong
 
 .. This file is marked up using reStructuredText.
    Lines beginning with ".." are reST directives.
@@ -18,216 +10,193 @@
    Suspicious backslashes in the text ("`std::string`\s") are required
    for reST to recognize the preceding character as syntax.
 
+.. parsed-literal::
 
-Overview
-========
+  `NAME`
+      `bs-update` — Update packages in a Build Service from upstream
+                  sources.
 
-`bs-update`_ makes it easier to keep packages in a `Build Service`_
-up-to-date with respect to their upstream sources.
+  `SYNOPSIS`
+      `bs-update` -h
+      `bs-update` [-A *BSAPI*] [-C] [-P *PROJECT*] [-b] [-d *URL*] [-m *COMMITMSG*]
+                [-n] [-p *PACKAGE*] [-s *SPECFILE*] [-t *TARBALL*] *TAG* [*VERSION*]
 
-Given a Build Service API URL, project and package names, a tarball
-URL, and a version number, `bs-update`_ will
+  `DESCRIPTION`
+      `bs-update` makes it easier to keep packages in a Build Service
+      up-to-date with respect to their upstream sources.
 
-* fetch the tarball from the URL,
-* check out the package from the Build Service,
-* update the tarball source with the downloaded tarball,
-* update the spec file source with a template from that tarball,
-* commit the changes.
+      Given a Build Service API URL, project and package names, a tarball
+      URL, and a version number, `bs-update` will
 
-`bs-update` is young software and currently makes a few assumptions:
+      1.   fetch the tarball from the URL,
+      2.   check out the package from the Build Service,
+      3.   update the tarball source with the downloaded tarball,
+      4.   update the spec file source with a template from that tarball,
+      5.   commit the changes.
 
-* your package uses a single tarball
-* said tarball contains a `$package.spec.in` file
+  `Options`
+      `-h`  Display a usage description.
 
-.. _bs-update: https://github.com/roman-neuhauser/bs-update
-.. _Build Service: https://en.opensuse.org/Build_Service
+      `-A` *BSAPI*
+          Use Build Service at *BSAPI* (URL or alias).
 
-Prerequisities
-==============
+      `-C`  Skip the `osc commit` step.
 
-* POSIX-compatible shell environment
-* `git(1)`_
-* `osc(1)`_
-* tar(1)
-* `wget(1)`_
+      `-P` *PROJECT*
+          Update Build Service package of *PROJECT*.
 
-.. _git(1): http://git-scm.com/
-.. _osc(1): http://en.opensuse.org/openSUSE:OSC
-.. _wget(1): http://www.gnu.org/software/wget/
+      `-b`  Run `osc build` before `osc commit`.  If the build fails,
+          `bs-update` aborts.
 
-Usage
-=====
+      `-d` *URL*
+          Retrieve the source tarball from *URL*.  If *URL* is ".", `bs-update`
+          uses git-archive(1) or hg-archive(1) in `$PWD` as appropriate.
+          Otherwise, `bs-update` uses wget(1).
 
-::
+      `-m` *COMMITMSG*
+          Use *COMMITMSG* for the commit in Build Service.  Defaults to
+          "Update to version *VERSION*".
 
-  bs-update -h
-  bs-update [-A BSAPI] [-C] [-P PROJECT] [-b] [-d URL] [-m COMMITMSG] [-n]
-            [-p PACKAGE] [-s SPECFILE] [-t TARBALL] TAG [VERSION]
+      `-n`  Report values derived from configuration files and command line
+          arguments, then exit.
 
-Options:
+      `-p` *PACKAGE*
+          Update Build Service *PACKAGE*.
 
--h
-    Display a usage description.
--A BSAPI
-    Use Build Service at *BSAPI* (URL or alias).
--C
-    Skip the `osc commit` step.
--P PROJECT
-    Update Build Service package of *PROJECT*.
--b
-    Run `osc build` before `osc commit`.
-    If the build fails, `bs-update` aborts.
--d URL
-    Download the source tarball from *URL*.
-    If *URL* is `.`, `bs-update` uses `git-archive(1)`_ in `$PWD`.
-    Otherwise, `bs-update` uses `wget(1)`_.
--m COMMITMSG
-    Use *COMMITMSG* for the commit in Build Service.
-    Defaults to "Update to version *VERSION*".
--n  Report values derived from configuration files
-    and command line arguments, then exit.
--p PACKAGE
-    Update Build Service *PACKAGE*.
--s SPECFILE
-    Use *SPECFILE*.in from *TARBALL*, commit *SPECFILE* into
-    the Build Service.
-    All occurrences of `__VERSION__` in *SPECFILE* are replaced
-    with *VERSION*.
--t TARBALL
-    Use *TARBALL* for the name of the downloaded file.
+      `-s` *SPECFILE*
+          Use *SPECFILE*.in from *TARBALL*, commit *SPECFILE* into the
+          Build Service.  All occurrences of `__VERSION__` in *SPECFILE*
+          are replaced with *VERSION*.
 
-.. _git-archive(1): http://git-scm.com/docs/git-archive
+      `-t` *TARBALL*
+          Use *TARBALL* for the name of the downloaded file.
 
-Operands:
+      *TAG*
+          Update the package from *TAG*.
 
-*TAG*
-    Update the package from *TAG*.
-*VERSION*
-    Update the package to `VERSION`.
-    If *VERSION* is not given, it is derived using
-    `bsu_version_hook()`, and if that does not exist,
-    from *TAG* by stripping the initial `v` if any.
+      *VERSION*
+          Update the package to *VERSION*.  If *VERSION* is not given, it
+          is derived using `bsu_version_hook()`, and if that does not exist,
+          from *TAG* by stripping the initial "v" if any.
 
-Configuration
-=============
+    `Operation`
+      `bs-update` reads configuration files, then it parses command line
+      arguments.  Each configuration variable has a corresponding command
+      line option.  Command line options and arguments take precedence
+      over configuration files.
 
-`bs-update` recognizes two optional configuration files,
-`.bs-update-hooks` and `.bs-update`.
-They are sourced, in order, from the current directory before
-command line arguments are processed.
+      Values from both the configuration and the command line are subject
+      to shell expansion.
 
-.. Note::
-  `bs-update` makes zero effort to protect itself against
-  these two configuration files.
-  Do not pollute the global scope with functions or variables
-  that are not members of the described interface.
+  `ENVIRONMENT`
+      `bs-update` itself does not use any environment variables.  It is,
+      however, implemented in terms of third-party commands which *do*
+      use them.  This means `bs-update` may be influenced by environment
+      variables used by git(1), hg(1), osc(1), sh(1), tar(1), wget(1),
+      possibly others.
 
-These two files are expected to provide `bs-update` with any
-of the following:
+  `FILES`
+      `bs-update` recognizes two optional configuration files,
+      `.bs-update-hooks` and `.bs-update`.  They are sourced, in order,
+      from the current directory before command line arguments are
+      processed.  These two files are expected to provide bs-update with
+      any of the following:
 
-Shell functions
-***************
+    `Shell functions`
+      `bsu_tarball_hook()`
+        The tarball may need finalization before it is checked into the
+        Build Service, eg. autoconf, git submodules or npm.  If this
+        function exists it is executed at the root of the extracted tarball
+        before it is packed again.
 
-`bsu_tarball_hook`
-  The tarball may need finalization before it is checked into
-  the Build Service, eg. `autoconf`, `git` submodules or `npm`.
-  If this function exists it is executed at the root of the
-  extracted tarball before it is packed again.
-`bsu_version_hook`
-  If the `VERSION` argument is not given and this function exists
-  it is executed with `$1` set to the value
-  of the `TAG` argument, and its output is used as the final
-  version string.
+      `bsu_version_hook()`
+        If the *VERSION* argument is not given and this function exists it
+        is executed with `$1` set to the value of the *TAG* argument, and
+        its output is used as the final version string.
 
-Variables
-*********
+    `Variables`
+      `bsu_bs_apiurl` (`-A`)
+      `bsu_bs_commit` (`-C`)
+      `bsu_bs_commitmsg` (`-m`)
+      `bsu_bs_package` (`-p`)
+      `bsu_bs_project` (`-P`)
+      `bsu_dloadurl` (`-d`)
+      `bsu_dryrun` (`-n`)
+      `bsu_specfile` (`-s`)
+      `bsu_tarball` (`-t`)
+      `bsu_test_build` (`-b`)
 
-* `bsu_bs_apiurl` (`-A`)
-* `bsu_bs_commit` (`-C`)
-* `bsu_bs_commitmsg` (`-m`)
-* `bsu_bs_package` (`-p`)
-* `bsu_bs_project` (`-P`)
-* `bsu_dloadurl` (`-d`)
-* `bsu_dryrun` (`-n`)
-* `bsu_specfile` (`-s`)
-* `bsu_tarball` (`-t`)
-* `bsu_test_build` (`-b`)
+  `EXAMPLES`
+    `Interactive Use by Upstream Maintainer`
+      This is a real-world example showing common *.bs-update* setup and
+      the use of `bs-update` to test changes in the package and finally
+      produce a new package version.  It assumes the user maintains both
+      the upstream software and its package in the Build Service.
 
-Installation
-============
+      We need a working copy to hack on:
 
-::
+        git clone git@github.com:roman-neuhauser/bs-update.git
+        cd bs-update
 
-  git clone https://github.com/roman-neuhauser/bs-update.git
-  cd bs-update
-  make wc check install
+      Since we're going to use bs-update repeatedly, it makes sense to
+      employ a configuration file, *.bs-update*.  Everything can still be
+      overridden using options on the command line:
 
-The provided makefile requires GNU make.
+        cat > .bs-update
+        u=roman-neuhauser
+        p=bs-update
+        bsu_bs_apiurl=https://api.opensuse.org
+        bsu_bs_package='$p'
+        bsu_bs_project='home:$u'
+        bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+        ^D
 
-Examples
-========
+      Commit some changes:
 
-Interactive Use by Upstream Maintainer
-**************************************
+        vim bs-update.in
+        make check
+        git commit bs-update.in
 
-This is a real-world example showing common `.bs-update` setup and the
-use of `bs-update` to test changes in the package and finally produce
-a new package version.
-It assumes the user maintains both the upstream software and its
-package in the Build Service.
+      Build the package locally, using the currently checked out revision.
+      Does not commit into the Build Service:
 
-We need a working copy to hack on:  ::
+        bs-update -Cbd . HEAD 999
 
-  git clone git@github.com:roman-neuhauser/bs-update.git
-  cd bs-update
+      If it was ok we can tag it and publish the tag:
 
-Since we're going to use `bs-update` repeatedly, it makes sense
-to employ a configuration file, `.bs-update`.
-Everything can still be overriden using options on the command line:
+        git tag -a v42.69
+        git push origin master v42.69
 
-::
+      Commit the new release into the Build Service:
 
-  cat > .bs-update
-  u=roman-neuhauser
-  p=bs-update
-  bsu_bs_apiurl=https://api.opensuse.org
-  bsu_bs_package='$p'
-  bsu_bs_project='home:$u'
-  bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
-  ^D
+        bs-update v42.69
 
-Commit some changes:  ::
+    `Snapshot-generating Cronjob`
+      This example demonstrates using `bs-update` with no *.bs-update* file.
+      A new version of the package is created, based on a tarball of the
+      upstream master branch.
 
-  vim bs-update.in
-  make check
-  git commit bs-update.in
+        ts=$(date +%Y%m%d%H%M%S)
+        bs-update \\
+          -P home:roman-neuhauser \\
+          -p bs-update-snapshot \\
+          -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
+          -t bs-update-$ts.tar.gz \\
+          master $ts
 
-Build the package locally, using the currently checked out revision.
-Does not commit into the Build Service:  ::
+  `DIAGNOSTICS`
+      `bs-update` exits with 0 on success, and with >0 otherwise.
 
-  bs-update -Cbd . HEAD 999
+  `SEE ALSO`
+      git(1), the openSUSE Build Service ⟨https://build.opensuse.org/⟩,
+      and its wiki ⟨http://en.opensuse.org/Portal:Build_Service⟩.
 
-If it was ok we can tag it and publish the tag:  ::
+  `AUTHORS`
+      `bs-update` and this manual page are written by ⟨neuhauser@sigpipe.cz⟩.
 
-  git tag -a v42.69
-  git push origin master v42.69
+      See ⟨https://github.com/roman-neuhauser/bs-update/⟩.
 
-Commit the new release into the Build Service:  ::
-
-  bs-update v42.69
-
-Snapshot-generating Cronjob
-***************************
-
-This exmaple demonstrates using `bs-update` with no `.bs-update`
-file.  A new version of the package is created, based on a tarball
-of the upstream master branch.  ::
-
-  ts=$(date +%Y%m%d%H%M%S)
-  bs-update \
-    -P home:roman-neuhauser \
-    -p bs-update-snapshot \
-    -d https://github.com/roman-neuhauser/bs-update/tarball/master \
-    -t bs-update-$ts.tar.gz \
-    master $ts
+  `BUGS`
+      No doubt plentiful.  Please report them at
+      ⟨https://github.com/roman-neuhauser/bs-update/issues⟩.
 
