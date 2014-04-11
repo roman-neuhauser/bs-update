@@ -10,7 +10,9 @@ INSTALL_DATA?=	install -m 644
 INSTALL_SCRIPT?=	install -m 755
 RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 
-artifacts =	bs-update.1.gz bs-update
+name =		bs-update
+
+artifacts =	$(name).1.gz $(name)
 
 wc:
 	git submodule init
@@ -22,9 +24,9 @@ clean:
 	$(RM) $(artifacts)
 
 check: all
-	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/bs-update
+	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/$(name)
 
-bs-update: bs-update.in
+$(name): $(name).in
 	$(INSTALL_SCRIPT) $< $@
 
 %.html: %.rest
@@ -33,11 +35,11 @@ bs-update: bs-update.in
 %.1.gz: %.1
 	$(GZIPCMD) < $< > $@
 
-install: bs-update.1.gz
+install: $(name).1.gz
 	@mkdir -p $(DESTDIR)$(BINDIR)
 	@mkdir -p $(DESTDIR)$(MAN1DIR)
-	@$(INSTALL_SCRIPT) bs-update.in $(DESTDIR)$(BINDIR)/bs-update
-	@$(INSTALL_DATA) bs-update.1.gz $(DESTDIR)$(MAN1DIR)/bs-update.1.gz
+	@$(INSTALL_SCRIPT) $(name).in $(DESTDIR)$(BINDIR)/$(name)
+	@$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
 
 define first_in_path
   $(firstword $(wildcard \
