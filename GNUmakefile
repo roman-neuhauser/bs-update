@@ -7,6 +7,7 @@ MAN1DIR ?=	$(MANDIR)/man1
 
 GZIPCMD?=	gzip
 INSTALL_DATA?=	install -m 644
+INSTALL_DIR?=	install -d 755
 INSTALL_SCRIPT?=	install -m 755
 RST2HTML?=$(call first_in_path,rst2html.py rst2html)
 
@@ -36,8 +37,8 @@ $(name): $(name).in
 	$(GZIPCMD) < $< > $@
 
 install: $(name).1.gz
-	@mkdir -p $(DESTDIR)$(BINDIR)
-	@mkdir -p $(DESTDIR)$(MAN1DIR)
+	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
+	$(INSTALL_DIR) $(DESTDIR)$(MAN1DIR)
 	@$(INSTALL_SCRIPT) $(name).in $(DESTDIR)$(BINDIR)/$(name)
 	@$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
 
