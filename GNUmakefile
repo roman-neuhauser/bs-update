@@ -44,9 +44,7 @@ install: .built
 	$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
 
 .built: $(artifacts)
-	@printf "%s\n" \
-	  '' "ERROR: run '$(MAKE) all' first." '' \
-	>&2
+	@printf "%s\n" '' "ERROR: run '$(MAKE) all' first." '' >&2
 	@false
 
 define first_in_path
