@@ -23,7 +23,7 @@ all: $(artifacts)
 	@touch .built
 
 clean:
-	$(RM) $(artifacts)
+	$(RM) .built $(artifacts)
 
 check: all
 	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/$(name)
@@ -43,7 +43,7 @@ install: .built
 	$(INSTALL_SCRIPT) $(name).in $(DESTDIR)$(BINDIR)/$(name)
 	$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
 
-.built: $(artifacts)
+.built:
 	@printf "%s\n" '' "ERROR: run '$(MAKE) all' first." '' >&2
 	@false
 
