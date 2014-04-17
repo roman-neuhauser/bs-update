@@ -2,11 +2,7 @@ mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A https://bs.example.com/ co fu:bar/superpac
 wget -qO superpac-12.34.tar.gz https://dist.example.com/v12.34
-mkdir superpac-12.34
-tar -xzf superpac-12.34.tar.gz --strip-components=1 -C superpac-12.34
 type bsu_tarball_hook
-tar -czf superpac-12.34.tar.gz superpac-12.34
-rm -rf superpac-12.34
 test -f fu:bar/superpac/superpac-12.34.tar.gz
 test 0 -eq 0
 test -f fu:bar/superpac/superpac-*.tar.gz

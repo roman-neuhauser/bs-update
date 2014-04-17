@@ -2,11 +2,7 @@ mktemp -d
 cd /tmp/fake-tmp-dir
 command osc -A obs co prj/pkg
 wget -qO pkg-12.34.tar.gz https://get.it/
-mkdir pkg-12.34
-tar -xzf pkg-12.34.tar.gz --strip-components=1 -C pkg-12.34
 type bsu_tarball_hook
-tar -czf pkg-12.34.tar.gz pkg-12.34
-rm -rf pkg-12.34
 test -f prj/pkg/pkg-12.34.tar.gz
 test 0 -eq 0
 test -f prj/pkg/pkg-*.tar.gz

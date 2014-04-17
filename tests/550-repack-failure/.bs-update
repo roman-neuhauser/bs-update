@@ -1,9 +1,0 @@
-exec 3>tape.actual
-
-. "$PWD/../fakes"
-
-tar()
-{
-  fake tar ${1+"$@"}
-  ! [ "x$1" = "x-xzf" ]
-}
