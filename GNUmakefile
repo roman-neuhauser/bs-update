@@ -20,6 +20,7 @@ wc:
 	git submodule update
 
 all: $(artifacts)
+	@touch .built
 
 clean:
 	$(RM) $(artifacts)
@@ -36,11 +37,17 @@ $(name): $(name).in
 %.1.gz: %.1
 	$(GZIPCMD) < $< > $@
 
-install: $(name).1.gz
+install: .built
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
 	$(INSTALL_DIR) $(DESTDIR)$(MAN1DIR)
 	$(INSTALL_SCRIPT) $(name).in $(DESTDIR)$(BINDIR)/$(name)
 	$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
+
+.built: $(artifacts)
+	@printf "%s\n" \
+	  '' "ERROR: run '$(MAKE) all' first." '' \
+	>&2
+	@false
 
 define first_in_path
   $(firstword $(wildcard \
