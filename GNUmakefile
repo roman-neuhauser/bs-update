@@ -13,13 +13,18 @@ RST2HTML ?=       $(call first_in_path,rst2html.py rst2html)
 
 name =            bs-update
 
-artifacts =       $(name).1.gz $(name)
+artifacts =       $(installed) $(htmlfiles)
+installed =       $(name).1.gz $(name)
+htmlfiles =       README.html
 
 wc:
 	git submodule init
 	git submodule update
 
 all: $(artifacts)
+most: $(installed)
+
+all most:
 	@touch .built
 
 clean:
@@ -30,6 +35,8 @@ check: all
 
 $(name): $(name).in
 	$(INSTALL_SCRIPT) $< $@
+
+html: $(htmlfiles)
 
 %.html: %.rest
 	$(RST2HTML) $< $@
@@ -58,5 +65,7 @@ endef
 .PHONY: all
 .PHONY: check
 .PHONY: clean
+.PHONY: html
 .PHONY: install
+.PHONY: most
 .PHONY: wc
