@@ -176,7 +176,6 @@ files.
 Values from both the configuration and the command line are subject
 to shell expansion.
 .
-.Pp
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
 .\" ENVIRONMENT {{{
@@ -211,7 +210,6 @@ These two files are expected to provide
 .Nm
 with any of the following:
 .Ss Shell functions
-.Pp
 . Bl -ohang
 . It Fn bsu_tarball_hook
 The tarball may need finalization before it is checked into
@@ -234,7 +232,6 @@ set to the value of the
 argument, and its output is used as the final version string.
 . El
 .Ss Variables
-.Pp
 . Bl -tag -compact -width "x"
 . It Va bsu_bs_apiurl       Pq Fl A
 . It Va bsu_bs_commit       Pq Fl C
@@ -315,7 +312,6 @@ git push origin master v42.69
 .Pp
 Commit the new release into the Build Service:
 .
-.Pp
 .Bd -literal -offset 2n
 bs-update v42.69
 .Ed
