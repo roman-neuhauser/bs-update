@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 # vim: fdm=marker cms=\ #\ %s
 
 set -o errexit
 set -o nounset
-set -o posix
+set -o nonullglob # glob patterns with no
+set -o nonomatch  # matches are passed through
 
 bsu_bs_apiurl=
 bsu_bs_package=
@@ -104,12 +105,12 @@ deref() # {{{
 } # }}}
 
 abort() # {{{
-{
+{ {
   for a in "$@"; do
     printf "%s: %s\n" "$SELF" "$a"
   done
   exit 1
-} >&2 # }}}
+} >&2; } # }}}
 
 bsu_tag=$1
 
@@ -176,7 +177,7 @@ bsu_configuration_processing=0
 osc() # {{{
 {
   local bsapi=${bsu_bs_apiurl}
-  command osc ${bsapi:+-A "$bsapi"} ${1+"$@"}
+  command osc ${=bsapi:+-A "$bsapi"} "$@"
 } # }}}
 bsu_checkout() # {{{
 {
@@ -215,6 +216,13 @@ fetch() # {{{
 } # }}}
 run_tarball_hook() # {{{
 (
+  # `set -o errexit` (`ERR_EXIT`) and `trap exithook ZERR` from
+  # the top-most scope are active here as well.
+  # `bsu_tarball_hook` failing would trigger `exithook` twice:
+  # once for this function body shell (errexit -> ZERR), then
+  # for the overall script bailing out (again: errexit -> ZERR).
+  # see zshbuiltins(1), zshmisc(1), zshoptions(1).
+  trap - ZERR
   local tarball=${1:?}
   if ! type bsu_tarball_hook 1>/dev/null 2>&1; then
     return 0
@@ -226,7 +234,7 @@ extract() # {{{
   local tarball=${1?}
   local prefix=${tarball%.tar.gz}/
   shift
-  tar -xzf $tarball --strip-components=1 $(for f in "$@"; do echo $prefix$f.in; done)
+  tar -xzf $tarball --strip-components=1 ${${@/#/$prefix}/%/.in}
 } # }}}
 update_specfiles() # {{{
 {
@@ -257,15 +265,17 @@ update_tarball() # {{{
 bsu_test_build() # {{{
 {
   if test 1 -eq "$bsu_test_build"; then
-    osc build $bsu_osc_build
+    osc build $=bsu_osc_build
   fi
 } # }}}
 exithook() # {{{
 {
-  rm -rf $root
+  local -i ex=$?
+  rm -rf $root || :
+  return $((ex > 0))
 } # }}}
 
-trap exithook EXIT
+trap exithook EXIT ZERR
 root=$(mktemp -d)
 cd $root
 bsu_checkout $pkgdir
@@ -273,7 +283,7 @@ fetch $bsu_dloadurl $bsu_tarball
 run_tarball_hook $bsu_tarball
 update_tarball $bsu_tarball
 cd $pkgdir
-extract $bsu_tarball $bsu_specfiles
-update_specfiles $bsu_version $bsu_specfiles
+extract $bsu_tarball $=bsu_specfiles
+update_specfiles $bsu_version $=bsu_specfiles
 bsu_test_build
 bsu_commit -m "$bsu_bs_commitmsg"

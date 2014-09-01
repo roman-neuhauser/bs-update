@@ -95,7 +95,7 @@
       `bs-update` itself does not use any environment variables.  It is,
       however, implemented in terms of third-party commands which *do*
       use them.  This means `bs-update` may be influenced by environment
-      variables used by git(1), hg(1), osc(1), sh(1), tar(1), wget(1),
+      variables used by git(1), hg(1), osc(1), tar(1), wget(1), zsh(1),
       possibly others.
 
   `FILES`
