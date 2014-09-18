@@ -7,5 +7,5 @@
    bsu_bs_commit = "1"
 bsu_bs_commitmsg = "Update to version 999.88.7"
      bsu_tarball = "pkg-999.88.7.tar.gz"
-    bsu_specfile = "pkg.spec"
+   bsu_specfiles = "pkg.spec"
   bsu_test_build = "0"

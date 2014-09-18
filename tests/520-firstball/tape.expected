@@ -12,7 +12,7 @@ command osc -A https://bs.example.com/ add fu:bar/superpac/superpac-12.34.tar.gz
 cd fu:bar/superpac
 tar -xzf superpac-12.34.tar.gz --strip-components=1 superpac-12.34/superpac.spec.in
 cp superpac.spec.in superpac.spec
-sed -ri /^Version:/s/__VERSION__/12.34/ superpac.spec
+sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" superpac.spec
 command osc -A https://bs.example.com/ st superpac.spec
 test 1 -eq 0
 test 1 -eq 1

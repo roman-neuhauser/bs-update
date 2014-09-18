@@ -1,0 +1,3 @@
+multiple -s options
+
+each optarg should contribute to $bsu_specfiles.

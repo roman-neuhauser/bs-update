@@ -1,0 +1,10 @@
+${1?} \
+  -C \
+  -P a:b \
+  -p c \
+  -A https://mybs/ \
+  -d 'ftp://upstream/' \
+  -m 'eloquent wax' \
+  -s omg.spec \
+  -s PKGBUILD \
+  v42.69

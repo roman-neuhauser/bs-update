@@ -80,7 +80,7 @@ while getopts :A:CP:bd:hm:np:s:t: optname; do
   m) bsu_bs_commitmsg="$OPTARG" ;;
   n) bsu_dryrun=1 ;;
   p) bsu_bs_package=$OPTARG ;;
-  s) bsu_specfile="$OPTARG" ;;
+  s) bsu_specfiles="${bsu_specfiles+$bsu_specfiles }$OPTARG" ;;
   t) bsu_tarball=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
@@ -145,8 +145,8 @@ test -n "$bsu_dloadurl" || usage 4 download url
 : ${bsu_bs_commitmsg:="Update to version $bsu_version"}
 bsu_bs_commitmsg="$(deref "$bsu_bs_commitmsg")"
 
-: ${bsu_specfile:=$bsu_bs_package.spec}
-bsu_specfile="$(deref "$bsu_specfile")"
+: ${bsu_specfiles:=$bsu_bs_package.spec}
+bsu_specfiles="$(deref "$bsu_specfiles")"
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 
@@ -161,7 +161,7 @@ if test 0 -ne $bsu_dryrun; then
     bsu_bs_commit "$bsu_bs_commit" \
     bsu_bs_commitmsg "$bsu_bs_commitmsg" \
     bsu_tarball "$bsu_tarball" \
-    bsu_specfile "$bsu_specfile" \
+    bsu_specfiles "$bsu_specfiles" \
     bsu_test_build "$bsu_test_build"
   exit $?
 fi
@@ -219,24 +219,21 @@ run_tarball_hook() # {{{
 extract() # {{{
 {
   local tarball=${1?}
-  local file=${tarball%.tar.gz}/${2?}
-  tar -xzf $tarball --strip-components=1 $file
+  local prefix=${tarball%.tar.gz}/
+  shift
+  tar -xzf $tarball --strip-components=1 $(for f in "$@"; do echo $prefix$f.in; done)
 } # }}}
-update() # {{{
+update_specfiles() # {{{
 {
-  case $1 in
-  *.spec)  update_specfile "$@" ;;
-  *.tar.*) update_tarball "$@" ;;
-  esac
-} # }}}
-update_specfile() # {{{
-{
-  local specfile=${1?} version=${2?}
-  cp $specfile.in $specfile
-  sed -ri '/^Version:/s/__VERSION__/'$version'/' $specfile
-  if osc st $specfile | grep -q '^?'; then
-    osc add $specfile
-  fi
+  local version=${1?} specfile=
+  shift
+  for specfile in "$@"; do
+    cp $specfile.in $specfile
+    sed -ri '/^[ \t]*#/!s/__VERSION__/'$version'/' $specfile
+    if osc st $specfile | grep -q '^?'; then
+      osc add $specfile
+    fi
+  done
 } # }}}
 update_tarball() # {{{
 {
@@ -269,9 +266,9 @@ cd $root
 bsu_checkout $pkgdir
 fetch $bsu_dloadurl $bsu_tarball
 run_tarball_hook $bsu_tarball
-update $bsu_tarball
+update_tarball $bsu_tarball
 cd $pkgdir
-extract $bsu_tarball $bsu_specfile.in
-update $bsu_specfile $bsu_version
+extract $bsu_tarball $bsu_specfiles
+update_specfiles $bsu_version $bsu_specfiles
 bsu_test_build
 bsu_commit -m "$bsu_bs_commitmsg"

@@ -1,0 +1,22 @@
+mktemp -d
+cd /tmp/fake-tmp-dir
+command osc -A https://mybs/ co a:b/c
+wget -qO c-42.69.tar.gz ftp://upstream/
+type bsu_tarball_hook
+test -f a:b/c/c-42.69.tar.gz
+test 0 -eq 0
+test -f a:b/c/c-*.tar.gz
+mv c-42.69.tar.gz a:b/c
+test 0 -eq 0
+command osc -A https://mybs/ add a:b/c/c-42.69.tar.gz
+cd a:b/c
+tar -xzf c-42.69.tar.gz --strip-components=1 c-42.69/omg.spec.in c-42.69/PKGBUILD.in
+cp omg.spec.in omg.spec
+sed -ri "/^[ \t]*#/!s/__VERSION__/42.69/" omg.spec
+command osc -A https://mybs/ st omg.spec
+cp PKGBUILD.in PKGBUILD
+sed -ri "/^[ \t]*#/!s/__VERSION__/42.69/" PKGBUILD
+command osc -A https://mybs/ st PKGBUILD
+test 1 -eq 0
+test 0 -eq 1
+rm -rf /tmp/fake-tmp-dir

@@ -19,7 +19,8 @@
   `SYNOPSIS`
       `bs-update` -h
       `bs-update` [-A *BSAPI*] [-C] [-P *PROJECT*] [-b] [-d *URL*] [-m *COMMITMSG*]
-                [-n] [-p *PACKAGE*] [-s *SPECFILE*] [-t *TARBALL*] *TAG* [*VERSION*]
+                [-n] [-p *PACKAGE*] [-s *SPECFILE*]... [-t *TARBALL*]
+                *TAG* [*VERSION*]
 
   `DESCRIPTION`
       `bs-update` makes it easier to keep packages in a Build Service
@@ -66,7 +67,9 @@
       `-s` *SPECFILE*
           Use *SPECFILE*.in from *TARBALL*, commit *SPECFILE* into the
           Build Service.  All occurrences of `__VERSION__` in *SPECFILE*
-          are replaced with *VERSION*.
+          are replaced with *VERSION*.  *SPECFILE* can be a real ``.spec``
+          file (RPM) or a ``PKGBUILD`` file (ArchLinux).
+          May be given more than once, all files are processed.
 
       `-t` *TARBALL*
           Use *TARBALL* for the name of the downloaded file.
@@ -122,7 +125,7 @@
       `bsu_bs_project` (`-P`)
       `bsu_dloadurl` (`-d`)
       `bsu_dryrun` (`-n`)
-      `bsu_specfile` (`-s`)
+      `bsu_specfiles` (`-s`)
       `bsu_tarball` (`-t`)
       `bsu_test_build` (`-b`)
 

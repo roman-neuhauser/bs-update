@@ -24,7 +24,7 @@
 .Op Fl m Ar COMMITMSG
 .Op Fl n
 .Op Fl p Ar PACKAGE
-.Op Fl s Ar SPECFILE
+.Oo Fl s Ar SPECFILE Oc Ns ...
 .Op Fl t Ar TARBALL
 .Ar TAG
 .Op Ar VERSION
@@ -137,8 +137,15 @@ All occurrences of
 .Li __VERSION__
 in
 .Ar SPECFILE
-are replaced with
+outside of comments are replaced with
 .Ar VERSION .
+.Ar SPECFILE
+can be a real
+.Li .spec
+file (RPM) or a
+.Pa PKGBUILD
+file (ArchLinux).
+May be given more than once, all files are processed.
 .
 .It Fl t Ar TARBALL
 Use
@@ -240,7 +247,7 @@ argument, and its output is used as the final version string.
 . It Va bsu_bs_project      Pq Fl P
 . It Va bsu_dloadurl        Pq Fl d
 . It Va bsu_dryrun          Pq Fl n
-. It Va bsu_specfile        Pq Fl s
+. It Va bsu_specfiles       Pq Fl s
 . It Va bsu_tarball         Pq Fl t
 . It Va bsu_test_build      Pq Fl b
 . El
