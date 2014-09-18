@@ -17,6 +17,9 @@ artifacts =       $(installed) $(htmlfiles)
 installed =       $(name).1.gz $(name)
 htmlfiles =       README.html
 
+.DEFAULT_GOAL :=  most
+
+.PHONY: wc
 wc:
 	git submodule init
 	git submodule update
@@ -24,18 +27,22 @@ wc:
 all: $(artifacts)
 most: $(installed)
 
+.PHONY: all most
 all most:
 	@touch .built
 
+.PHONY: clean
 clean:
 	$(RM) .built $(artifacts)
 
+.PHONY: check
 check: all
 	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/$(name)
 
 $(name): $(name).in
 	$(INSTALL_SCRIPT) $< $@
 
+.PHONY: html
 html: $(htmlfiles)
 
 %.html: %.rest
@@ -44,6 +51,7 @@ html: $(htmlfiles)
 %.1.gz: %.1
 	$(GZIPCMD) < $< > $@
 
+.PHONY: install
 install: .built
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
 	$(INSTALL_DIR) $(DESTDIR)$(MAN1DIR)
@@ -60,12 +68,3 @@ define first_in_path
   ))
 endef
 
-.DEFAULT_GOAL := most
-
-.PHONY: all
-.PHONY: check
-.PHONY: clean
-.PHONY: html
-.PHONY: install
-.PHONY: most
-.PHONY: wc
