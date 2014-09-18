@@ -1,0 +1,28 @@
+# Maintainer: Roman Neuhauser <roman+bs-update@sigpipe.cz>
+pkgname=bs-update
+pkgver=__VERSION__
+pkgrel=1
+epoch=
+pkgdesc="Automate maintenance of packages in a Build Service"
+arch=(any)
+url="http://github.com/roman-neuhauser/bs-update"
+license=(MIT)
+groups=(lib)
+depends=(gzip osc sed tar wget)
+makedepends=()
+checkdepends=()
+source=($pkgname-$pkgver.tar.gz)
+sha256sums=(SKIP)
+
+build() {
+	_make
+}
+
+package() {
+	_make install DESTDIR="$pkgdir" PREFIX=/usr
+}
+
+_make() {
+	cd "$srcdir/$pkgname-$pkgver"
+	make "$@"
+}

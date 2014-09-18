@@ -1,5 +1,7 @@
 .*.sw?
 .built
+*.spec
+PKGBUILD
 README.html
 bs-update
 bs-update.1.gz
