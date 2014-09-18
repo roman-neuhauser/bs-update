@@ -60,7 +60,7 @@ define first_in_path
   ))
 endef
 
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := most
 
 .PHONY: all
 .PHONY: check
