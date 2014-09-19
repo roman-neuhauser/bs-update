@@ -1,0 +1,3 @@
+bsu_test_build uses $bsu_osc_build
+
+bsu_test_build is supposed to pass `$bsu_osc_build` to `osc build`.

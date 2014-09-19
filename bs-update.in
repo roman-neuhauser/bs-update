@@ -13,6 +13,7 @@ bsu_dloadurl=
 bsu_bs_commit=1
 bsu_dryrun=0
 bsu_test_build=0
+bsu_osc_build=
 
 bsu_orig_pwd="$PWD"
 
@@ -162,7 +163,9 @@ if test 0 -ne $bsu_dryrun; then
     bsu_bs_commitmsg "$bsu_bs_commitmsg" \
     bsu_tarball "$bsu_tarball" \
     bsu_specfiles "$bsu_specfiles" \
-    bsu_test_build "$bsu_test_build"
+    bsu_test_build "$bsu_test_build" \
+    bsu_osc_build "$bsu_osc_build" \
+
   exit $?
 fi
 
@@ -252,7 +255,7 @@ update_tarball() # {{{
 bsu_test_build() # {{{
 {
   if test 1 -eq "$bsu_test_build"; then
-    osc build
+    osc build $bsu_osc_build
   fi
 } # }}}
 exithook() # {{{
