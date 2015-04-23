@@ -71,8 +71,7 @@ Use Build Service at
 .
 .It Fl C
 Skip the
-.Nm osc
-.Cm commit
+.Nm osc Cm commit
 step.
 .
 .It Fl P Ar PROJECT
@@ -81,11 +80,9 @@ Update Build Service package of
 .
 .It Fl b
 Run
-.Nm osc
-.Ar build
+.Nm osc Cm build
 before
-.Nm osc
-.Ar commit .
+.Nm osc Cm commit .
 If the build fails,
 .Nm
 aborts.
@@ -252,7 +249,7 @@ argument, and its output is used as the final version string.
 . It Va bsu_specfiles       Pq Fl s
 . It Va bsu_tarball         Pq Fl t
 . It Va bsu_test_build      Pq Fl b
-. It Va bsu_osc_build       Po Options and arguments for Nm osc Ar build . Pc
+. It Va bsu_osc_build       Po Options and arguments for Nm osc Cm build . Pc
 . El
 .\" FILES }}}
 .\" EXAMPLES {{{
