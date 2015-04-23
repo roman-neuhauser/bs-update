@@ -109,8 +109,8 @@
       `bsu_tarball_hook()`
         The tarball may need finalization before it is checked into the
         Build Service, eg. autoconf, git submodules or npm.  If this
-        function exists it is executed at the root of the extracted tarball
-        before it is packed again.
+        function exists it is executed in the root of the checked out
+        package, with the tarball name in the first argument.
 
       `bsu_version_hook()`
         If the *VERSION* argument is not given and this function exists it
@@ -188,6 +188,23 @@
           -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
           -t bs-update-$ts.tar.gz \\
           master $ts
+
+    `bsu_tarball_hook`
+        cat > .bs-update-hooks
+        bsu_tarball_hook()
+        (
+          set -e
+          local tarball=./${1?}
+          local dir=${tarball%.tar.gz}
+          mkdir $dir
+          tar -xzf $tarball --strip-components=1 -C $dir
+          # --- >8 ---
+          # massage it
+          # --- 8< ---
+          tar -czf $tarball -- ${dir#./}
+          rm -rf $dir
+        )
+        ^D
 
   `DIAGNOSTICS`
       `bs-update` exits with 0 on success, and with >0 otherwise.
