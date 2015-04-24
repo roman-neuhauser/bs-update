@@ -150,6 +150,7 @@ bsu_bs_commitmsg="$(deref "$bsu_bs_commitmsg")"
 : ${bsu_specfiles:=$bsu_bs_package.spec}
 bsu_specfiles="$(deref "$bsu_specfiles")"
 
+bsu_test_build="$(deref "$bsu_test_build")"
 bsu_osc_build="$(deref "$bsu_osc_build")"
 
 pkgdir=$bsu_bs_project/$bsu_bs_package

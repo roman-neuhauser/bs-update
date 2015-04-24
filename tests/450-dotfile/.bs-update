@@ -1,6 +1,8 @@
 whatever=example
 foo=baz
 bar=mek
+do_build=1
+verify_build=--no-verify
 bsu_bs_apiurl='https://$whatever.com/'
 bsu_bs_project='my:projects:$bsu_bs_package'
 bsu_bs_package='$foo$bar'
@@ -9,6 +11,8 @@ bsu_bs_commitmsg='$bsu_version released.'
 bsu_specfiles='$bsu_bs_package-$bsu_version.spec'
 bsu_tarball='$foo$bar-$bsu_version.tgz'
 bsu_version='${bsu_tag#v}.0'
+bsu_test_build='$do_build'
+bsu_osc_build='$verify_build SLE_12'
 
 exec 3>tape.actual
 
