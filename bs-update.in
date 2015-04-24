@@ -96,12 +96,13 @@ fi
 
 deref() # {{{
 {
-  local prev='' result="${1?}"
-  while test "$result" != "$prev"; do
-    prev="$result"
-    result="$(eval echo "$result")"
+  local var=${1?}
+  local prev='' result=${(P)var}
+  while [[ $result != $prev ]]; do
+    prev=$result
+    result=${(e)result}
   done
-  echo "$result"
+  : ${(P)var::=$result}
 } # }}}
 
 abort() # {{{
@@ -127,31 +128,31 @@ else
   : ${bsu_version:="${bsu_tag#v}"}
 fi
 
-bsu_version="$(deref "$bsu_version")"
+deref bsu_version
 
-bsu_bs_apiurl="$(deref "$bsu_bs_apiurl")"
+deref bsu_bs_apiurl
 
-bsu_bs_project="$(deref "$bsu_bs_project")"
+deref bsu_bs_project
 test -n "$bsu_bs_project" || usage 4 project
 
-bsu_bs_package="$(deref "$bsu_bs_package")"
+deref bsu_bs_package
 test -n "$bsu_bs_package" || usage 4 package
 
 : ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
-bsu_tarball="$(deref "$bsu_tarball")"
+deref bsu_tarball
 test -n "$bsu_tarball" || usage 4 tarball
 
-bsu_dloadurl="$(deref "$bsu_dloadurl")"
+deref bsu_dloadurl
 test -n "$bsu_dloadurl" || usage 4 download url
 
 : ${bsu_bs_commitmsg:="Update to version $bsu_version"}
-bsu_bs_commitmsg="$(deref "$bsu_bs_commitmsg")"
+deref bsu_bs_commitmsg
 
 : ${bsu_specfiles:=$bsu_bs_package.spec}
-bsu_specfiles="$(deref "$bsu_specfiles")"
+deref bsu_specfiles
 
-bsu_test_build="$(deref "$bsu_test_build")"
-bsu_osc_build="$(deref "$bsu_osc_build")"
+deref bsu_test_build
+deref bsu_osc_build
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 
