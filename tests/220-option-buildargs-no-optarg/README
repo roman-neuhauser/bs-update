@@ -1,0 +1,7 @@
+option -B (buildargs) requires an argument
+
+without an optarg for -B:
+
+- exit code should be 1
+- stdout should be empty
+- stderr should have a short complaint

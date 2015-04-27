@@ -2,6 +2,8 @@ bs-update: Usage: bs-update {-h|[options] <tag> [<version>]}
   Options:
     -h                Display this message
     -A BSAPI          Use Build Service at BSAPI (URL or alias)
+    -B BUILDARGS      Use BUILDARGS (after field splitting) as
+                      arguments to osc build
     -P PROJECT        Update Build Service package of PROJECT
     -b                Build the package locally before committing
     -d URL            Download the source tarball from URL

@@ -17,6 +17,7 @@
 .Fl h
 .Nm
 .Op Fl A Ar BSAPI
+.Oo Fl B Ar BUILDARGS Oc Ns ...
 .Op Fl C
 .Op Fl P Ar PROJECT
 .Op Fl b
@@ -68,6 +69,17 @@ Display a usage description.
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
+.
+.It Fl B Ar BUILDARGS
+Use
+.Ar BUILDARGS
+.Pq after field splitting
+as arguments to
+.Nm osc Cm build
+.Pq see Fl b .
+May be given more than once,
+each instance yields a separate
+.Nm osc Cm build .
 .
 .It Fl C
 Skip the
@@ -249,7 +261,7 @@ argument, and its output is used as the final version string.
 . It Va bsu_specfiles       Pq Fl s
 . It Va bsu_tarball         Pq Fl t
 . It Va bsu_test_build      Pq Fl b
-. It Va bsu_osc_build
+. It Va bsu_osc_build       Pq Fl B
 Array of strings where each item is used
 .Pq after field splitting
 as arguments to

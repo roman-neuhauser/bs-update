@@ -1,10 +1,12 @@
 ${1?} \
+  -A https://mybs/ \
   -C \
   -P a:b \
   -p c \
-  -A https://mybs/ \
   -d 'ftp://upstream/' \
   -b \
+  -B 'omg wtf' \
+  -B 'rofl lmao' \
   -m 'eloquent wax' \
   -n \
   v42.69

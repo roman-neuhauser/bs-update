@@ -18,8 +18,9 @@
 
   `SYNOPSIS`
       `bs-update` -h
-      `bs-update` [-A *BSAPI*] [-C] [-P *PROJECT*] [-b] [-d *URL*] [-m *COMMITMSG*]
-                [-n] [-p *PACKAGE*] [-s *SPECFILE*]... [-t *TARBALL*]
+      `bs-update` [-A *BSAPI*] [-B *BUILDARGS*]... [-C] [-P *PROJECT*]
+                [-b] [-d *URL*] [-m *COMMITMSG*] [-n] [-p *PACKAGE*]
+                [-s *SPECFILE*]... [-t *TARBALL*]
                 *TAG* [*VERSION*]
 
   `DESCRIPTION`
@@ -40,6 +41,11 @@
 
       `-A` *BSAPI*
           Use Build Service at *BSAPI* (URL or alias).
+
+      `-B` BUILDARGS
+          Use BUILDARGS (after field splitting) as arguments to `osc build`
+          (see `-b`).  May be given more than once, each instance yields
+          a separate `osc build`.
 
       `-C`  Skip the `osc commit` step.
 
@@ -128,7 +134,7 @@
       `bsu_specfiles` (`-s`)
       `bsu_tarball` (`-t`)
       `bsu_test_build` (`-b`)
-      `bsu_osc_build`
+      `bsu_osc_build` (`-B`)
         Array of strings where each item is used (after field splitting)
         as arguments to `osc build` (see `-b`).
 

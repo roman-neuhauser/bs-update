@@ -51,6 +51,8 @@ usage() # {{{
       printf "    %-16s  %s\n" \
         "-h"              "Display this message" \
         "-A BSAPI"        "Use Build Service at BSAPI (URL or alias)" \
+        "-B BUILDARGS"    "Use BUILDARGS (after field splitting) as" \
+        ""                "arguments to osc build" \
         "-P PROJECT"      "Update Build Service package of PROJECT" \
         "-b"              "Build the package locally before committing" \
         "-d URL"          "Download the source tarball from URL" \
@@ -71,9 +73,18 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-while getopts :A:CP:bd:hm:np:s:t: optname; do
+declare -i seen_dash_B
+
+while getopts :A:B:CP:bd:hm:np:s:t: optname; do
   case $optname in
   A) bsu_bs_apiurl=$OPTARG ;;
+  B)
+    if (( seen_dash_B++ )); then
+      bsu_osc_build+=($OPTARG)
+    else
+      bsu_osc_build=$OPTARG
+    fi
+  ;;
   C) bsu_bs_commit=0 ;;
   P) bsu_bs_project=$OPTARG ;;
   b) bsu_test_build=1 ;;
