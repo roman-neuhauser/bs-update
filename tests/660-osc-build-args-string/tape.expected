@@ -16,7 +16,6 @@ sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" pkg.spec
 command osc -A obs st pkg.spec
 test 1 -ne 1
 command osc -A obs build Arch_Extra x86_64 PKGBUILD
-command osc -A obs build SLE_12 x86_64 fubar.spec
 test 1 -eq 1
 command osc -A obs ci -m "Update to version 12.34"
 rm -rf /tmp/fake-tmp-dir

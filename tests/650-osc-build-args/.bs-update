@@ -1,6 +1,10 @@
 exec 3>tape.actual
 
 pkgbuild=PKGBUILD
-bsu_osc_build='Arch_Extra x86_64 $pkgbuild'
+specfile=fubar.spec
+bsu_osc_build=(
+  'Arch_Extra x86_64 $pkgbuild'
+  'SLE_12 x86_64 $specfile'
+)
 
 . "$PWD/../fakes"

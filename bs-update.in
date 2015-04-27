@@ -14,7 +14,7 @@ bsu_dloadurl=
 bsu_bs_commit=1
 bsu_dryrun=0
 bsu_test_build=0
-bsu_osc_build=
+declare -a bsu_osc_build
 
 bsu_orig_pwd="$PWD"
 
@@ -96,6 +96,13 @@ fi
 
 deref() # {{{
 {
+  case $1 in
+  -a) shift; _deref_array "$@";;
+  *) _deref_one "$@" ;;
+  esac
+} # }}}
+_deref_one() # {{{
+{
   local var=${1?}
   local prev='' result=${(P)var}
   while [[ $result != $prev ]]; do
@@ -103,6 +110,17 @@ deref() # {{{
     result=${(e)result}
   done
   : ${(P)var::=$result}
+} # }}}
+_deref_array() # {{{
+{
+  local var=${1?}
+  local prev=''
+  local -a result; result=(${(P)var})
+  while [[ $result != $prev ]]; do
+    prev=$result
+    result=(${(e)result})
+  done
+  : ${(AP)var::=$result}
 } # }}}
 
 abort() # {{{
@@ -152,24 +170,24 @@ deref bsu_bs_commitmsg
 deref bsu_specfiles
 
 deref bsu_test_build
-deref bsu_osc_build
+deref -a bsu_osc_build
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 
 if test 0 -ne $bsu_dryrun; then
-  printf '%16s = "%s"\n' \
-    bsu_bs_apiurl "$bsu_bs_apiurl" \
-    bsu_bs_project "$bsu_bs_project" \
-    bsu_bs_package "$bsu_bs_package" \
-    bsu_dloadurl "$bsu_dloadurl" \
-    bsu_tag "$bsu_tag" \
-    bsu_version "$bsu_version" \
-    bsu_bs_commit "$bsu_bs_commit" \
-    bsu_bs_commitmsg "$bsu_bs_commitmsg" \
-    bsu_tarball "$bsu_tarball" \
-    bsu_specfiles "$bsu_specfiles" \
-    bsu_test_build "$bsu_test_build" \
-    bsu_osc_build "$bsu_osc_build" \
+  printf '%16s = %s\n' \
+    bsu_bs_apiurl "${(qqq)bsu_bs_apiurl}" \
+    bsu_bs_project "${(qqq)bsu_bs_project}" \
+    bsu_bs_package "${(qqq)bsu_bs_package}" \
+    bsu_dloadurl "${(qqq)bsu_dloadurl}" \
+    bsu_tag "${(qqq)bsu_tag}" \
+    bsu_version "${(qqq)bsu_version}" \
+    bsu_bs_commit "${(qqq)bsu_bs_commit}" \
+    bsu_bs_commitmsg "${(qqq)bsu_bs_commitmsg}" \
+    bsu_tarball "${(qqq)bsu_tarball}" \
+    bsu_specfiles "${(qqq)bsu_specfiles}" \
+    bsu_test_build "${(qqq)bsu_test_build}" \
+    bsu_osc_build "(${(j: :)${(@qqq)bsu_osc_build}})" \
 
   exit $?
 fi
@@ -269,7 +287,14 @@ bsu_test_build() # {{{
   if test "$bsu_test_build" -ne 1; then
     return
   fi
-  osc build $=bsu_osc_build
+  if (( 0 == $#bsu_osc_build )); then
+    osc build
+    return
+  fi
+  local args
+  for args in "${(@)bsu_osc_build}"; do
+    osc build $=args
+  done
 } # }}}
 exithook() # {{{
 {

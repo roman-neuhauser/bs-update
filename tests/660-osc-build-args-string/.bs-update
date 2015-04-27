@@ -1,0 +1,6 @@
+exec 3>tape.actual
+
+pkgbuild=PKGBUILD
+bsu_osc_build='Arch_Extra x86_64 $pkgbuild'
+
+. "$PWD/../fakes"

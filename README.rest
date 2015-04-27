@@ -128,7 +128,9 @@
       `bsu_specfiles` (`-s`)
       `bsu_tarball` (`-t`)
       `bsu_test_build` (`-b`)
-      `bsu_osc_build` (Options and arguments for `osc build`.)
+      `bsu_osc_build`
+        Array of strings where each item is used (after field splitting)
+        as arguments to `osc build` (see `-b`).
 
 
   `EXAMPLES`
@@ -154,6 +156,11 @@
         bsu_bs_package='$p'
         bsu_bs_project='home:$u'
         bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+        bsu_osc_build=(
+          'ArchLinux x86_64 PKGBUILD'
+          'SLE_12 x86_64 $p.spec'
+          'openSUSE_Tumbleweed x86_64 $p.spec'
+        )
         ^D
 
       Commit some changes:

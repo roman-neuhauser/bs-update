@@ -249,7 +249,12 @@ argument, and its output is used as the final version string.
 . It Va bsu_specfiles       Pq Fl s
 . It Va bsu_tarball         Pq Fl t
 . It Va bsu_test_build      Pq Fl b
-. It Va bsu_osc_build       Po Options and arguments for Nm osc Cm build . Pc
+. It Va bsu_osc_build
+Array of strings where each item is used
+.Pq after field splitting
+as arguments to
+.Nm osc Cm build
+.Pq see Fl b .
 . El
 .\" FILES }}}
 .\" EXAMPLES {{{
