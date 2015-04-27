@@ -17,6 +17,6 @@ command osc -A https://mybs/ st omg.spec
 cp PKGBUILD.in PKGBUILD
 sed -ri "/^[ \t]*#/!s/__VERSION__/42.69/" PKGBUILD
 command osc -A https://mybs/ st PKGBUILD
-test 1 -eq 0
+test 0 -ne 1
 test 0 -eq 1
 rm -rf /tmp/fake-tmp-dir

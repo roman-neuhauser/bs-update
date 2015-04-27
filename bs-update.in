@@ -266,9 +266,10 @@ update_tarball() # {{{
 } # }}}
 bsu_test_build() # {{{
 {
-  if test 1 -eq "$bsu_test_build"; then
-    osc build $=bsu_osc_build
+  if test "$bsu_test_build" -ne 1; then
+    return
   fi
+  osc build $=bsu_osc_build
 } # }}}
 exithook() # {{{
 {
