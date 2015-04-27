@@ -1,0 +1,12 @@
+exec 3>tape.actual
+
+. "$PWD/../fakes"
+
+bsu_specfile_hook()
+{
+  fake bsu_specfile_hook "$@"
+  echo "stdout from bsu_specfile_hook" >&1
+  echo "stderr from bsu_specfile_hook" >&2
+  return 3
+}
+type()    { fake type    ${1+"$@"}; builtin type ${1+"$@"}; }

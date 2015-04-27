@@ -33,7 +33,7 @@
       1.   fetch the tarball from the URL,
       2.   check out the package from the Build Service,
       3.   update the tarball source with the downloaded tarball,
-      4.   update the spec file source with a template from that tarball,
+      4.   update package descriptions (specfile, PKGBUILD, etc),
       5.   commit the changes.
 
   `Options`
@@ -112,6 +112,12 @@
       any of the following:
 
     `Shell functions`
+      `bsu_specfile_hook()`
+        If this function exists, it is responsible for providing a `$s`.in
+        file for each `$s` in `$bsu_specfiles`.  bs-update will invoke it
+        with arguments consisting of `$bsu_version`, `$bsu_tag`,
+        `$bsu_tarball` and `$bsu_specfiles`.
+
       `bsu_tarball_hook()`
         The tarball may need finalization before it is checked into the
         Build Service, eg. autoconf, git submodules or npm.  If this

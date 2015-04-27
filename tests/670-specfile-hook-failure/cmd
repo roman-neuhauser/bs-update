@@ -1,0 +1,1 @@
+${1?} -A https://bs.example.com/ -P fu:bar -p superpac -s pkg.spec -s PKGBUILD -d 'https://dist.example.com/$bsu_tag' v12.34

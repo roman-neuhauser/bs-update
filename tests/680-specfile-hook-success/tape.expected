@@ -11,7 +11,14 @@ test 0 -eq 0
 command osc -A https://bs.example.com/ add fu:bar/superpac/superpac-12.34.tar.gz
 cd fu:bar/superpac
 type bsu_specfile_hook
-tar -xzf superpac-12.34.tar.gz --strip-components=1 superpac-12.34/superpac.spec.in
-cp superpac.spec.in superpac.spec
-sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" superpac.spec
+bsu_specfile_hook 12.34 v12.34 superpac-12.34.tar.gz pkg.spec PKGBUILD
+cp pkg.spec.in pkg.spec
+sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" pkg.spec
+command osc -A https://bs.example.com/ st pkg.spec
+cp PKGBUILD.in PKGBUILD
+sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" PKGBUILD
+command osc -A https://bs.example.com/ st PKGBUILD
+test 0 -ne 1
+test 1 -eq 1
+command osc -A https://bs.example.com/ ci -m "Update to version 12.34"
 rm -rf /tmp/fake-tmp-dir

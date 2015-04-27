@@ -8,6 +8,7 @@ test 0 -eq 1
 mv superpac-12.34.tar.gz fu:bar/superpac
 test 0 -eq 1
 cd fu:bar/superpac
+type bsu_specfile_hook
 tar -xzf superpac-12.34.tar.gz --strip-components=1 superpac-12.34/superpac.spec.in
 cp superpac.spec.in superpac.spec
 sed -ri "/^[ \t]*#/!s/__VERSION__/12.34/" superpac.spec

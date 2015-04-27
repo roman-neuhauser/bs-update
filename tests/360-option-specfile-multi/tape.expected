@@ -10,6 +10,7 @@ mv c-42.69.tar.gz a:b/c
 test 0 -eq 0
 command osc -A https://mybs/ add a:b/c/c-42.69.tar.gz
 cd a:b/c
+type bsu_specfile_hook
 tar -xzf c-42.69.tar.gz --strip-components=1 c-42.69/omg.spec.in c-42.69/PKGBUILD.in
 cp omg.spec.in omg.spec
 sed -ri "/^[ \t]*#/!s/__VERSION__/42.69/" omg.spec

@@ -186,7 +186,9 @@ test -n "$bsu_dloadurl" || usage 4 download url
 deref bsu_bs_commitmsg
 
 deref -a bsu_specfiles
-test $#bsu_specfiles -gt 0 || usage 4 specfiles
+if (( $#bsu_specfiles == 0 )); then
+  usage 4 specfiles
+fi
 
 deref bsu_test_build
 deref -a bsu_osc_build
@@ -268,6 +270,23 @@ run_tarball_hook() # {{{
   fi
   bsu_tarball_hook $tarball
 ) # }}}
+run_specfile_hook() # {{{
+(
+  # see run_tarball_hook
+  trap - ZERR
+  bsu_specfile_hook "$@"
+) # }}}
+update_specfiles() # {{{
+{
+  local version=${1:?} tag=${2:?} tarball=${3:?}
+  shift 3
+  if type bsu_specfile_hook 1>/dev/null 2>&1; then
+    run_specfile_hook $version $tag $tarball "$@"
+  else
+    extract $tarball "$@"
+  fi
+  do_update_specfiles $bsu_version "$@"
+} # }}}
 extract() # {{{
 {
   local tarball=${1?}
@@ -275,7 +294,7 @@ extract() # {{{
   shift
   tar -xzf $tarball --strip-components=1 ${${@/#/$prefix}/%/.in}
 } # }}}
-update_specfiles() # {{{
+do_update_specfiles() # {{{
 {
   local version=${1?} specfile=
   shift
@@ -330,7 +349,6 @@ fetch $bsu_dloadurl $bsu_tarball
 run_tarball_hook $bsu_tarball
 update_tarball $bsu_tarball
 cd $pkgdir
-extract $bsu_tarball "${(@)bsu_specfiles}"
-update_specfiles $bsu_version "${(@)bsu_specfiles}"
+update_specfiles $bsu_version $bsu_tag $bsu_tarball "${(@)bsu_specfiles}"
 bsu_test_build
 bsu_commit -m "$bsu_bs_commitmsg"
