@@ -11,6 +11,8 @@ bsu_bs_package=
 bsu_bs_project=
 bsu_dloadurl=
 
+declare -a bsu_specfiles
+
 bsu_bs_commit=1
 bsu_dryrun=0
 bsu_test_build=0
@@ -73,7 +75,7 @@ usage() # {{{
 
 SELF=$(basename "$0")
 
-declare -i seen_dash_B
+declare -i seen_dash_B seen_dash_s
 
 while getopts :A:B:CP:bd:hm:np:s:t: optname; do
   case $optname in
@@ -93,7 +95,13 @@ while getopts :A:B:CP:bd:hm:np:s:t: optname; do
   m) bsu_bs_commitmsg="$OPTARG" ;;
   n) bsu_dryrun=1 ;;
   p) bsu_bs_package=$OPTARG ;;
-  s) bsu_specfiles="${bsu_specfiles+$bsu_specfiles }$OPTARG" ;;
+  s)
+    if (( seen_dash_s++ )); then
+      bsu_specfiles+=($OPTARG)
+    else
+      bsu_specfiles=$OPTARG
+    fi
+  ;;
   t) bsu_tarball=$OPTARG ;;
   :) usage 2 $OPTARG ;; # option-argument missing
   ?) usage 3 $OPTARG ;; # unknown option
@@ -178,7 +186,7 @@ test -n "$bsu_dloadurl" || usage 4 download url
 deref bsu_bs_commitmsg
 
 : ${bsu_specfiles:=$bsu_bs_package.spec}
-deref bsu_specfiles
+deref -a bsu_specfiles
 
 deref bsu_test_build
 deref -a bsu_osc_build
@@ -196,7 +204,7 @@ if test 0 -ne $bsu_dryrun; then
     bsu_bs_commit "${(qqq)bsu_bs_commit}" \
     bsu_bs_commitmsg "${(qqq)bsu_bs_commitmsg}" \
     bsu_tarball "${(qqq)bsu_tarball}" \
-    bsu_specfiles "${(qqq)bsu_specfiles}" \
+    bsu_specfiles "(${(j: :)${(@qqq)bsu_specfiles}})" \
     bsu_test_build "${(qqq)bsu_test_build}" \
     bsu_osc_build "(${(j: :)${(@qqq)bsu_osc_build}})" \
 
@@ -322,7 +330,7 @@ fetch $bsu_dloadurl $bsu_tarball
 run_tarball_hook $bsu_tarball
 update_tarball $bsu_tarball
 cd $pkgdir
-extract $bsu_tarball $=bsu_specfiles
-update_specfiles $bsu_version $=bsu_specfiles
+extract $bsu_tarball "${(@)bsu_specfiles}"
+update_specfiles $bsu_version "${(@)bsu_specfiles}"
 bsu_test_build
 bsu_commit -m "$bsu_bs_commitmsg"

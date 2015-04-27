@@ -7,6 +7,6 @@
    bsu_bs_commit = "1"
 bsu_bs_commitmsg = "Update to version 42.69"
      bsu_tarball = "y-42.69.tar.gz"
-   bsu_specfiles = "y.spec"
+   bsu_specfiles = ("y.spec")
   bsu_test_build = "0"
    bsu_osc_build = ()
