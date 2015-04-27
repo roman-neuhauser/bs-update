@@ -1,1 +1,1 @@
-${1?} -A obs -P prj -p pkg -d 'https://get.it/' -C 12.34
+${1?} -A obs -P prj -p pkg -s pkg.spec -d 'https://get.it/' -C 12.34

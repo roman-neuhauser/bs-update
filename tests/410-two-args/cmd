@@ -1,1 +1,1 @@
-${1?} -n -P prj -p pkg -d http://example.org/ HEAD 999.88.7
+${1?} -n -P prj -p pkg -s pkg.spec -d http://example.org/ HEAD 999.88.7

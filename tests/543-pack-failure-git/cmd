@@ -1,1 +1,1 @@
-${1?} -A https://bs.example.com/ -P fu:bar -p snafu -d . v12.34
+${1?} -A https://bs.example.com/ -P fu:bar -p snafu -s omg.wtf -d . v12.34

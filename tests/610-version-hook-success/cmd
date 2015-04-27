@@ -1,1 +1,1 @@
-${1?} -n -A obs -P prj -p pkg -d 'https://get.it/' fubar-12.34
+${1?} -n -A obs -P prj -p pkg -s pkg.spec -d 'https://get.it/' fubar-12.34

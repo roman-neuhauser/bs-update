@@ -1,1 +1,1 @@
-${1?} -P x -p y -d url v42.69
+${1?} -P x -p y -d url -s specfile v42.69

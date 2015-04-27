@@ -185,8 +185,8 @@ test -n "$bsu_dloadurl" || usage 4 download url
 : ${bsu_bs_commitmsg:="Update to version $bsu_version"}
 deref bsu_bs_commitmsg
 
-: ${bsu_specfiles:=$bsu_bs_package.spec}
 deref -a bsu_specfiles
+test $#bsu_specfiles -gt 0 || usage 4 specfiles
 
 deref bsu_test_build
 deref -a bsu_osc_build

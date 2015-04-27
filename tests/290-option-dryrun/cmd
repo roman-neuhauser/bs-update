@@ -3,6 +3,7 @@ ${1?} \
   -C \
   -P a:b \
   -p c \
+  -s x.y \
   -d 'ftp://upstream/' \
   -b \
   -B 'omg wtf' \

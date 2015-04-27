@@ -1,1 +1,1 @@
-${1?} -A https://bs.example.com/ -P fu:bar -p superpac -d 'https://dist.example.com/$bsu_tag' v12.34
+${1?} -A https://bs.example.com/ -P fu:bar -p superpac -s specfile -d 'https://dist.example.com/$bsu_tag' v12.34
