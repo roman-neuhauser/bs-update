@@ -196,20 +196,12 @@
         bs-update v42.69
 
     `Snapshot-generating Cronjob`
-      This example demonstrates using `bs-update` with no *.bs-update* file.
-      A new version of the package is created, based on a tarball of the
-      upstream master branch.
+      This example demonstrates using `bsu_tarball_hook` to generate
+      snapshot tarballs of a Git branch.
 
-        ts=$(date +%Y%m%d%H%M%S)
-        bs-update \\
-          -P home:roman-neuhauser \\
-          -p bs-update-snapshot \\
-          -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
-          -t bs-update-$ts.tar.gz \\
-          master $ts
+        mkdir /snapshots
 
-    `bsu_tarball_hook`
-        cat > .bs-update-hooks
+        cat > /snapshots/.bs-update-hooks <<'EOF'
         bsu_tarball_hook()
         (
           set -e
@@ -217,13 +209,25 @@
           local dir=${tarball%.tar.gz}
           mkdir $dir
           tar -xzf $tarball --strip-components=1 -C $dir
-          # --- >8 ---
-          # massage it
-          # --- 8< ---
           tar -czf $tarball -- ${dir#./}
           rm -rf $dir
         )
-        ^D
+        EOF
+
+        cat > /etc/cron.weekly/mk-snapshot <<'EOF'
+        #!/bin/sh
+        set -eu
+        ts=$(date +%Y%m%d%H%M%S)
+        cd /snapshots
+        bs-update \\
+          -P home:roman-neuhauser \\
+          -p bs-update-snapshot \\
+          -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
+          -t bs-update-$ts.tar.gz \\
+          master $ts
+        EOF
+
+        chmod a+x /etc/cron.weekly/mk-snapshot
 
   `DIAGNOSTICS`
       `bs-update` exits with 0 on success, and with >0 otherwise.

@@ -357,27 +357,15 @@ bs-update v42.69
 .Ss Snapshot-generating Cronjob
 .
 This example demonstrates using
-.Nm
-with no
-.Pa .bs-update
-file.
+.Fn bsu_tarball_hook
+to generate snapshot tarballs of a Git branch.
 A new version of the package is created, based on a tarball
 of the upstream master branch.
 .
 .Bd -literal -offset 2n
-ts=$(date +%Y%m%d%H%M%S)
-bs-update \\
-  -P home:roman-neuhauser \\
-  -p bs-update-snapshot \\
-  -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
-  -t bs-update-$ts.tar.gz \\
-  master $ts
-.Ed
-.
-.Ss bsu_tarball_hook
-.
-.Bd -literal -offset 2n
-cat > .bs-update-hooks
+mkdir /snapshots
+
+cat > /snapshots/.bs-update-hooks <<'EOF'
 bsu_tarball_hook()
 (
   set -e
@@ -385,12 +373,25 @@ bsu_tarball_hook()
   local dir=${tarball%.tar.gz}
   mkdir $dir
   tar -xzf $tarball --strip-components=1 -C $dir
-  # --- >8 ---
-  # massage it
-  # --- 8< ---
   tar -czf $tarball -- ${dir#./}
   rm -rf $dir
 )
+EOF
+
+cat > /etc/cron.weekly/mk-snapshot <<'EOF'
+#!/bin/sh
+set -eu
+ts=$(date +%Y%m%d%H%M%S)
+cd /snapshots
+bs-update \\
+  -P home:roman-neuhauser \\
+  -p bs-update-snapshot \\
+  -d https://github.com/roman-neuhauser/bs-update/tarball/master \\
+  -t bs-update-$ts.tar.gz \\
+  master $ts
+EOF
+
+chmod a+x /etc/cron.weekly/mk-snapshot
 .Ed
 .\" EXAMPLES }}}
 .\" DIAGNOSTICS {{{
