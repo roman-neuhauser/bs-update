@@ -48,18 +48,40 @@ will
 .
 .Bl -enum -compact
 .It
+figure out the target version from operands and the optional
+.Fn bsu_version_hook ,
+.It
+check out the package from the Build Service into a temporary directory,
+.It
 fetch the tarball from the URL,
 .It
-check out the package from the Build Service,
-.It
 update the tarball source with the downloaded tarball,
+after possible modification by the optional
+.Fn bsu_tarball_hook ,
 .It
-update package descriptions (specfile, PKGBUILD, etc),
+update package descriptions (specfile, PKGBUILD, etc) from their
+templates extracted from the tarball or provided by the optional
+.Fn bsu_specfile_hook ,
 .It
+.Pq optionally
+build the package locally,
+.It
+.Pq optionally
 commit the changes.
 .El
 .
+.Pp
+.
+.Nm
+aborts on failure in any step.
+.
 .Ss Options
+All options beside
+.Fl h
+have their configuration variable counterparts.
+See the
+.Sx FILES
+section for more information.
 .
 .Bl -tag -width "xx"
 .It Fl h
@@ -69,6 +91,8 @@ Display a usage description.
 Use Build Service at
 .Ar BSAPI
 (URL or alias).
+Passed to
+.Xr osc 1 .
 .
 .It Fl B Ar BUILDARGS
 Use
@@ -148,7 +172,7 @@ All occurrences of
 .Li __VERSION__
 in
 .Ar SPECFILE
-outside of comments are replaced with
+are replaced with
 .Ar VERSION .
 .Ar SPECFILE
 can be a real
@@ -162,10 +186,19 @@ May be given more than once, all files are processed.
 Use
 .Ar TARBALL
 for the name of the downloaded file.
+.El
+.
+.Ss Operands
+.
+.Bl -tag -width "xx"
 .
 .It Ar TAG
 Update the package from
 .Ar TAG .
+Substituted for
+.Ev $bsu_tag
+in values derived from command line
+options and configuration files.
 .
 .It Ar VERSION
 Update the package to
@@ -173,26 +206,27 @@ Update the package to
 .
 If
 .Ar VERSION
-is not given, it is derived using
-.Fn bsu_version_hook ,
-and if that does not exist,
+is not given, it is generated using
+.Fn bsu_version_hook
+if it exists, otherwise
 from
 .Ar TAG
 by stripping the initial
 .Dq Li v
 if any.
+Substituted for
+.Ev $bsu_version
+in values derived from command line
+options and configuration files.
 .El
 .
-.Ss Operation
+.Ss Hooks
 .
 .Nm
-reads configuration files, then it parses command line arguments.
-Each configuration variable has a corresponding command line option.
-Command line options and arguments take precedence over configuration
-files.
-.Pp
-Values from both the configuration and the command line are subject
-to shell expansion.
+allows tailoring the update process through shell functions,
+see the
+.Sx FILES
+section for more information.
 .
 .\" DESCRIPTION }}}
 .\" .Sh IMPLEMENTATION NOTES
@@ -222,21 +256,34 @@ recognizes two optional configuration files,
 .Pa .bs-update-hooks
 and
 .Pa .bs-update .
-They are sourced, in order, from the current directory before
+They are read, in order, from the current directory before
 command line arguments are processed.
-These two files are expected to provide
-.Nm
-with any of the following:
-.Ss Shell functions
+Either file may define any of hooks and/or configuration
+variables, last definition wins.
+.
+.Pp
+.
+Each configuration variable has a corresponding command line option.
+Command line options and arguments take precedence over configuration
+files.  Resulting values are subject to shell parameter expansion.
+.
+.Pp
+.
+Syntactically, the configuration files are limited shell scripts
+recognizing two kinds of statements: parameter assignments, and
+function definitions.
+.
+.Ss Shell Functions (Hooks)
 . Bl -ohang
-. It bsu_specfile_hook
+. It Fn bsu_specfile_hook
 If this function exists, it is responsible for providing a
 . Va $s Ns .in
 file for each
 . Va $s
 in
 . Va $bsu_specfiles .
-bs-update will invoke it with arguments consisting of
+.Nm
+will invoke it with arguments consisting of
 .Va $bsu_version ,
 .Va $bsu_tag ,
 .Va $bsu_tarball
@@ -319,6 +366,11 @@ bsu_bs_apiurl=https://api.opensuse.org
 bsu_bs_package='$p'
 bsu_bs_project='home:$u'
 bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+bsu_osc_build=(
+  'ArchLinux x86_64 PKGBUILD'
+  'SLE_12 x86_64 $p.spec'
+  'openSUSE_Tumbleweed x86_64 $p.spec'
+)
 ^D
 .Ed
 .
@@ -336,7 +388,7 @@ Build the package locally, using the currently checked out revision.
 Does not commit into the Build Service:
 .
 .Bd -literal -offset 2n
-bs-update -Cbd . HEAD 999
+bs-update -Cbd . HEAD
 .Ed
 .
 .Pp

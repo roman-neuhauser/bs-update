@@ -30,17 +30,29 @@
       Given a Build Service API URL, project and package names, a tarball
       URL, and a version number, `bs-update` will
 
-      1.   fetch the tarball from the URL,
-      2.   check out the package from the Build Service,
-      3.   update the tarball source with the downloaded tarball,
-      4.   update package descriptions (specfile, PKGBUILD, etc),
-      5.   commit the changes.
+      1.   figure out the target version from operands and the optional
+           `bsu_version_hook`,
+      2.   check out the package from the Build Service into a temporary
+           directory,
+      3.   fetch the tarball from the URL,
+      4.   update the tarball source with the downloaded tarball,
+           after possible modification by the optional `bsu_tarball_hook`,
+      5.   update package descriptions (specfile, PKGBUILD, etc) from
+           their templates extracted from the tarball or provided by
+           the optional `bsu_specfile_hook`,
+      6.   (optionally) build the package locally,
+      7.   (optionally) commit the changes.
+
+      `bs-update` aborts on failure in any step.
 
   `Options`
+    All options beside `-h` have their configuration variable counterparts.
+    See the `FILES` section for more information.
+
       `-h`  Display a usage description.
 
       `-A` *BSAPI*
-          Use Build Service at *BSAPI* (URL or alias).
+          Use Build Service at *BSAPI* (URL or alias).  Passed to `osc(1)`.
 
       `-B` BUILDARGS
           Use BUILDARGS (after field splitting) as arguments to `osc build`
@@ -53,7 +65,7 @@
           Update Build Service package of *PROJECT*.
 
       `-b`  Run `osc build` before `osc commit`.  If the build fails,
-          `bs-update` aborts.
+          `bs-update` aborts.  See `$bsu_osc_build`.
 
       `-d` *URL*
           Retrieve the source tarball from *URL*.  If *URL* is ".", `bs-update`
@@ -80,22 +92,22 @@
       `-t` *TARBALL*
           Use *TARBALL* for the name of the downloaded file.
 
+  `Operands`
       *TAG*
           Update the package from *TAG*.
+          Substituted for `$bsu_tag` in values derived from command line
+          options and configuration files.
 
       *VERSION*
           Update the package to *VERSION*.  If *VERSION* is not given, it
-          is derived using `bsu_version_hook()`, and if that does not exist,
+          is generated using `bsu_version_hook()` if it exists, otherwise
           from *TAG* by stripping the initial "v" if any.
+          Substituted for `$bsu_version` in values derived from command line
+          options and configuration files.
 
-    `Operation`
-      `bs-update` reads configuration files, then it parses command line
-      arguments.  Each configuration variable has a corresponding command
-      line option.  Command line options and arguments take precedence
-      over configuration files.
-
-      Values from both the configuration and the command line are subject
-      to shell expansion.
+  `Hooks`
+    `bs-update` allows tailoring the update process through shell functions,
+    see the `FILES` section for more information.
 
   `ENVIRONMENT`
       `bs-update` itself does not use any environment variables.  It is,
@@ -106,28 +118,36 @@
 
   `FILES`
       `bs-update` recognizes two optional configuration files,
-      `.bs-update-hooks` and `.bs-update`.  They are sourced, in order,
+      `.bs-update-hooks` and `.bs-update`.  They are read, in order,
       from the current directory before command line arguments are
-      processed.  These two files are expected to provide bs-update with
-      any of the following:
+      processed.  Either file may define any of hooks and/or configuration
+      variables, last definition wins.
 
-    `Shell functions`
+      Each configuration variable has a corresponding command line option.
+      Command line options and arguments take precedence over configuration
+      files.  Resulting values are subject to shell parameter expansion.
+
+      Syntactically, the configuration files are limited shell scripts
+      recognizing two kinds of statements: parameter assignments, and
+      function definitions.
+
+    `Shell Functions (Hooks)`
       `bsu_specfile_hook()`
         If this function exists, it is responsible for providing a `$s`.in
-        file for each `$s` in `$bsu_specfiles`.  bs-update will invoke it
+        file for each `$s` in `$bsu_specfiles`.  `bs-update` will invoke it
         with arguments consisting of `$bsu_version`, `$bsu_tag`,
         `$bsu_tarball` and `$bsu_specfiles`.
 
       `bsu_tarball_hook()`
         The tarball may need finalization before it is checked into the
-        Build Service, eg. autoconf, git submodules or npm.  If this
+        Build Service, eg. `autoconf`, `git` submodules or `npm`.  If this
         function exists it is executed in the root of the checked out
         package, with the tarball name in the first argument.
 
       `bsu_version_hook()`
         If the *VERSION* argument is not given and this function exists it
-        is executed with `$1` set to the value of the *TAG* argument, and
-        its output is used as the final version string.
+        is executed with the *TAG* argument, and its output is used as the
+        final version string.
 
     `Variables`
       `bsu_bs_apiurl` (`-A`)
@@ -157,7 +177,7 @@
         git clone git@github.com:roman-neuhauser/bs-update.git
         cd bs-update
 
-      Since we're going to use bs-update repeatedly, it makes sense to
+      Since we're going to use `bs-update` repeatedly, it makes sense to
       employ a configuration file, *.bs-update*.  Everything can still be
       overridden using options on the command line:
 
@@ -184,7 +204,7 @@
       Build the package locally, using the currently checked out revision.
       Does not commit into the Build Service:
 
-        bs-update -Cbd . HEAD 999
+        bs-update -Cbd . HEAD
 
       If it was ok we can tag it and publish the tag:
 
@@ -197,7 +217,8 @@
 
     `Snapshot-generating Cronjob`
       This example demonstrates using `bsu_tarball_hook` to generate
-      snapshot tarballs of a Git branch.
+      snapshot tarballs of a Git branch.  A new version of the package is
+      created, based on a tarball of the upstream master branch.
 
         mkdir /snapshots
 
