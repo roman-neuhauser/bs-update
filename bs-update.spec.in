@@ -19,6 +19,7 @@ BuildRequires:  coreutils
 BuildRequires:  filesystem
 BuildRequires:  gzip
 BuildRequires:  make
+BuildRequires:  zsh
 BuildArch:      noarch
 BuildRoot:      %_tmppath/%name-%version-build
 
@@ -31,6 +32,9 @@ up-to-date with respect to their upstream sources.
 
 %build
 make PREFIX=%{_prefix}
+
+%check
+make check PREFIX=%{_prefix}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}

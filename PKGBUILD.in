@@ -9,13 +9,17 @@ url="http://github.com/roman-neuhauser/bs-update"
 license=(MIT)
 groups=(lib)
 depends=(gzip osc sed tar wget zsh)
-makedepends=()
+makedepends=(zsh)
 checkdepends=()
 source=($pkgname-$pkgver.tar.gz)
 sha256sums=(SKIP)
 
 build() {
 	_make
+}
+
+check() {
+  _make check
 }
 
 package() {
