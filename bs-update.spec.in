@@ -13,6 +13,7 @@ Requires:       osc
 Requires:       sed
 Requires:       tar
 Requires:       wget
+Requires:       zsh
 Source:         %{name}-%{version}.tar.gz
 BuildRequires:  coreutils
 BuildRequires:  filesystem
