@@ -19,11 +19,6 @@ htmlfiles =       README.html
 
 .DEFAULT_GOAL :=  most
 
-.PHONY: wc
-wc:
-	git submodule init
-	git submodule update
-
 all: $(artifacts)
 most: $(installed)
 
