@@ -17,7 +17,10 @@ artifacts =       $(installed) $(htmlfiles)
 installed =       $(name).1.gz $(name)
 htmlfiles =       README.html
 
-.DEFAULT_GOAL :=  most
+ALL_INCLUSIVE  ?= 0
+
+.DEFAULT_GOAL  := $(if $(subst 0,,$(ALL_INCLUSIVE)),all,most)
+
 
 all: $(artifacts)
 most: $(installed)
@@ -31,7 +34,7 @@ clean:
 	$(RM) .built $(artifacts)
 
 .PHONY: check
-check: all
+check: $(.DEFAULT_GOAL)
 	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/$(name)
 
 $(name): $(name).in
