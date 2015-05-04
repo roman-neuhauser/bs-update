@@ -1,0 +1,36 @@
+cleanup()
+{
+  rm -f "$PWD/test/exit.actual"
+  rm -f "$PWD/test/err.actual"
+  rm -f "$PWD/test/out.actual"
+  rm -f "$PWD/test/exit.diff"
+  rm -f "$PWD/test/err.diff"
+  rm -f "$PWD/test/out.diff"
+}
+
+assert_fs()
+{
+  local ex=1 label=FAIL neg p t=-e tt
+
+  p="${1:?}"
+  if test $# -gt 1; then
+    t="${1:?}" p="${2:?}"
+  fi
+  tt="$t"
+  case "$t" in
+  !*) neg='!' t="-${t#!}" ;;
+  esac
+
+  if test $neg "$t" "$p"; then
+    ex=0
+    label=good
+  fi
+  printf "%s: %s %s\n" $label "$tt" "$p"
+  return $ex
+}
+
+assert_same()
+{
+  diff -u "${1:?}" "${2:?}"
+}
+

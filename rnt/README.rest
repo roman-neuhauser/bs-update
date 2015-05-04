@@ -1,0 +1,129 @@
+.. vim: ft=rst sts=2 sw=2 tw=70
+.. default-role:: literal
+
+======================================================================
+                                 rnt
+======================================================================
+----------------------------------------------------------------------
+             Automated testing of command line interfaces
+----------------------------------------------------------------------
+
+:Author: Roman Neuhauser
+:Contact: rneuhauser@suse.cz
+:Copyright: This document is in the public domain.
+
+.. This file is marked up using reStructuredText.
+   Lines beginning with ".." are reST directives.
+   "foo_" or "`foo bar`_" is a link, defined at ".. _foo" or
+   ".. _foo bar".
+   "::" introduces a literal block (usually some form of code).
+   "`foo`" is some kind of identifier.
+   Suspicious backslashes in the text ("`std::string`\s") are required
+   for reST to recognize the preceding character as syntax.
+
+
+Overview
+========
+
+rnt_ is a tool for automated testing of command line interfaces.
+It comprises two shell scripts portable enough to run at least on
+FreeBSD, GNU/Linux and MSYS (Windows).
+
+rnt_ has notions of *test suite* and *test case*.
+
+.. _rnt: https://github.com/roman-neuhauser/rnt
+
+
+Test Suite
+**********
+
+A *test suite* is a directory containing zero or more *test cases*.
+
+
+Test Case
+*********
+
+A *test case* is an immediate *test suite* subdirectory with a name
+matching `^[0-9]{3}(-[a-z0-9]+)+$`, containing at least a `cmd` file.
+Besides `cmd`, a test case directory should contain these files:
+
+`README`
+  This file is output at the terminal if the test fails.
+`exit.expected`
+  Expected exit code.
+`out.expected`
+  Expected contents of standard output.
+`err.expected`
+  Expected contents of standard output.
+
+If any of the `*.expected` files is missing, it's treated as if it
+was present and empty.
+This means that a test case without `exit.expected` will always fail.
+
+
+Behavior
+********
+
+For each *test case*, `run-test.sh` chdirs into the test case
+directory and runs `cmd`, storing stdout, stderr and the exit code in
+`out.actual`, `err.actual` and `exit.actual`, respectively.
+After that, each pair of `foo.expected`, `foo.actual` gets diffed;
+If any pair has non-empty diff, the test is considered *failed*.
+
+`run-tests.sh` runs each *test case* in the given *test suite*,
+printing `.` (a dot) for a successful case, `F` for a failed one.
+After all *test cases* have been run, `run-tests.sh` prints details
+of failures if any: for each failed *test case*, its `README` file
+is output if it exists, followed by the diffs.
+
+`*.actual` and `*.diff` files of failed test cases are kept for
+examination.
+
+
+Installation
+============
+
+Use `git submodule` in a project using git: ::
+
+  git submodule add https://github.com/roman-neuhauser/rnt.git rnt
+  git submodule init
+  git submodule update
+
+Or just keep a copy of `rnt` inside your project: ::
+
+  mkdir rnt
+  curl -s https://github.com/roman-neuhauser/rnt/tarball/master \
+  | tar -xzf - -C rnt --strip-components=1
+  svn add rnt
+  svn ci
+
+Modify your `Makefile` to include a `check` target of the following
+structure:
+
+::
+
+  check: all
+    SHELL=$(SHELL) $(SHELL) <rnt>/run-tests.sh <suite> [args...]
+
+* `<rnt>` is the path to `rnt`.
+* `<suite>` is the path to your tests.
+* `[args...]` is any number of arguments (possibly none), these are
+  passed to each test.
+
+
+Alternatives
+============
+
+`rnt` is quite different from a number of other shell-oriented
+testing tools like
+
+* `Bats`_
+* `cram`_
+* `roundup`_
+* `sharness`_
+
+.. _`Bats`: https://github.com/sstephenson/bats
+.. _`cram`: https://bitheap.org/cram
+.. _`roundup`: https://bmizerany.github.io/roundup
+.. _`sharness`: https://github.com/mlafeldt/sharness
+
