@@ -1,0 +1,12 @@
+good: -f test/out.actual
+good: -f test/err.actual
+good: -f test/exit.actual
+good: -f test/stray.actual
+good: !e test/out.diff
+good: !e test/err.diff
+good: -f test/exit.diff
+good: -f test/stray.diff
+good: !e test/out.diff.tmp
+good: !e test/err.diff.tmp
+good: !e test/exit.diff.tmp
+good: !e test/stray.diff.tmp
