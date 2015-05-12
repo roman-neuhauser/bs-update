@@ -360,16 +360,16 @@ Everything can still be overridden using options on the command line:
 .
 .Bd -literal -offset 2n
 cat > .bs-update
-u=roman-neuhauser
-p=bs-update
+usr=roman-neuhauser
+pkg=bs-update
 bsu_bs_apiurl=https://api.opensuse.org
-bsu_bs_package='$p'
-bsu_bs_project='home:$u'
-bsu_dloadurl='https://github.com/$u/$p/tarball/$bsu_tag'
+bsu_bs_package='$pkg'
+bsu_bs_project='home:$usr'
+bsu_dloadurl='https://github.com/$usr/$pkg/tarball/$bsu_tag'
 bsu_osc_build=(
   'ArchLinux x86_64 PKGBUILD'
-  'SLE_12 x86_64 $p.spec'
-  'openSUSE_Tumbleweed x86_64 $p.spec'
+  'SLE_12 x86_64 $pkg.spec'
+  'openSUSE_Tumbleweed x86_64 $pkg.spec'
 )
 ^D
 .Ed
