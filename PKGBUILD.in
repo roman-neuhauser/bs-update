@@ -7,7 +7,6 @@ pkgdesc="Automate maintenance of packages in a Build Service"
 arch=(any)
 url="http://github.com/roman-neuhauser/bs-update"
 license=(MIT)
-groups=(lib)
 depends=(gzip osc sed tar wget zsh)
 makedepends=(zsh)
 checkdepends=()
