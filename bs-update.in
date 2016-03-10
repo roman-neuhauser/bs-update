@@ -296,10 +296,11 @@ extract() # {{{
 } # }}}
 do_update_specfiles() # {{{
 {
-  local version=${1?} specfile=
+  local version=${1?} infile= specfile=
   shift
-  for specfile in "$@"; do
-    cp $specfile.in $specfile
+  for infile in "$@"; do
+    specfile=$infile:t
+    cp $infile.in $specfile
     sed -ri '/^[ \t]*#/!s/__VERSION__/'$version'/' $specfile
     if osc st $specfile | grep -q '^?'; then
       osc add $specfile
