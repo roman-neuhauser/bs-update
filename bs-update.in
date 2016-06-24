@@ -285,7 +285,7 @@ update_specfiles() # {{{
   else
     extract $tarball "$@"
   fi
-  do_update_specfiles $bsu_version "$@"
+  do_update_specfiles $version "$@"
 } # }}}
 extract() # {{{
 {
