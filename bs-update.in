@@ -140,7 +140,7 @@ bsu_tag=$1
 
 if test $# -gt 1; then
   bsu_version="$2"
-elif type bsu_version_hook 1>/dev/null 2>&1; then
+elif type bsu_version_hook &>/dev/null; then
   if test -z "${bsu_version-}"; then
     bsu_version="$(bsu_version_hook "$bsu_tag")" || {
       abort "bsu_version_hook failed" \
@@ -251,9 +251,7 @@ run_tarball_hook() # {{{
   # see zshbuiltins(1), zshmisc(1), zshoptions(1).
   trap - ZERR
   local tarball=${1:?}
-  if ! type bsu_tarball_hook 1>/dev/null 2>&1; then
-    return 0
-  fi
+  type bsu_tarball_hook &>/dev/null || return 0
   bsu_tarball_hook $tarball
 ) # }}}
 run_specfile_hook() # {{{
@@ -266,7 +264,7 @@ update_specfiles() # {{{
 {
   local version=${1:?} tag=${2:?} tarball=${3:?}
   shift 3
-  if type bsu_specfile_hook 1>/dev/null 2>&1; then
+  if type bsu_specfile_hook &>/dev/null; then
     run_specfile_hook $version $tag $tarball "$@"
   else
     extract $tarball "$@"
