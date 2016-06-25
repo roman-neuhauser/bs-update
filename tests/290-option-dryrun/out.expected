@@ -7,6 +7,6 @@
    bsu_bs_commit = "0"
 bsu_bs_commitmsg = "eloquent wax"
      bsu_tarball = "c-42.69.tar.gz"
-   bsu_specfiles = ("x.y")
+   bsu_specfiles = ("p/c.spec.in" "p/PKGBUILD.in")
   bsu_test_build = "1"
    bsu_osc_build = ("omg wtf" "rofl lmao")

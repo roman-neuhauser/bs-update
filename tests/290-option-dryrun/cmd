@@ -3,7 +3,8 @@ ${1?} \
   -C \
   -P a:b \
   -p c \
-  -s x.y \
+  -s p/c.spec.in \
+  -s p/PKGBUILD.in \
   -d 'ftp://upstream/' \
   -b \
   -B 'omg wtf' \
