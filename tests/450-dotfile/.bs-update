@@ -14,6 +14,26 @@ bsu_version='${bsu_tag#v}.0'
 bsu_test_build='$do_build'
 bsu_osc_build='$verify_build SLE_12'
 
+function bsu_specfile_hook
+{
+  extract $@[3,-1]
+  test -e $p.changes || touch $p.changes
+  osc vc -m "Update to version $1" $p.changes
+}
+
+function bsu_tarball_hook
+{
+  local pfx="$bsu_bs_package-$bsu_version"
+  mkdir $pfx
+  tar -xzf $1 -C $pfx --strip-components=1
+  tar -czf $pfx.tar.gz $pfx
+}
+
+function bsu_version_hook
+{
+  printf 42.69
+}
+
 exec 3>tape.actual
 
 . "$PWD/../fakes"

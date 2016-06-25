@@ -182,6 +182,13 @@ deref -a bsu_osc_build
 pkgdir=$bsu_bs_project/$bsu_bs_package
 
 if test 0 -ne $bsu_dryrun; then
+  declare -a hooks
+
+  for hook in bsu_specfile_hook bsu_tarball_hook bsu_version_hook; do
+    (( $+functions[$hook] )) || continue
+    hooks+=($hook $functions[$hook])
+  done
+
   printf '%16s = %s\n' \
     bsu_bs_apiurl "${(qqq)bsu_bs_apiurl}" \
     bsu_bs_project "${(qqq)bsu_bs_project}" \
@@ -195,6 +202,9 @@ if test 0 -ne $bsu_dryrun; then
     bsu_specfiles "(${(j: :)${(@qqq)bsu_specfiles}})" \
     bsu_test_build "${(qqq)bsu_test_build}" \
     bsu_osc_build "(${(j: :)${(@qqq)bsu_osc_build}})" \
+  || exit $?
+
+  (( ! $#hooks )) || printf '%s =\n%s\n' $hooks
 
   exit $?
 fi

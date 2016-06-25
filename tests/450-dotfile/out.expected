@@ -10,3 +10,14 @@ bsu_bs_commitmsg = "69.42.0 released."
    bsu_specfiles = ("bazmek-69.42.0.spec")
   bsu_test_build = "1"
    bsu_osc_build = ("--no-verify SLE_12")
+bsu_specfile_hook =
+	extract $@[3,-1]
+	test -e $p.changes || touch $p.changes
+	osc vc -m "Update to version $1" $p.changes
+bsu_tarball_hook =
+	local pfx="$bsu_bs_package-$bsu_version" 
+	mkdir $pfx
+	tar -xzf $1 -C $pfx --strip-components=1
+	tar -czf $pfx.tar.gz $pfx
+bsu_version_hook =
+	printf 42.69
