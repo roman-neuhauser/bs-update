@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/zsh -f
 # vim: fdm=marker cms=\ #\ %s
 
 set -o errexit
