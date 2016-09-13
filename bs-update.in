@@ -1,5 +1,5 @@
-#!/usr/bin/zsh -f
-# vim: fdm=marker cms=\ #\ %s
+#!@ZSH@ -f
+# vim: ft=zsh fdm=marker cms=\ #\ %s
 
 set -o errexit
 set -o nounset

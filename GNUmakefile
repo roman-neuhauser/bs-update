@@ -10,6 +10,7 @@ INSTALL_DATA ?=   install -m 644
 INSTALL_DIR ?=    install -m 755 -d
 INSTALL_SCRIPT ?= install -m 755
 RST2HTML ?=       $(call first_in_path,rst2html.py rst2html)
+ZSH ?=            $(call first_in_path,zsh)
 
 name =            bs-update
 
@@ -38,7 +39,8 @@ check: $(.DEFAULT_GOAL)
 	SHELL=$(SHELL) $(SHELL) rnt/run-tests.sh tests $$PWD/$(name)
 
 $(name): $(name).in
-	$(INSTALL_SCRIPT) $< $@
+	sed -e 's![@]ZSH[@]!$(ZSH)!g' < $< > $@
+	chmod 0755 $@
 
 .PHONY: html
 html: $(htmlfiles)
@@ -53,7 +55,7 @@ html: $(htmlfiles)
 install: .built
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
 	$(INSTALL_DIR) $(DESTDIR)$(MAN1DIR)
-	$(INSTALL_SCRIPT) $(name).in $(DESTDIR)$(BINDIR)/$(name)
+	$(INSTALL_SCRIPT) $(name) $(DESTDIR)$(BINDIR)/$(name)
 	$(INSTALL_DATA) $(name).1.gz $(DESTDIR)$(MAN1DIR)/$(name).1.gz
 
 .built:
@@ -61,8 +63,8 @@ install: .built
 	@false
 
 define first_in_path
-  $(firstword $(wildcard \
-    $(foreach p,$(1),$(addsuffix /$(p),$(subst :, ,$(PATH)))) \
-  ))
+$(firstword $(wildcard \
+  $(foreach p,$(1),$(addsuffix /$(p),$(subst :, ,$(PATH)))) \
+))
 endef
 
