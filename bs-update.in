@@ -22,11 +22,11 @@ bsu_orig_pwd="$PWD"
 
 bsu_configuration_processing=1
 
-if test -f .bs-update-hooks; then
+if [[ -f .bs-update-hooks ]]; then
   . $PWD/.bs-update-hooks
 fi
 
-if test -f .bs-update; then
+if [[ -f .bs-update ]]; then
   . $PWD/.bs-update
 fi
 
@@ -34,19 +34,19 @@ usage() # {{{
 {
   local self="$SELF" exit=${1?} fd=1
   shift
-  test $exit -ne 0 && fd=2
+  (( exit == 0 )) || fd=2
   {
-    if test $exit -eq 1; then
+    if (( exit == 1 )); then
       printf "%s: missing <tag> argument\n" "$self"
-    elif test $exit -eq 2; then
+    elif (( exit == 2 )); then
       printf "%s: option -%c requires an argument\n" "$self" "$1"
-    elif test $exit -eq 3; then
+    elif (( exit == 3 )); then
       printf "%s: unknown option -%c\n" "$self" "$1"
-    elif test $exit -eq 4; then
+    elif (( exit == 4 )); then
       printf "%s: no %s specified\n" "$self" "$*"
     fi
     printf "%s: Usage: %s {-h|[options] <tag> [<version>]}\n" "$self" "$self"
-    if test $exit -ne 0; then
+    if (( exit )); then
       printf "%s: Use \"%s -h\" to see the full option listing.\n" "$self" "$self"
     else
       printf "  Options:\n"
@@ -66,7 +66,7 @@ usage() # {{{
         "-t TARBALL"      "Use TARBALL for the name of the downloaded file"
     fi
   } >&$fd
-  if test $exit -eq 0; then
+  if (( exit == 0 )); then
     exit 0
   else
     exit 1
@@ -95,7 +95,7 @@ while getopts :A:B:CP:bd:hm:np:s:t: optname; do
 done
 shift $(($OPTIND - 1))
 
-if test $# -lt 1; then
+if (( $# == 0 )); then
   usage 1
 fi
 
@@ -138,10 +138,10 @@ abort() # {{{
 
 bsu_tag=$1
 
-if test $# -gt 1; then
+if (( $# > 1 )); then
   bsu_version="$2"
 elif type bsu_version_hook &>/dev/null; then
-  if test -z "${bsu_version-}"; then
+  if [[ -z "${bsu_version-}" ]]; then
     bsu_version="$(bsu_version_hook "$bsu_tag")" || {
       abort "bsu_version_hook failed" \
             "returned value: '$bsu_version'"
@@ -156,17 +156,17 @@ deref bsu_version
 deref bsu_bs_apiurl
 
 deref bsu_bs_project
-test -n "$bsu_bs_project" || usage 4 project
+[[ -n "$bsu_bs_project" ]] || usage 4 project
 
 deref bsu_bs_package
-test -n "$bsu_bs_package" || usage 4 package
+[[ -n "$bsu_bs_package" ]] || usage 4 package
 
 : ${bsu_tarball:=$bsu_bs_package-$bsu_version.tar.gz}
 deref bsu_tarball
-test -n "$bsu_tarball" || usage 4 tarball
+[[ -n "$bsu_tarball" ]] || usage 4 tarball
 
 deref bsu_dloadurl
-test -n "$bsu_dloadurl" || usage 4 download url
+[[ -n "$bsu_dloadurl" ]] || usage 4 download url
 
 : ${bsu_bs_commitmsg:="Update to version $bsu_version"}
 deref bsu_bs_commitmsg
@@ -181,7 +181,7 @@ deref -a bsu_osc_build
 
 pkgdir=$bsu_bs_project/$bsu_bs_package
 
-if test 0 -ne $bsu_dryrun; then
+if (( bsu_dryrun )); then
   declare -a hooks
 
   for hook in bsu_specfile_hook bsu_tarball_hook bsu_version_hook; do
